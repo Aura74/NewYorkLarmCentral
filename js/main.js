@@ -6,6 +6,48 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize Lucide icons
     lucide.createIcons();
 
+    // ---- Theme Toggle ----
+    const themeToggle = document.getElementById('theme-toggle');
+    const savedTheme = localStorage.getItem('mmc-theme');
+
+    // Apply saved theme on load (before any animations)
+    if (savedTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+    }
+
+    themeToggle.addEventListener('click', () => {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        const newTheme = isDark ? 'light' : 'dark';
+
+        document.documentElement.setAttribute('data-theme', newTheme === 'dark' ? 'dark' : '');
+        if (newTheme === 'light') {
+            document.documentElement.removeAttribute('data-theme');
+        }
+
+        localStorage.setItem('mmc-theme', newTheme);
+
+        // Subtle page flash transition
+        const flash = document.createElement('div');
+        flash.style.cssText = `
+            position: fixed; inset: 0; z-index: 99999;
+            background: ${newTheme === 'dark' ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.3)'};
+            pointer-events: none;
+            animation: themeFlash 0.6s ease forwards;
+        `;
+        document.body.appendChild(flash);
+        setTimeout(() => flash.remove(), 700);
+    });
+
+    // Add flash animation
+    const flashStyle = document.createElement('style');
+    flashStyle.textContent = `
+        @keyframes themeFlash {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+    `;
+    document.head.appendChild(flashStyle);
+
     // ---- Preloader ----
     const preloader = document.getElementById('preloader');
     const preloaderProgress = document.getElementById('preloader-progress');
