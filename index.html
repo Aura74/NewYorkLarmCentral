@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manhattan Miami Central | Luxury Real Estate</title>
+    <meta name="description" content="Premier luxury real estate brokerage specializing in Manhattan and Miami's most exclusive properties.">
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Premium Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+
+    <!-- GSAP for premium animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+
+    <!-- Swiper for elegant sliders -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- ============ CUSTOM CURSOR ============ -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-follower" id="cursor-follower"></div>
+
+    <!-- ============ PRELOADER ============ -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-inner">
+            <div class="preloader-logo">
+                <span class="preloader-text">MANHATTAN</span>
+                <span class="preloader-divider"></span>
+                <span class="preloader-text">MIAMI</span>
+            </div>
+            <div class="preloader-bar">
+                <div class="preloader-progress" id="preloader-progress"></div>
+            </div>
+            <span class="preloader-percent" id="preloader-percent">0%</span>
+        </div>
+    </div>
+
+    <!-- ============ NAVIGATION ============ -->
+    <header class="header" id="header">
+        <nav class="nav">
+            <a href="#" class="nav-logo">
+                <span class="logo-text">MANHATTAN</span>
+                <span class="logo-separator">|</span>
+                <span class="logo-text">MIAMI</span>
+                <span class="logo-sub">CENTRAL</span>
+            </a>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#hero" class="nav-link active" data-hover="Home">Home</a></li>
+                <li><a href="#about" class="nav-link" data-hover="About">About</a></li>
+                <li><a href="#properties" class="nav-link" data-hover="Properties">Properties</a></li>
+                <li><a href="#neighborhoods" class="nav-link" data-hover="Locations">Locations</a></li>
+                <li><a href="#services" class="nav-link" data-hover="Services">Services</a></li>
+                <li><a href="#testimonials" class="nav-link" data-hover="Reviews">Reviews</a></li>
+                <li><a href="#contact" class="nav-link" data-hover="Contact">Contact</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <a href="tel:+13055551234" class="nav-phone magnetic-btn">
+                    <i data-lucide="phone" class="icon-sm"></i>
+                    <span>+1 (305) 555-1234</span>
+                </a>
+                <button class="nav-cta magnetic-btn">Schedule Viewing</button>
+                <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ============ MOBILE MENU ============ -->
+    <div class="mobile-menu" id="mobile-menu">
+        <div class="mobile-menu-inner">
+            <ul class="mobile-menu-links">
+                <li><a href="#hero" class="mobile-link">Home</a></li>
+                <li><a href="#about" class="mobile-link">About</a></li>
+                <li><a href="#properties" class="mobile-link">Properties</a></li>
+                <li><a href="#neighborhoods" class="mobile-link">Locations</a></li>
+                <li><a href="#services" class="mobile-link">Services</a></li>
+                <li><a href="#testimonials" class="mobile-link">Reviews</a></li>
+                <li><a href="#contact" class="mobile-link">Contact</a></li>
+            </ul>
+            <div class="mobile-menu-footer">
+                <p>+1 (305) 555-1234</p>
+                <p>info@manhattanmiamicentral.com</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ HERO SECTION ============ -->
+    <section class="hero" id="hero">
+        <div class="hero-bg">
+            <div class="hero-slide active" style="background-image: url('https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1920&q=80')"></div>
+            <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1920&q=80')"></div>
+            <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80')"></div>
+            <div class="hero-overlay"></div>
+        </div>
+
+        <div class="hero-particles" id="hero-particles"></div>
+
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="badge-line"></span>
+                <span class="badge-text">Exclusive Luxury Properties</span>
+                <span class="badge-line"></span>
+            </div>
+            <h1 class="hero-title">
+                <span class="title-line"><span class="title-word">Redefining</span></span>
+                <span class="title-line"><span class="title-word">Luxury</span> <span class="title-word accent">Living</span></span>
+            </h1>
+            <p class="hero-subtitle">Manhattan's skyline meets Miami's shores. Discover extraordinary properties curated for the world's most discerning clientele.</p>
+            <div class="hero-actions">
+                <a href="#properties" class="btn btn-primary magnetic-btn">
+                    <span class="btn-text">Explore Collection</span>
+                    <span class="btn-icon"><i data-lucide="arrow-right"></i></span>
+                </a>
+                <a href="#about" class="btn btn-outline magnetic-btn">
+                    <span class="btn-text">Our Story</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="hero-scroll-indicator">
+            <div class="scroll-line"></div>
+            <span>Scroll to explore</span>
+        </div>
+
+        <div class="hero-slide-counter">
+            <span class="current-slide">01</span>
+            <span class="slide-divider">/</span>
+            <span class="total-slides">03</span>
+        </div>
+    </section>
+
+    <!-- ============ MARQUEE BANNER ============ -->
+    <div class="marquee-section">
+        <div class="marquee-track">
+            <div class="marquee-content">
+                <span>Penthouses</span><span class="marquee-dot"></span>
+                <span>Waterfront Estates</span><span class="marquee-dot"></span>
+                <span>Luxury Condominiums</span><span class="marquee-dot"></span>
+                <span>Private Islands</span><span class="marquee-dot"></span>
+                <span>Sky Residences</span><span class="marquee-dot"></span>
+                <span>Historic Mansions</span><span class="marquee-dot"></span>
+                <span>Penthouses</span><span class="marquee-dot"></span>
+                <span>Waterfront Estates</span><span class="marquee-dot"></span>
+                <span>Luxury Condominiums</span><span class="marquee-dot"></span>
+                <span>Private Islands</span><span class="marquee-dot"></span>
+                <span>Sky Residences</span><span class="marquee-dot"></span>
+                <span>Historic Mansions</span><span class="marquee-dot"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ ABOUT SECTION ============ -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-images">
+                    <div class="about-img-wrapper img-reveal">
+                        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80" alt="Luxury Interior" class="about-img-main">
+                    </div>
+                    <div class="about-img-wrapper about-img-float img-reveal">
+                        <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600&q=80" alt="Modern Architecture" class="about-img-secondary">
+                    </div>
+                    <div class="about-experience">
+                        <span class="exp-number" data-count="25">0</span>
+                        <span class="exp-text">Years of<br>Excellence</span>
+                    </div>
+                </div>
+                <div class="about-content">
+                    <div class="section-tag">
+                        <span class="tag-line"></span>
+                        <span>Who We Are</span>
+                    </div>
+                    <h2 class="section-title split-text">Where Vision Meets <em>Extraordinary</em> Real Estate</h2>
+                    <p class="about-text">For over two decades, Manhattan Miami Central has been the trusted advisor for ultra-high-net-worth individuals seeking the most prestigious addresses in New York and Miami. Our unparalleled market knowledge, combined with a white-glove approach, ensures every transaction exceeds expectations.</p>
+                    <p class="about-text">We don't just sell properties — we curate lifestyles. From penthouse suites overlooking Central Park to waterfront estates on Biscayne Bay, we connect you with residences that reflect your ambition and taste.</p>
+
+                    <div class="about-features">
+                        <div class="about-feature">
+                            <div class="feature-icon">
+                                <i data-lucide="shield-check"></i>
+                            </div>
+                            <div>
+                                <h4>Trusted Advisory</h4>
+                                <p>Confidential, personalized guidance for every client</p>
+                            </div>
+                        </div>
+                        <div class="about-feature">
+                            <div class="feature-icon">
+                                <i data-lucide="globe"></i>
+                            </div>
+                            <div>
+                                <h4>Global Network</h4>
+                                <p>Connections spanning 40+ countries worldwide</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="#contact" class="btn btn-primary magnetic-btn">
+                        <span class="btn-text">Connect With Us</span>
+                        <span class="btn-icon"><i data-lucide="arrow-right"></i></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ STATS SECTION ============ -->
+    <section class="stats">
+        <div class="stats-bg" style="background-image: url('https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1920&q=80')"></div>
+        <div class="stats-overlay"></div>
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number" data-count="4.2">0</span>
+                    <span class="stat-suffix">B+</span>
+                    <span class="stat-label">In Total Sales Volume</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="1500">0</span>
+                    <span class="stat-suffix">+</span>
+                    <span class="stat-label">Properties Sold</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="98">0</span>
+                    <span class="stat-suffix">%</span>
+                    <span class="stat-label">Client Satisfaction</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="40">0</span>
+                    <span class="stat-suffix">+</span>
+                    <span class="stat-label">Expert Agents</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PROPERTIES SECTION ============ -->
+    <section class="properties" id="properties">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">
+                    <span class="tag-line"></span>
+                    <span>Featured Collection</span>
+                </div>
+                <h2 class="section-title split-text">Exceptional Properties, <em>Extraordinary</em> Lives</h2>
+                <p class="section-desc">Hand-selected residences representing the pinnacle of luxury living in Manhattan and Miami.</p>
+            </div>
+
+            <div class="property-filters">
+                <button class="filter-btn active" data-filter="all">All Properties</button>
+                <button class="filter-btn" data-filter="manhattan">Manhattan</button>
+                <button class="filter-btn" data-filter="miami">Miami</button>
+                <button class="filter-btn" data-filter="penthouse">Penthouses</button>
+            </div>
+
+            <div class="property-grid">
+                <!-- Property 1 -->
+                <div class="property-card" data-category="manhattan penthouse">
+                    <div class="property-image">
+                        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80" alt="Central Park Penthouse" loading="lazy">
+                        <div class="property-overlay">
+                            <span class="property-tag">Exclusive</span>
+                            <button class="property-favorite magnetic-btn" aria-label="Save property">
+                                <i data-lucide="heart"></i>
+                            </button>
+                        </div>
+                        <div class="property-quick-view">
+                            <span>View Details</span>
+                            <i data-lucide="arrow-up-right"></i>
+                        </div>
+                    </div>
+                    <div class="property-info">
+                        <div class="property-location">
+                            <i data-lucide="map-pin"></i>
+                            <span>Upper East Side, Manhattan</span>
+                        </div>
+                        <h3 class="property-title">The Central Park Residence</h3>
+                        <p class="property-price">$28,500,000</p>
+                        <div class="property-details">
+                            <span><i data-lucide="bed-double"></i> 5 Beds</span>
+                            <span><i data-lucide="bath"></i> 6 Baths</span>
+                            <span><i data-lucide="maximize"></i> 6,200 sqft</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property 2 -->
+                <div class="property-card" data-category="miami">
+                    <div class="property-image">
+                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80" alt="Miami Waterfront Villa" loading="lazy">
+                        <div class="property-overlay">
+                            <span class="property-tag">New Listing</span>
+                            <button class="property-favorite magnetic-btn" aria-label="Save property">
+                                <i data-lucide="heart"></i>
+                            </button>
+                        </div>
+                        <div class="property-quick-view">
+                            <span>View Details</span>
+                            <i data-lucide="arrow-up-right"></i>
+                        </div>
+                    </div>
+                    <div class="property-info">
+                        <div class="property-location">
+                            <i data-lucide="map-pin"></i>
+                            <span>Star Island, Miami Beach</span>
+                        </div>
+                        <h3 class="property-title">Bayfront Modern Estate</h3>
+                        <p class="property-price">$45,000,000</p>
+                        <div class="property-details">
+                            <span><i data-lucide="bed-double"></i> 8 Beds</span>
+                            <span><i data-lucide="bath"></i> 10 Baths</span>
+                            <span><i data-lucide="maximize"></i> 14,500 sqft</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property 3 -->
+                <div class="property-card" data-category="manhattan">
+                    <div class="property-image">
+                        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80" alt="Tribeca Loft" loading="lazy">
+                        <div class="property-overlay">
+                            <span class="property-tag">Featured</span>
+                            <button class="property-favorite magnetic-btn" aria-label="Save property">
+                                <i data-lucide="heart"></i>
+                            </button>
+                        </div>
+                        <div class="property-quick-view">
+                            <span>View Details</span>
+                            <i data-lucide="arrow-up-right"></i>
+                        </div>
+                    </div>
+                    <div class="property-info">
+                        <div class="property-location">
+                            <i data-lucide="map-pin"></i>
+                            <span>Tribeca, Manhattan</span>
+                        </div>
+                        <h3 class="property-title">Tribeca Grand Loft</h3>
+                        <p class="property-price">$15,750,000</p>
+                        <div class="property-details">
+                            <span><i data-lucide="bed-double"></i> 4 Beds</span>
+                            <span><i data-lucide="bath"></i> 4.5 Baths</span>
+                            <span><i data-lucide="maximize"></i> 4,800 sqft</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property 4 -->
+                <div class="property-card" data-category="miami penthouse">
+                    <div class="property-image">
+                        <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=800&q=80" alt="Brickell Penthouse" loading="lazy">
+                        <div class="property-overlay">
+                            <span class="property-tag">Penthouse</span>
+                            <button class="property-favorite magnetic-btn" aria-label="Save property">
+                                <i data-lucide="heart"></i>
+                            </button>
+                        </div>
+                        <div class="property-quick-view">
+                            <span>View Details</span>
+                            <i data-lucide="arrow-up-right"></i>
+                        </div>
+                    </div>
+                    <div class="property-info">
+                        <div class="property-location">
+                            <i data-lucide="map-pin"></i>
+                            <span>Brickell, Miami</span>
+                        </div>
+                        <h3 class="property-title">Sky Palace at Brickell Heights</h3>
+                        <p class="property-price">$22,000,000</p>
+                        <div class="property-details">
+                            <span><i data-lucide="bed-double"></i> 6 Beds</span>
+                            <span><i data-lucide="bath"></i> 7 Baths</span>
+                            <span><i data-lucide="maximize"></i> 8,900 sqft</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property 5 -->
+                <div class="property-card" data-category="manhattan penthouse">
+                    <div class="property-image">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80" alt="Hudson Yards Penthouse" loading="lazy">
+                        <div class="property-overlay">
+                            <span class="property-tag">Premium</span>
+                            <button class="property-favorite magnetic-btn" aria-label="Save property">
+                                <i data-lucide="heart"></i>
+                            </button>
+                        </div>
+                        <div class="property-quick-view">
+                            <span>View Details</span>
+                            <i data-lucide="arrow-up-right"></i>
+                        </div>
+                    </div>
+                    <div class="property-info">
+                        <div class="property-location">
+                            <i data-lucide="map-pin"></i>
+                            <span>Hudson Yards, Manhattan</span>
+                        </div>
+                        <h3 class="property-title">The Hudson Sky Penthouse</h3>
+                        <p class="property-price">$35,000,000</p>
+                        <div class="property-details">
+                            <span><i data-lucide="bed-double"></i> 5 Beds</span>
+                            <span><i data-lucide="bath"></i> 6.5 Baths</span>
+                            <span><i data-lucide="maximize"></i> 7,600 sqft</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property 6 -->
+                <div class="property-card" data-category="miami">
+                    <div class="property-image">
+                        <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=800&q=80" alt="Coral Gables Estate" loading="lazy">
+                        <div class="property-overlay">
+                            <span class="property-tag">Estate</span>
+                            <button class="property-favorite magnetic-btn" aria-label="Save property">
+                                <i data-lucide="heart"></i>
+                            </button>
+                        </div>
+                        <div class="property-quick-view">
+                            <span>View Details</span>
+                            <i data-lucide="arrow-up-right"></i>
+                        </div>
+                    </div>
+                    <div class="property-info">
+                        <div class="property-location">
+                            <i data-lucide="map-pin"></i>
+                            <span>Coral Gables, Miami</span>
+                        </div>
+                        <h3 class="property-title">Mediterranean Grand Estate</h3>
+                        <p class="property-price">$19,500,000</p>
+                        <div class="property-details">
+                            <span><i data-lucide="bed-double"></i> 7 Beds</span>
+                            <span><i data-lucide="bath"></i> 8 Baths</span>
+                            <span><i data-lucide="maximize"></i> 12,000 sqft</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="properties-cta">
+                <a href="#" class="btn btn-outline-dark magnetic-btn">
+                    <span class="btn-text">View All Properties</span>
+                    <span class="btn-icon"><i data-lucide="arrow-right"></i></span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ NEIGHBORHOODS SECTION ============ -->
+    <section class="neighborhoods" id="neighborhoods">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag light">
+                    <span class="tag-line"></span>
+                    <span>Prime Locations</span>
+                </div>
+                <h2 class="section-title light split-text">Iconic <em>Neighborhoods</em></h2>
+                <p class="section-desc light">Explore the most coveted addresses across two of the world's most vibrant cities.</p>
+            </div>
+        </div>
+
+        <div class="neighborhood-slider">
+            <div class="swiper neighborhood-swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="neighborhood-card">
+                            <div class="neighborhood-img">
+                                <img src="https://images.unsplash.com/photo-1534430480872-3498386e7856?w=800&q=80" alt="Upper East Side" loading="lazy">
+                            </div>
+                            <div class="neighborhood-content">
+                                <span class="neighborhood-city">Manhattan</span>
+                                <h3>Upper East Side</h3>
+                                <p>Timeless elegance along Museum Mile</p>
+                                <span class="neighborhood-count">42 Properties</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="neighborhood-card">
+                            <div class="neighborhood-img">
+                                <img src="https://images.unsplash.com/photo-1496568816309-51d7c20e3b21?w=800&q=80" alt="Miami Beach" loading="lazy">
+                            </div>
+                            <div class="neighborhood-content">
+                                <span class="neighborhood-city">Miami</span>
+                                <h3>Miami Beach</h3>
+                                <p>Oceanfront luxury and Art Deco charm</p>
+                                <span class="neighborhood-count">38 Properties</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="neighborhood-card">
+                            <div class="neighborhood-img">
+                                <img src="https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?w=800&q=80" alt="Tribeca" loading="lazy">
+                            </div>
+                            <div class="neighborhood-content">
+                                <span class="neighborhood-city">Manhattan</span>
+                                <h3>Tribeca</h3>
+                                <p>Converted lofts and cobblestone streets</p>
+                                <span class="neighborhood-count">35 Properties</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="neighborhood-card">
+                            <div class="neighborhood-img">
+                                <img src="https://images.unsplash.com/photo-1535498730771-e735b998cd64?w=800&q=80" alt="Brickell" loading="lazy">
+                            </div>
+                            <div class="neighborhood-content">
+                                <span class="neighborhood-city">Miami</span>
+                                <h3>Brickell</h3>
+                                <p>Miami's financial heart with stunning bay views</p>
+                                <span class="neighborhood-count">56 Properties</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="neighborhood-card">
+                            <div class="neighborhood-img">
+                                <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&q=80" alt="SoHo" loading="lazy">
+                            </div>
+                            <div class="neighborhood-content">
+                                <span class="neighborhood-city">Manhattan</span>
+                                <h3>SoHo</h3>
+                                <p>Cast-iron facades and designer boutiques</p>
+                                <span class="neighborhood-count">28 Properties</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="neighborhood-card">
+                            <div class="neighborhood-img">
+                                <img src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=800&q=80" alt="Key Biscayne" loading="lazy">
+                            </div>
+                            <div class="neighborhood-content">
+                                <span class="neighborhood-city">Miami</span>
+                                <h3>Key Biscayne</h3>
+                                <p>Island paradise minutes from downtown</p>
+                                <span class="neighborhood-count">19 Properties</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-nav">
+                <button class="swiper-btn swiper-btn-prev magnetic-btn" aria-label="Previous slide">
+                    <i data-lucide="arrow-left"></i>
+                </button>
+                <div class="swiper-pagination-custom"></div>
+                <button class="swiper-btn swiper-btn-next magnetic-btn" aria-label="Next slide">
+                    <i data-lucide="arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ SERVICES SECTION ============ -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">
+                    <span class="tag-line"></span>
+                    <span>What We Offer</span>
+                </div>
+                <h2 class="section-title split-text">Bespoke Services for <em>Discerning</em> Clients</h2>
+            </div>
+
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-number">01</div>
+                    <div class="service-icon">
+                        <i data-lucide="building-2"></i>
+                    </div>
+                    <h3>Buyer Representation</h3>
+                    <p>Expert guidance through Manhattan and Miami's most competitive markets, ensuring you secure your dream property at the best terms.</p>
+                    <a href="#" class="service-link">
+                        <span>Learn More</span>
+                        <i data-lucide="arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-number">02</div>
+                    <div class="service-icon">
+                        <i data-lucide="trending-up"></i>
+                    </div>
+                    <h3>Seller Strategy</h3>
+                    <p>Maximizing your property's value through strategic positioning, premium marketing, and our extensive network of qualified buyers.</p>
+                    <a href="#" class="service-link">
+                        <span>Learn More</span>
+                        <i data-lucide="arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-number">03</div>
+                    <div class="service-icon">
+                        <i data-lucide="bar-chart-3"></i>
+                    </div>
+                    <h3>Investment Advisory</h3>
+                    <p>Data-driven analysis and market insights to build and optimize your luxury real estate portfolio across both markets.</p>
+                    <a href="#" class="service-link">
+                        <span>Learn More</span>
+                        <i data-lucide="arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-number">04</div>
+                    <div class="service-icon">
+                        <i data-lucide="key-round"></i>
+                    </div>
+                    <h3>Concierge Services</h3>
+                    <p>From interior design to property management, our concierge team handles every detail of your luxury lifestyle transition.</p>
+                    <a href="#" class="service-link">
+                        <span>Learn More</span>
+                        <i data-lucide="arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ LUXURY CTA SECTION ============ -->
+    <section class="luxury-cta">
+        <div class="luxury-cta-bg">
+            <video autoplay muted loop playsinline class="luxury-video">
+                <source src="https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-city-traffic-at-night-11-large.mp4" type="video/mp4">
+            </video>
+            <div class="luxury-cta-overlay"></div>
+        </div>
+        <div class="container">
+            <div class="luxury-cta-content">
+                <h2 class="split-text">Your Dream Home <em>Awaits</em></h2>
+                <p>Whether you're seeking a penthouse in Midtown Manhattan or a waterfront estate in Miami, our team is ready to make it happen.</p>
+                <a href="#contact" class="btn btn-gold magnetic-btn">
+                    <span class="btn-text">Begin Your Journey</span>
+                    <span class="btn-icon"><i data-lucide="arrow-right"></i></span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ TESTIMONIALS SECTION ============ -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">
+                    <span class="tag-line"></span>
+                    <span>Client Stories</span>
+                </div>
+                <h2 class="section-title split-text">Trusted by the World's <em>Elite</em></h2>
+            </div>
+
+            <div class="swiper testimonial-swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <div class="testimonial-quote">
+                                <i data-lucide="quote"></i>
+                            </div>
+                            <p class="testimonial-text">"Manhattan Miami Central made our relocation from London seamless. They found us the perfect Central Park West residence within two weeks. Their understanding of the ultra-luxury market is unmatched."</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80" alt="James W." loading="lazy">
+                                </div>
+                                <div class="author-info">
+                                    <h4>James Wellington III</h4>
+                                    <span>Investment Banking Executive</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <div class="testimonial-quote">
+                                <i data-lucide="quote"></i>
+                            </div>
+                            <p class="testimonial-text">"The team's knowledge of Miami's waterfront market is extraordinary. They negotiated a deal on our Star Island property that we thought was impossible. True professionals in every sense."</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">
+                                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80" alt="Sofia R." loading="lazy">
+                                </div>
+                                <div class="author-info">
+                                    <h4>Sofia Rodriguez</h4>
+                                    <span>Tech Entrepreneur</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <div class="testimonial-quote">
+                                <i data-lucide="quote"></i>
+                            </div>
+                            <p class="testimonial-text">"Working with Manhattan Miami Central has been a revelation. They don't just find properties — they understand lifestyle. Our Tribeca penthouse is everything we dreamed of and more."</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">
+                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&q=80" alt="Michael C." loading="lazy">
+                                </div>
+                                <div class="author-info">
+                                    <h4>Michael Chen</h4>
+                                    <span>Private Equity Director</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination testimonial-pagination"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ CONTACT SECTION ============ -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <div class="section-tag light">
+                        <span class="tag-line"></span>
+                        <span>Get In Touch</span>
+                    </div>
+                    <h2 class="section-title light split-text">Let's Find Your <em>Perfect</em> Home</h2>
+                    <p class="contact-desc">Schedule a private consultation with one of our senior advisors. Whether buying, selling, or investing, we're here to guide you every step of the way.</p>
+
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i data-lucide="map-pin"></i>
+                            </div>
+                            <div>
+                                <h4>Manhattan Office</h4>
+                                <p>432 Park Avenue, Suite 1801<br>New York, NY 10022</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i data-lucide="map-pin"></i>
+                            </div>
+                            <div>
+                                <h4>Miami Office</h4>
+                                <p>1000 Brickell Avenue, Suite 3200<br>Miami, FL 33131</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i data-lucide="phone"></i>
+                            </div>
+                            <div>
+                                <h4>Call Us</h4>
+                                <p>NY: +1 (212) 555-0199<br>MI: +1 (305) 555-1234</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i data-lucide="mail"></i>
+                            </div>
+                            <div>
+                                <h4>Email</h4>
+                                <p>info@manhattanmiamicentral.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form-wrapper">
+                    <form class="contact-form" id="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <input type="text" id="firstName" name="firstName" required placeholder=" ">
+                                <label for="firstName">First Name</label>
+                                <span class="form-line"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="lastName" name="lastName" required placeholder=" ">
+                                <label for="lastName">Last Name</label>
+                                <span class="form-line"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" required placeholder=" ">
+                            <label for="email">Email Address</label>
+                            <span class="form-line"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" id="phone" name="phone" placeholder=" ">
+                            <label for="phone">Phone Number</label>
+                            <span class="form-line"></span>
+                        </div>
+                        <div class="form-group">
+                            <select id="interest" name="interest" required>
+                                <option value="" disabled selected></option>
+                                <option value="buying">Buying</option>
+                                <option value="selling">Selling</option>
+                                <option value="investing">Investment Advisory</option>
+                                <option value="renting">Luxury Rentals</option>
+                            </select>
+                            <label for="interest">I'm Interested In</label>
+                            <span class="form-line"></span>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" rows="4" required placeholder=" "></textarea>
+                            <label for="message">Your Message</label>
+                            <span class="form-line"></span>
+                        </div>
+                        <button type="submit" class="btn btn-gold btn-full magnetic-btn">
+                            <span class="btn-text">Send Message</span>
+                            <span class="btn-icon"><i data-lucide="send"></i></span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="#" class="footer-logo">
+                        <span class="logo-text">MANHATTAN</span>
+                        <span class="logo-separator">|</span>
+                        <span class="logo-text">MIAMI</span>
+                        <span class="logo-sub">CENTRAL</span>
+                    </a>
+                    <p class="footer-tagline">Redefining luxury real estate across America's two most iconic cities.</p>
+                    <div class="footer-socials">
+                        <a href="#" class="social-link magnetic-btn" aria-label="Instagram"><i data-lucide="instagram"></i></a>
+                        <a href="#" class="social-link magnetic-btn" aria-label="Facebook"><i data-lucide="facebook"></i></a>
+                        <a href="#" class="social-link magnetic-btn" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
+                        <a href="#" class="social-link magnetic-btn" aria-label="Twitter"><i data-lucide="twitter"></i></a>
+                        <a href="#" class="social-link magnetic-btn" aria-label="YouTube"><i data-lucide="youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links-group">
+                    <h4>Manhattan</h4>
+                    <ul>
+                        <li><a href="#">Upper East Side</a></li>
+                        <li><a href="#">Tribeca</a></li>
+                        <li><a href="#">SoHo</a></li>
+                        <li><a href="#">Hudson Yards</a></li>
+                        <li><a href="#">Central Park</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links-group">
+                    <h4>Miami</h4>
+                    <ul>
+                        <li><a href="#">Miami Beach</a></li>
+                        <li><a href="#">Brickell</a></li>
+                        <li><a href="#">Key Biscayne</a></li>
+                        <li><a href="#">Coral Gables</a></li>
+                        <li><a href="#">Star Island</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links-group">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Our Team</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Manhattan Miami Central. All rights reserved.</p>
+                <div class="footer-legal">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Fair Housing</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to top -->
+    <button class="back-to-top magnetic-btn" id="back-to-top" aria-label="Back to top">
+        <i data-lucide="chevron-up"></i>
+    </button>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
