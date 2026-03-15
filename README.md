@@ -12,15 +12,15 @@ Open `index.html` in any modern browser. No build tools or server required — e
 
 ## Tech Stack
 
-| Technology | Purpose |
-|---|---|
-| **HTML5** | Semantic structure |
-| **CSS3** | Custom properties, Grid, Flexbox, animations, dark mode |
-| **Vanilla JavaScript** | All interactivity without framework overhead |
-| **GSAP 3.12** | ScrollTrigger animations, counters, reveals |
-| **Swiper 11** | Touch-enabled sliders for neighborhoods & testimonials |
-| **Lucide Icons** | Elegant SVG icon system |
-| **Google Fonts** | Cormorant Garamond (display) + DM Sans (body) |
+| Technology             | Purpose                                                 |
+| ---------------------- | ------------------------------------------------------- |
+| **HTML5**              | Semantic structure                                      |
+| **CSS3**               | Custom properties, Grid, Flexbox, animations, dark mode |
+| **Vanilla JavaScript** | All interactivity without framework overhead            |
+| **GSAP 3.12**          | ScrollTrigger animations, counters, reveals             |
+| **Swiper 11**          | Touch-enabled sliders for neighborhoods & testimonials  |
+| **Lucide Icons**       | Elegant SVG icon system                                 |
+| **Google Fonts**       | Cormorant Garamond (display) + DM Sans (body)           |
 
 ---
 
@@ -99,24 +99,26 @@ The theming system uses CSS custom properties (semantic tokens) that remap betwe
 ## Color System
 
 ### Light Mode
-| Token | Value | Usage |
-|---|---|---|
-| `--bg-primary` | `#FAF8F5` (cream) | Page background |
-| `--bg-secondary` | `#FFFFFF` | Section backgrounds |
-| `--bg-card` | `#FFFFFF` | Card backgrounds |
-| `--text-primary` | `#0A1628` (navy) | Headings, prices |
-| `--text-body` | `#7A756E` | Body text |
-| `--gold-accent` | `#B8963E` | Accent color |
+
+| Token            | Value             | Usage               |
+| ---------------- | ----------------- | ------------------- |
+| `--bg-primary`   | `#FAF8F5` (cream) | Page background     |
+| `--bg-secondary` | `#FFFFFF`         | Section backgrounds |
+| `--bg-card`      | `#FFFFFF`         | Card backgrounds    |
+| `--text-primary` | `#0A1628` (navy)  | Headings, prices    |
+| `--text-body`    | `#7A756E`         | Body text           |
+| `--gold-accent`  | `#B8963E`         | Accent color        |
 
 ### Dark Mode
-| Token | Value | Usage |
-|---|---|---|
-| `--bg-primary` | `#0D0D0D` | Page background |
-| `--bg-secondary` | `#141414` | Section backgrounds |
-| `--bg-card` | `#1A1A1A` | Card backgrounds |
-| `--text-primary` | `#F0ECE6` | Headings, prices |
-| `--text-body` | `#8A847C` | Body text |
-| `--gold-accent` | `#D4AF37` | Accent color (brighter) |
+
+| Token            | Value     | Usage                   |
+| ---------------- | --------- | ----------------------- |
+| `--bg-primary`   | `#0D0D0D` | Page background         |
+| `--bg-secondary` | `#141414` | Section backgrounds     |
+| `--bg-card`      | `#1A1A1A` | Card backgrounds        |
+| `--text-primary` | `#F0ECE6` | Headings, prices        |
+| `--text-body`    | `#8A847C` | Body text               |
+| `--gold-accent`  | `#D4AF37` | Accent color (brighter) |
 
 ---
 
@@ -154,16 +156,20 @@ All external resources load via CDN — no installation needed:
 ## Customization
 
 ### Changing colors
+
 Edit the CSS custom properties in `:root` (light) and `[data-theme="dark"]` blocks in `css/style.css`.
 
 ### Changing images
+
 Replace the Unsplash URLs in `index.html` with your own image paths. Recommended sizes:
+
 - Hero slides: 1920px wide
 - Property cards: 800px wide
 - Neighborhood cards: 800px wide
 - About images: 800px and 600px wide
 
 ### Adding properties
+
 Copy an existing `.property-card` block in the HTML and update the content. Add appropriate `data-category` attributes for the filter system.
 
 ---
@@ -171,3 +177,33 @@ Copy an existing `.property-card` block in the HTML and update the content. Add 
 ## License
 
 This project is for demonstration purposes. All images are sourced from [Unsplash](https://unsplash.com/) and video from [Mixkit](https://mixkit.co/) under their respective free licenses.
+
+Fler bra gratiskällor för bilder
+
+    ┌───────────────────────────┬────────────────────────────────────┬──────────────────────────────┼────────────────────────────┤
+    │ https://reshot.com        │ Unika, icke-stockiga bilder        │ Fri kommersiell användning │
+    ├───────────────────────────┼────────────────────────────────────┼────────────────────────────┤
+    │ https://stocksnap.io      │ CC0-bilder, bra sök                │ Fri kommersiell användning │
+    └───────────────────────────┴────────────────────────────────────┴────────────────────────────┘
+
+┌───────────────────────────┬────────────────────────────────────┬────────────────────────────┐
+│ Sajt │ Fokus │ Licens │
+├───────────────────────────┼────────────────────────────────────┼────────────────────────────┤
+│ https://unsplash.com │ Högkvalitativa foton, stort utbud │ Fri kommersiell användning │
+├───────────────────────────┼────────────────────────────────────┼────────────────────────────┤
+│ https://pexels.com │ Foton + video, bra för fastigheter │ Fri kommersiell användning │
+├───────────────────────────┼────────────────────────────────────┼────────────────────────────┤
+│ https://pixabay.com │ Foton, illustrationer, vektorer │ Fri kommersiell användning │
+├───────────────────────────┼────────────────────────────────────┼────────────────────────────┤
+│ https://mixkit.co │ Gratis stockvideo + musik │ Fri kommersiell användning │
+├───────────────────────────┼────────────────────────────────────┼────────────────────────────┤
+│ https://burst.shopify.com │ Shopifys bildbank, bra kvalitet │ Fri kommersiell användning │
+├───────────────────────────┼────────────────────────────────────┼────────────────────────────┤
+│ https://kaboompics.com │ Lifestyle, inredning, arkitektur │ Fri kommersiell användning │
+├───────────────────────────┼────────────────────────────────────┼────────────────────────────┤
+│ https://www.lifeofpix.com │ Högupplösta, konstnärliga bilder │ Fri kommersiell användning │
+├───────────────────────────┼────────────────────────────────────┼────────────────────────────┤
+│ https://reshot.com │ Unika, icke-stockiga bilder │ Fri kommersiell användning │
+├───────────────────────────┼────────────────────────────────────┼────────────────────────────┤
+│ https://stocksnap.io │ CC0-bilder, bra sök │ Fri kommersiell användning │
+└───────────────────────────┴────────────────────────────────────┴────────────────────────────┘
