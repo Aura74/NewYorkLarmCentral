@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ---- Theme Toggle ----
     const themeToggle = document.getElementById('theme-toggle');
-    const savedTheme = localStorage.getItem('mmc-theme');
+    const savedTheme = localStorage.getItem('nylc-theme');
 
     // Apply saved theme on load (before any animations)
     if (savedTheme === 'dark') {
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.documentElement.removeAttribute('data-theme');
         }
 
-        localStorage.setItem('mmc-theme', newTheme);
+        localStorage.setItem('nylc-theme', newTheme);
 
         // Subtle page flash transition
         const flash = document.createElement('div');
@@ -584,6 +584,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---- Smooth page load ----
     document.body.style.opacity = '1';
 
-    console.log('%c MANHATTAN MIAMI CENTRAL ', 'background: #0A1628; color: #C9A96E; font-size: 14px; padding: 10px 20px; font-family: Georgia;');
-    console.log('%c Luxury Real Estate Experience ', 'color: #9A7D3E; font-size: 11px; padding: 4px;');
+    console.log('%c NEWYORK LARM CENTRAL ', 'background: #0A1628; color: #C9A96E; font-size: 14px; padding: 10px 20px; font-family: Georgia;');
+    console.log('%c Premium Personal Safety Solutions ', 'color: #9A7D3E; font-size: 11px; padding: 4px;');
 });

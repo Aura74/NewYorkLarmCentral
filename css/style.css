@@ -1,5 +1,5 @@
 /* ============================================================
-   MANHATTAN MIAMI CENTRAL - Luxury Real Estate
+   NEWYORK LARM CENTRAL - Personal Safety Solutions
    Premium Design System
    ============================================================ */
 
@@ -81,8 +81,8 @@
     --testimonial-border: var(--gray-100);
     --testimonial-text: var(--navy-800);
 
-    --service-number: var(--gray-100);
-    --service-number-hover: rgba(201, 169, 110, 0.15);
+    --service-number: var(--gold-500);
+    --service-number-hover: var(--gold-400);
 
     --scrollbar-track: var(--navy-900);
     --scrollbar-thumb: var(--gold-600);
@@ -121,8 +121,8 @@
     --testimonial-border: rgba(255, 255, 255, 0.06);
     --testimonial-text: #F0ECE6;
 
-    --service-number: rgba(255, 255, 255, 0.04);
-    --service-number-hover: rgba(212, 175, 55, 0.1);
+    --service-number: var(--gold-600);
+    --service-number-hover: var(--gold-400);
 
     --scrollbar-track: #0D0D0D;
     --scrollbar-thumb: var(--gold-600);
@@ -194,51 +194,18 @@ ul { list-style: none; }
 }
 
 /* ---- Custom Cursor ---- */
-.cursor {
-    width: 8px;
-    height: 8px;
-    background: var(--gold-400);
-    border-radius: 50%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    z-index: 99999;
-    transform: translate(-50%, -50%);
-    transition: width 0.3s var(--ease-out-expo),
-                height 0.3s var(--ease-out-expo),
-                background 0.3s ease;
-    mix-blend-mode: difference;
-}
-
+.cursor,
 .cursor-follower {
-    width: 40px;
-    height: 40px;
-    border: 1px solid var(--gold-500);
-    border-radius: 50%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    z-index: 99998;
-    transform: translate(-50%, -50%);
-    transition: width 0.5s var(--ease-out-expo),
-                height 0.5s var(--ease-out-expo),
-                border-color 0.3s ease,
-                background 0.3s ease;
+    display: none !important;
 }
 
-.cursor.active {
-    width: 60px;
-    height: 60px;
-    background: rgba(212, 175, 55, 0.1);
+/* Use a custom CSS cursor instead — lightweight crosshair style */
+body {
+    cursor: default;
 }
 
-.cursor-follower.active {
-    width: 60px;
-    height: 60px;
-    border-color: var(--gold-400);
-    background: rgba(212, 175, 55, 0.05);
+a, button, .magnetic-btn, .property-card, .service-card, input, textarea, select {
+    cursor: pointer;
 }
 
 /* ---- Preloader ---- */
@@ -652,7 +619,7 @@ ul { list-style: none; }
 
 .hero-title {
     font-family: var(--font-display);
-    font-weight: 300;
+    font-weight: 600;
     line-height: 1.1;
     margin-bottom: 24px;
     overflow: hidden;
@@ -860,7 +827,7 @@ ul { list-style: none; }
     font-size: 18px;
     font-weight: 300;
     letter-spacing: 0.15em;
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--gold-500);
     text-transform: uppercase;
 }
 
@@ -979,14 +946,7 @@ ul { list-style: none; }
     position: relative;
 }
 
-.img-reveal::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--navy-900);
-    transform-origin: left;
-    z-index: 1;
-}
+/* ::after overlay removed — clipPath animation handles the reveal */
 
 .about-img-main {
     width: 100%;
