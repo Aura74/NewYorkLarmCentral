@@ -584,6 +584,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---- Smooth page load ----
     document.body.style.opacity = '1';
 
-    console.log('%c NEWYORK LARM CENTRAL ', 'background: #0A1628; color: #C9A96E; font-size: 14px; padding: 10px 20px; font-family: Georgia;');
+    console.log('%c LARS LARM CENTRAL ', 'background: #0A1628; color: #C9A96E; font-size: 14px; padding: 10px 20px; font-family: Georgia;');
     console.log('%c Premium Personal Safety Solutions ', 'color: #9A7D3E; font-size: 11px; padding: 4px;');
 });

@@ -1,3 +1,10 @@
+# Image files in project root (img/ folder is fine)
+/*.png
+/*.jpg
+/*.jpeg
+/*.gif
+/*.webp
+
 # OS generated files
 .DS_Store
 .DS_Store?

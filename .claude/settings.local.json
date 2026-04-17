@@ -1,7 +1,26 @@
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:www.manhattanmiami.com)"
+      "WebFetch(domain:www.manhattanmiami.com)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&q=80\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&q=80\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80\")",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(curl -s \"https://unsplash.com/s/photos/dark-security-technology\")",
+      "Bash(curl -s \"https://unsplash.com/s/photos/surveillance-command-center-dark\")",
+      "Bash(curl -s \"https://unsplash.com/s/photos/cybersecurity-dark\")",
+      "Bash(curl -s \"https://unsplash.com/s/photos/security-camera-dark\")",
+      "Bash(curl -s \"https://unsplash.com/s/photos/dark-tech-office\")",
+      "Bash(curl -s \"https://unsplash.com/s/photos/alarm-system-dark\")",
+      "Bash(curl -s \"https://unsplash.com/s/photos/emergency-response-center\")",
+      "Bash(curl -s \"https://unsplash.com/s/photos/wearable-technology-dark\")",
+      "WebFetch(domain:unsplash.com)",
+      "WebSearch",
+      "Bash(gh auth:*)"
     ]
   }
 }
