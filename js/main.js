@@ -568,19 +568,6 @@ document.addEventListener('DOMContentLoaded', () => {
         ease: 'none'
     });
 
-    // ---- Marquee speed variation on scroll ----
-    let marqueeSpeed = 30;
-    ScrollTrigger.create({
-        trigger: '.marquee-section',
-        start: 'top bottom',
-        end: 'bottom top',
-        onUpdate: (self) => {
-            const velocity = self.getVelocity() / 500;
-            const newDuration = Math.max(10, 30 - Math.abs(velocity));
-            document.querySelector('.marquee-content').style.animationDuration = newDuration + 's';
-        }
-    });
-
     // ---- Smooth page load ----
     document.body.style.opacity = '1';
 
