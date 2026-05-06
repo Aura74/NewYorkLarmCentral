@@ -395,6 +395,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ---- Property Filters ----
+    const propertyGrid = document.querySelector('.property-grid');
     const filterBtns = document.querySelectorAll('.filter-btn');
     filterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -402,6 +403,13 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.classList.add('active');
 
             const filter = btn.getAttribute('data-filter');
+
+            // On mobile, "All Solutions" reveals the hidden cards 4-6
+            if (filter === 'all') {
+                propertyGrid.classList.add('show-all-mobile');
+            } else {
+                propertyGrid.classList.remove('show-all-mobile');
+            }
 
             propertyCards.forEach(card => {
                 const category = card.getAttribute('data-category');
@@ -427,6 +435,27 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     });
+
+    // "View Full Product Catalog" reveals all cards on mobile too
+    const viewCatalogBtn = document.querySelector('.properties-cta .btn');
+    if (viewCatalogBtn) {
+        viewCatalogBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            propertyGrid.classList.add('show-all-mobile');
+            filterBtns.forEach(b => b.classList.remove('active'));
+            const allBtn = document.querySelector('.filter-btn[data-filter="all"]');
+            if (allBtn) allBtn.classList.add('active');
+            propertyCards.forEach(card => {
+                gsap.to(card, {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.5,
+                    ease: 'expo.out',
+                    display: 'block'
+                });
+            });
+        });
+    }
 
     // ---- Service Cards ----
     const serviceCards = document.querySelectorAll('.service-card');

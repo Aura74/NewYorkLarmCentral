@@ -2143,11 +2143,7 @@ a, button, .magnetic-btn, .property-card, .service-card, input, textarea, select
     }
 
     .about-img-float {
-        position: relative;
-        bottom: auto;
-        right: auto;
-        width: 100%;
-        margin-top: 16px;
+        display: none;
     }
 
     .about-experience {
@@ -2162,6 +2158,35 @@ a, button, .magnetic-btn, .property-card, .service-card, input, textarea, select
 
     .testimonial-text {
         font-size: 18px;
+    }
+
+    /* Hide "RS" from LARS in navbar logo */
+    .logo-mobile-hide {
+        display: none;
+    }
+
+    /* Center About section heading + tag + CTA button */
+    .about-content .section-tag {
+        justify-content: center;
+    }
+    .about-content .section-title {
+        text-align: center;
+    }
+    .about-content > .btn {
+        display: flex;
+        width: fit-content;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Hide property cards 4-6 by default; reveal when .show-all-mobile is set */
+    .property-grid:not(.show-all-mobile) > .property-card:nth-child(n+4) {
+        display: none !important;
+    }
+
+    /* Footer: only show the Company links group on mobile */
+    .footer-top > .footer-links-group:not(:last-of-type) {
+        display: none;
     }
 }
 
