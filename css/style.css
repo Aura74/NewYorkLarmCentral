@@ -2160,9 +2160,14 @@ a, button, .magnetic-btn, .property-card, .service-card, input, textarea, select
         font-size: 18px;
     }
 
-    /* Hide "RS" from LARS in navbar logo */
-    .logo-mobile-hide {
+    /* Generic utility — hides inline text fragments on mobile */
+    .mobile-hide {
         display: none;
+    }
+
+    /* Halve the about main image height on mobile, keep full width */
+    .about-img-main {
+        height: 250px;
     }
 
     /* Center About section heading + tag + CTA button */
@@ -2179,14 +2184,39 @@ a, button, .magnetic-btn, .property-card, .service-card, input, textarea, select
         margin-right: auto;
     }
 
+    /* Hide the "All Solutions" filter button on mobile */
+    .filter-btn[data-filter="all"] {
+        display: none;
+    }
+
     /* Hide property cards 4-6 by default; reveal when .show-all-mobile is set */
     .property-grid:not(.show-all-mobile) > .property-card:nth-child(n+4) {
         display: none !important;
     }
 
+    /* Hide the 4th service card on mobile */
+    .services-grid > .service-card:nth-child(4) {
+        display: none;
+    }
+
+    /* Center the contact section's heading + tag on mobile */
+    .contact-info .section-tag {
+        justify-content: center;
+    }
+    .contact-info .section-title {
+        text-align: center;
+    }
+
     /* Footer: only show the Company links group on mobile */
     .footer-top > .footer-links-group:not(:last-of-type) {
         display: none;
+    }
+
+    /* Make the remaining Company links horizontal on mobile */
+    .footer-top > .footer-links-group:last-of-type ul {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px 20px;
     }
 }
 
