@@ -1451,30 +1451,33 @@ a, button, .magnetic-btn, .property-card, .service-card, input, textarea, select
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 24px;
+    gap: 14px;
     margin-top: 40px;
 }
 
 .swiper-btn {
-    width: 50px;
-    height: 50px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: var(--white);
+    border: 1px solid rgba(201, 169, 110, 0.25);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--gold-500);
     transition: all 0.4s var(--ease-out-expo);
 }
 
 .swiper-btn:hover {
-    border-color: var(--gold-500);
+    border-color: var(--gold-400);
     color: var(--gold-400);
-    background: rgba(212, 175, 55, 0.05);
+    background: rgba(212, 175, 55, 0.08);
+    transform: scale(1.05);
 }
 
 .swiper-btn svg {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
 }
 
 .swiper-pagination-custom {
@@ -1936,15 +1939,15 @@ a, button, .magnetic-btn, .property-card, .service-card, input, textarea, select
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(201, 169, 110, 0.25);
+    color: var(--gold-500);
     transition: all 0.4s var(--ease-out-expo);
 }
 
 .social-link:hover {
-    border-color: var(--gold-500);
+    border-color: var(--gold-400);
     color: var(--gold-400);
-    background: rgba(212, 175, 55, 0.05);
+    background: rgba(212, 175, 55, 0.08);
 }
 
 .social-link svg {
