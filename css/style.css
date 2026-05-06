@@ -2217,6 +2217,30 @@ a, button, .magnetic-btn, .property-card, .service-card, input, textarea, select
         flex-direction: row;
         flex-wrap: wrap;
         gap: 10px 20px;
+        justify-content: center;
+    }
+
+    /* Center the entire footer on mobile */
+    .footer-top {
+        text-align: center;
+    }
+    .footer-brand {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .footer-tagline {
+        max-width: 100%;
+    }
+    .footer-socials {
+        justify-content: center;
+    }
+    .footer-bottom {
+        text-align: center;
+    }
+    .footer-legal {
+        justify-content: center;
+        flex-wrap: wrap;
     }
 }
 
