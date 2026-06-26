@@ -3,11 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lars | Premium</title>
+    <title>Lars | Résonance — Pianos & High-End Audio Atelier</title>
     <meta
       name="description"
-      content="Elite personal alarm systems for businesses. 24/7 monitoring, smart alarm buttons, and a powerful safety app — protecting your workforce across New York and beyond."
+      content="A bespoke atelier for concert grand pianos and high-end audio — hand-selected instruments, mastering-grade monitors, consoles, microphones and complete studio design, voiced and installed by master technicians."
     />
+
+    <!-- Favicon & app icons -->
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png" />
+    <link rel="manifest" href="site.webmanifest" />
+    <meta name="theme-color" content="#0A1628" />
+    <meta name="apple-mobile-web-app-title" content="Résonance" />
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -31,12 +40,36 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
+    <!-- Lenis smooth scroll -->
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
+    <!-- ============ INTRO VEIL ============ -->
+    <div class="intro-veil" id="intro-veil" aria-hidden="true">
+      <div class="intro-veil-inner">
+        <span class="intro-mark">LR</span>
+        <span class="intro-line">LARS RÉSONANCE</span>
+      </div>
+    </div>
+
+    <!-- ============ ANNOUNCEMENT / AMBIENT BAR ============ -->
+    <div class="announce" id="announce">
+      <p class="announce-text" id="announcement-text">
+        Private auditions by appointment — Strandvägen 7A, Stockholm
+      </p>
+    </div>
+
+    <!-- ============ SCROLL PROGRESS ============ -->
+    <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+    <!-- ============ TOASTS ============ -->
+    <div class="toasts" id="toasts" aria-live="polite" aria-atomic="false"></div>
+
     <!-- ============ CUSTOM CURSOR ============ -->
     <div class="cursor" id="cursor"></div>
     <div class="cursor-follower" id="cursor-follower"></div>
@@ -47,7 +80,7 @@
         <div class="preloader-logo">
           <span class="preloader-text">LARS</span>
           <span class="preloader-divider"></span>
-          <span class="preloader-text">LARM</span>
+          <span class="preloader-text">RÉSONANCE</span>
         </div>
         <div class="preloader-bar">
           <div class="preloader-progress" id="preloader-progress"></div>
@@ -62,8 +95,8 @@
         <a href="#" class="nav-logo">
           <span class="logo-text">LA<span class="mobile-hide">RS</span></span>
           <span class="logo-separator">|</span>
-          <span class="logo-text">LARM</span>
-          <span class="logo-sub">CENTRAL</span>
+          <span class="logo-text">RÉSONANCE</span>
+          <span class="logo-sub">ATELIER</span>
         </a>
 
         <ul class="nav-links" id="nav-links">
@@ -71,10 +104,10 @@
             <a href="#hero" class="nav-link active" data-hover="Home">Home</a>
           </li>
           <li>
-            <a href="#about" class="nav-link" data-hover="About">About</a>
+            <a href="#about" class="nav-link" data-hover="Atelier">Atelier</a>
           </li>
           <li>
-            <a href="#properties" class="nav-link" data-hover="Solutions">Solutions</a
+            <a href="#properties" class="nav-link" data-hover="Collection">Collection</a
             >
           </li>
           <li>
@@ -93,7 +126,20 @@
         </ul>
 
         <div class="nav-actions">
-          <button class="nav-cta magnetic-btn">Demo</button>
+          <button class="nav-icon-btn magnetic-btn" id="search-open" aria-label="Search the collection">
+            <i data-lucide="search"></i>
+          </button>
+          <button class="nav-icon-btn magnetic-btn" id="saved-open" aria-label="Saved instruments">
+            <i data-lucide="heart"></i>
+            <span class="saved-count" id="saved-count" hidden>0</span>
+          </button>
+          <select class="currency-select" id="currency-select" aria-label="Currency">
+            <option value="EUR">EUR €</option>
+            <option value="USD">USD $</option>
+            <option value="GBP">GBP £</option>
+            <option value="SEK">SEK kr</option>
+          </select>
+          <button class="nav-cta magnetic-btn">Visit</button>
           <button
             class="theme-toggle magnetic-btn"
             id="theme-toggle"
@@ -144,16 +190,16 @@
       <div class="mobile-menu-inner">
         <ul class="mobile-menu-links">
           <li><a href="#hero" class="mobile-link">Home</a></li>
-          <li><a href="#about" class="mobile-link">About</a></li>
-          <li><a href="#properties" class="mobile-link">Solutions</a></li>
-          <li><a href="#neighborhoods" class="mobile-link">Industries</a></li>
+          <li><a href="#about" class="mobile-link">Atelier</a></li>
+          <li><a href="#properties" class="mobile-link">Collection</a></li>
+          <li><a href="#neighborhoods" class="mobile-link">Spaces</a></li>
           <li><a href="#services" class="mobile-link">Services</a></li>
           <li><a href="#testimonials" class="mobile-link">Reviews</a></li>
           <li><a href="#contact" class="mobile-link">Contact</a></li>
         </ul>
         <div class="mobile-menu-footer">
-          <p>+1 (212) 555-0911</p>
-          <p>info@larslarmcentral.com</p>
+          <p>+46 (0)8 555 0190</p>
+          <p>atelier@larsresonance.com</p>
         </div>
       </div>
     </div>
@@ -164,19 +210,19 @@
         <div
           class="hero-slide active"
           style="
-            background-image: url(&quot;https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&q=80&quot;);
+            background-image: url(&quot;https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=1920&q=80&quot;);
           "
         ></div>
         <div
           class="hero-slide"
           style="
-            background-image: url(&quot;https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1920&q=80&quot;);
+            background-image: url(&quot;https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1920&q=80&quot;);
           "
         ></div>
         <div
           class="hero-slide"
           style="
-            background-image: url(&quot;https://images.unsplash.com/photo-1551434678-e076c223a692?w=1920&q=80&quot;);
+            background-image: url(&quot;https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=1920&q=80&quot;);
           "
         ></div>
         <div class="hero-overlay"></div>
@@ -187,36 +233,46 @@
       <div class="hero-content">
         <div class="hero-badge">
           <span class="badge-line"></span>
-          <span class="badge-text">Enterprise<span class="mobile-hide"> Solutions</span></span>
+          <span class="badge-text">Concert<span class="mobile-hide"> Grade</span></span>
           <span class="badge-line"></span>
         </div>
         <h1 class="hero-title">
           <span class="title-line"
-            ><span class="title-word">Protecting</span></span
+            ><span class="title-word">Where Sound</span></span
           >
           <span class="title-line"
-            ><span class="title-word">Every</span>
-            <span class="title-word accent">Heartbeat</span></span
+            ><span class="title-word">Becomes</span>
+            <span class="title-word accent">Soul</span></span
           >
         </h1>
         <p class="hero-subtitle">
-          One tap. Instant response. Our personal alarm ecosystem connects your
-          workforce to a 24/7 command center — because every second matters.
+          Hand-selected concert grands and mastering-grade audio, voiced by
+          master technicians. From the first key to the final mix — every detail
+          tuned to perfection.
         </p>
         <div class="hero-actions">
           <a href="#properties" class="btn btn-primary magnetic-btn">
-            <span class="btn-text">Solutions</span>
+            <span class="btn-text">The Collection</span>
             <span class="btn-icon"><i data-lucide="arrow-right"></i></span>
           </a>
           <a href="#about" class="btn btn-outline magnetic-btn">
-            <span class="btn-text">How It Works</span>
+            <span class="btn-text">Our Craft</span>
           </a>
+          <button class="hero-listen magnetic-btn" id="hero-listen" aria-label="Play a note">
+            <span class="listen-icon">
+              <i data-lucide="play"></i>
+            </span>
+            <span class="listen-bars" aria-hidden="true">
+              <span></span><span></span><span></span><span></span>
+            </span>
+            <span class="listen-text">Play a note</span>
+          </button>
         </div>
       </div>
 
       <div class="hero-scroll-indicator">
         <div class="scroll-line"></div>
-        <span>Scroll to explore</span>
+        <span>Scroll to listen</span>
       </div>
 
       <div class="hero-slide-counter">
@@ -230,21 +286,37 @@
     <div class="marquee-section">
       <div class="marquee-track">
         <div class="marquee-content">
-          <span>Personal Alarms</span><span class="marquee-dot"></span>
-          <span>24/7 Monitoring</span><span class="marquee-dot"></span>
-          <span>Smart Alarm Buttons</span><span class="marquee-dot"></span>
-          <span>Safety App</span><span class="marquee-dot"></span>
-          <span>GPS Tracking</span><span class="marquee-dot"></span>
-          <span>Instant Response</span><span class="marquee-dot"></span>
-          <span>Personal Alarms</span><span class="marquee-dot"></span>
-          <span>24/7 Monitoring</span><span class="marquee-dot"></span>
-          <span>Smart Alarm Buttons</span><span class="marquee-dot"></span>
-          <span>Safety App</span><span class="marquee-dot"></span>
-          <span>GPS Tracking</span><span class="marquee-dot"></span>
-          <span>Instant Response</span><span class="marquee-dot"></span>
+          <span>Concert Grand Pianos</span><span class="marquee-dot"></span>
+          <span>Studio Monitors</span><span class="marquee-dot"></span>
+          <span>Mixing Consoles</span><span class="marquee-dot"></span>
+          <span>Power Amplifiers</span><span class="marquee-dot"></span>
+          <span>Microphones</span><span class="marquee-dot"></span>
+          <span>Synthesizers</span><span class="marquee-dot"></span>
+          <span>Concert Grand Pianos</span><span class="marquee-dot"></span>
+          <span>Studio Monitors</span><span class="marquee-dot"></span>
+          <span>Mixing Consoles</span><span class="marquee-dot"></span>
+          <span>Power Amplifiers</span><span class="marquee-dot"></span>
+          <span>Microphones</span><span class="marquee-dot"></span>
+          <span>Synthesizers</span><span class="marquee-dot"></span>
         </div>
       </div>
     </div>
+
+    <!-- ============ MAKERS BAND ============ -->
+    <section class="makers" aria-label="The makers we represent">
+      <div class="container">
+        <p class="makers-label">The Makers We Represent</p>
+        <div class="makers-row">
+          <span class="maker">Steinway &amp; Sons</span>
+          <span class="maker">Bösendorfer</span>
+          <span class="maker">Fazioli</span>
+          <span class="maker">Neumann</span>
+          <span class="maker">SSL</span>
+          <span class="maker">Bowers &amp; Wilkins</span>
+          <span class="maker">Neve</span>
+        </div>
+      </div>
+    </section>
 
     <!-- ============ ABOUT SECTION ============ -->
     <section class="about" id="about">
@@ -253,53 +325,53 @@
           <div class="about-images">
             <div class="about-img-wrapper img-reveal">
               <img
-                src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80"
-                alt="Command Center Operations"
+                src="https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=800&q=80"
+                alt="Grand piano craftsmanship"
                 class="about-img-main"
               />
             </div>
             <div class="about-img-wrapper about-img-float img-reveal">
               <img
-                src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&q=80"
-                alt="Safety Technology"
+                src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=600&q=80"
+                alt="High-end recording studio"
                 class="about-img-secondary"
               />
             </div>
             <div class="about-experience">
-              <span class="exp-number" data-count="8">0</span>
-              <span class="exp-text">Second Avg<br />Response Time</span>
+              <span class="exp-number" data-count="40">0</span>
+              <span class="exp-text">Years of<br />Craftsmanship</span>
             </div>
           </div>
           <div class="about-content">
             <div class="section-tag">
               <span class="tag-line"></span>
-              <span>Who We Are</span>
+              <span>The Atelier</span>
               <span class="tag-line"></span>
             </div>
             <h2 class="section-title split-text">
-              Meet <em>Uncomp</em> Safety
+              Sound, <em>Uncompromised</em>
             </h2>
             <p class="about-text">
-              Lars Larm Central was founded on a simple belief: no employee
-              should ever feel unsafe at work. We've built the most advanced
-              personal alarm platform in the industry — combining wearable alarm
-              buttons.
+              Lars Résonance was founded on a single conviction: that an
+              instrument and the room it lives in deserve the same obsessive care
+              as the music itself. We curate concert grands and reference audio
+              from the world's finest makers — then make them sing.
             </p>
             <p class="about-text">
-              From lone workers in remote locations to hospital staff on night
-              shifts, our ecosystem provides instant, GPS-pinpointed emergency
-              response. One press of a button — or one tap in the app — and help
-              is already on the way.
+              From a Steinway voiced by hand to a mastering suite tuned to the
+              millimetre, our master technicians treat every project as a
+              one-off commission. Nothing leaves the atelier until it sounds
+              effortless.
             </p>
 
             <div class="about-features">
               <div class="about-feature">
                 <div class="feature-icon">
-                  <i data-lucide="shield-check"></i>
+                  <i data-lucide="award"></i>
                 </div>
                 <div>
-                  <h4>Military-Grade Encryption</h4>
-                  <p>End-to-end encrypted alarm signals and location data</p>
+                  <h4>Master Technicians</h4>
+                  <p>Concert-level tuning, voicing and regulation by hand</p>
                 </div>
               </div>
               <div class="about-feature">
@@ -307,14 +379,14 @@
                   <i data-lucide="globe"></i>
                 </div>
                 <div>
-                  <h4>Nationwide Coverage</h4>
-                  <p>Operating across all 50 states with local dispatch partnerships</p>
+                  <h4>World's Finest Makers</h4>
+                  <p>An exclusive curation of grands, consoles and reference audio</p>
                 </div>
               </div>
             </div>
 
             <a href="#contact" class="btn btn-primary magnetic-btn">
-              <span class="btn-text">Schedule a Demo</span>
+              <span class="btn-text">Book a Private Audition</span>
               <span class="btn-icon"><i data-lucide="arrow-right"></i></span>
             </a>
           </div>
@@ -327,34 +399,34 @@
       <div
         class="stats-bg"
         style="
-          background-image: url(&quot;https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=1920&q=80&quot;);
+          background-image: url(&quot;https://images.unsplash.com/photo-1487215078519-e21cc028cb29?w=1920&q=80&quot;);
         "
       ></div>
       <div class="stats-overlay"></div>
       <div class="container">
         <div class="stats-grid">
           <div class="stat-item">
-            <span class="stat-number" data-count="2.4">0</span>
-            <span class="stat-suffix">M+</span>
-            <span class="stat-label">Alarms Handled</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat-item">
-            <span class="stat-number" data-count="4800">0</span>
+            <span class="stat-number" data-count="1200">0</span>
             <span class="stat-suffix">+</span>
-            <span class="stat-label">Companies Protected</span>
+            <span class="stat-label">Instruments Voiced</span>
           </div>
           <div class="stat-divider"></div>
           <div class="stat-item">
-            <span class="stat-number" data-count="99.7">0</span>
-            <span class="stat-suffix">%</span>
-            <span class="stat-label">System Uptime</span>
+            <span class="stat-number" data-count="240">0</span>
+            <span class="stat-suffix">+</span>
+            <span class="stat-label">Studios Designed</span>
           </div>
           <div class="stat-divider"></div>
           <div class="stat-item">
-            <span class="stat-number" data-count="8">0</span>
-            <span class="stat-suffix">sec</span>
-            <span class="stat-label">Average Response Time</span>
+            <span class="stat-number" data-count="40">0</span>
+            <span class="stat-suffix">yrs</span>
+            <span class="stat-label">Of Craftsmanship</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-number" data-count="18">0</span>
+            <span class="stat-suffix">+</span>
+            <span class="stat-label">Master Technicians</span>
           </div>
         </div>
       </div>
@@ -366,41 +438,41 @@
         <div class="section-header">
           <div class="section-tag">
             <span class="tag-line"></span>
-            <span>Solutions</span>
+            <span>The Collection</span>
             <span class="tag-line"></span>
           </div>
           <h2 class="section-title split-text">
-            Safety, <em>Zero</em> Compromise
+            Instruments, <em>Without</em> Equal
           </h2>
           <p class="section-desc">
-            A fully integrated platform of devices, software, and human
-            operators — designed to protect you.
+            A curated house of concert grands, reference monitors, consoles and
+            studio instruments — each selected, voiced and delivered by hand.
           </p>
         </div>
 
         <div class="property-filters">
           <button class="filter-btn active" data-filter="all">
-            All Solutions
+            Everything
           </button>
-          <button class="filter-btn" data-filter="hardware">Hardware</button>
-          <button class="filter-btn" data-filter="software">Software</button>
-          <button class="filter-btn" data-filter="service">Services</button>
+          <button class="filter-btn" data-filter="pianos">Pianos &amp; Keys</button>
+          <button class="filter-btn" data-filter="studio">Studio &amp; Audio</button>
+          <button class="filter-btn" data-filter="service">Atelier Services</button>
         </div>
 
         <div class="property-grid">
-          <!-- Solution 1 -->
-          <div class="property-card" data-category="hardware">
+          <!-- Piece 1 -->
+          <div class="property-card" data-category="pianos" data-id="konzert-grand">
             <div class="property-image">
               <img
-                src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&q=80"
-                alt="Guardian Pro Alarm Button"
+                src="https://images.unsplash.com/photo-1552422535-c45813c61732?w=800&q=80"
+                alt="Concert grand piano"
                 loading="lazy"
               />
               <div class="property-overlay">
-                <span class="property-tag">Best Seller</span>
+                <span class="property-tag">Flagship</span>
                 <button
                   class="property-favorite magnetic-btn"
-                  aria-label="Save solution"
+                  aria-label="Save piece"
                 >
                   <i data-lucide="heart"></i>
                 </button>
@@ -412,32 +484,32 @@
             </div>
             <div class="property-info">
               <div class="property-location">
-                <i data-lucide="radio"></i>
-                <span>Wearable Device</span>
+                <i data-lucide="piano"></i>
+                <span>Concert Grand</span>
               </div>
-              <h3 class="property-title">Guardian Pro Alarm Button</h3>
-              <p class="property-price">From $12/month per device</p>
+              <h3 class="property-title">Konzert Grand 280</h3>
+              <p class="property-price">Price on Request</p>
               <div class="property-details">
-                <span><i data-lucide="battery-charging"></i>Battery</span>
-                <span><i data-lucide="droplets"></i> IP67</span>
-                <span><i data-lucide="locate"></i> GPS</span>
+                <span><i data-lucide="ruler"></i> 280 cm</span>
+                <span><i data-lucide="hand"></i> Hand-Voiced</span>
+                <span><i data-lucide="trees"></i> Spruce</span>
               </div>
             </div>
           </div>
 
-          <!-- Solution 2 -->
-          <div class="property-card" data-category="software">
+          <!-- Piece 2 -->
+          <div class="property-card" data-category="studio" data-id="reference-monitors">
             <div class="property-image">
               <img
-                src="img/4.png"
-                alt="SafeLink Mobile App"
+                src="https://images.unsplash.com/photo-1470019693664-1d202d2c0907?w=800&q=80"
+                alt="Reference studio monitors"
                 loading="lazy"
               />
               <div class="property-overlay">
-                <span class="property-tag">New Release</span>
+                <span class="property-tag">Reference</span>
                 <button
                   class="property-favorite magnetic-btn"
-                  aria-label="Save solution"
+                  aria-label="Save piece"
                 >
                   <i data-lucide="heart"></i>
                 </button>
@@ -449,32 +521,32 @@
             </div>
             <div class="property-info">
               <div class="property-location">
-                <i data-lucide="smartphone"></i>
-                <span>iOS &amp; Android</span>
+                <i data-lucide="speaker"></i>
+                <span>Main Monitors + Power Amp</span>
               </div>
-              <h3 class="property-title">SafeLink Mobile App</h3>
-              <p class="property-price">From $8/month per user</p>
+              <h3 class="property-title">Référence Monitor System</h3>
+              <p class="property-price">From <span data-eur="36500">€36,500</span> / pair</p>
               <div class="property-details">
-                <span><i data-lucide="shield"></i> Silent Alarm</span>
-                <span><i data-lucide="video"></i> Live Stream</span>
-                <span><i data-lucide="users"></i> Team Alerts</span>
+                <span><i data-lucide="activity"></i> 3-Way</span>
+                <span><i data-lucide="zap"></i> Class-A Amp</span>
+                <span><i data-lucide="waves"></i> 20Hz–40kHz</span>
               </div>
             </div>
           </div>
 
-          <!-- Solution 3 -->
-          <div class="property-card" data-category="service">
+          <!-- Piece 3 -->
+          <div class="property-card" data-category="service" data-id="studio-design">
             <div class="property-image">
               <img
-                src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&q=80"
-                alt="Command Center"
+                src="https://images.unsplash.com/photo-1564186763535-ebb21ef5277f?w=800&q=80"
+                alt="Bespoke studio design"
                 loading="lazy"
               />
               <div class="property-overlay">
-                <span class="property-tag">Premium</span>
+                <span class="property-tag">Bespoke</span>
                 <button
                   class="property-favorite magnetic-btn"
-                  aria-label="Save solution"
+                  aria-label="Save piece"
                 >
                   <i data-lucide="heart"></i>
                 </button>
@@ -486,32 +558,32 @@
             </div>
             <div class="property-info">
               <div class="property-location">
-                <i data-lucide="headphones"></i>
-                <span>24/7 Staffed Operators</span>
+                <i data-lucide="drafting-compass"></i>
+                <span>Turnkey Studio Build</span>
               </div>
-              <h3 class="property-title">Command Center Monitoring</h3>
-              <p class="property-price">Custom Enterprise Pricing</p>
+              <h3 class="property-title">Bespoke Studio Design</h3>
+              <p class="property-price">Commission Only</p>
               <div class="property-details">
-                <span><i data-lucide="clock"></i> 24/7/365</span>
-                <span><i data-lucide="languages"></i> 12 Languages</span>
-                <span><i data-lucide="zap"></i> 8s Response</span>
+                <span><i data-lucide="ear"></i> Acoustics</span>
+                <span><i data-lucide="cable"></i> Wiring</span>
+                <span><i data-lucide="ruler"></i> Treatment</span>
               </div>
             </div>
           </div>
 
-          <!-- Solution 4 -->
-          <div class="property-card" data-category="hardware software">
+          <!-- Piece 4 -->
+          <div class="property-card" data-category="pianos studio" data-id="synth-collection">
             <div class="property-image">
               <img
-                src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80"
-                alt="SentryBand Wearable"
+                src="https://images.unsplash.com/photo-1535992165812-68d1861aa71e?w=800&q=80"
+                alt="Analogue synthesizers and keyboards"
                 loading="lazy"
               />
               <div class="property-overlay">
-                <span class="property-tag">Innovative</span>
+                <span class="property-tag">Iconic</span>
                 <button
                   class="property-favorite magnetic-btn"
-                  aria-label="Save solution"
+                  aria-label="Save piece"
                 >
                   <i data-lucide="heart"></i>
                 </button>
@@ -523,32 +595,32 @@
             </div>
             <div class="property-info">
               <div class="property-location">
-                <i data-lucide="watch"></i>
-                <span>Smart Wearable</span>
+                <i data-lucide="audio-lines"></i>
+                <span>Synths &amp; Keyboards</span>
               </div>
-              <h3 class="property-title">SentryBand Wristwatch</h3>
-              <p class="property-price">From $18/month per device</p>
+              <h3 class="property-title">Analogue Synth Collection</h3>
+              <p class="property-price">From <span data-eur="4200">€4,200</span></p>
               <div class="property-details">
-                <span><i data-lucide="heart-pulse"></i> Heart Rate</span>
-                <span><i data-lucide="thermometer"></i> Fall Detect</span>
-                <span><i data-lucide="wifi"></i> 4G + WiFi</span>
+                <span><i data-lucide="sliders-horizontal"></i> Analog</span>
+                <span><i data-lucide="piano"></i> 88 Keys</span>
+                <span><i data-lucide="cpu"></i> Polyphonic</span>
               </div>
             </div>
           </div>
 
-          <!-- Solution 5 -->
-          <div class="property-card" data-category="software service">
+          <!-- Piece 5 -->
+          <div class="property-card" data-category="studio service" data-id="mixing-console">
             <div class="property-image">
               <img
-                src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80"
-                alt="Dashboard Analytics"
+                src="https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=800&q=80"
+                alt="Analogue mixing console"
                 loading="lazy"
               />
               <div class="property-overlay">
-                <span class="property-tag">Enterprise</span>
+                <span class="property-tag">Hand-Built</span>
                 <button
                   class="property-favorite magnetic-btn"
-                  aria-label="Save solution"
+                  aria-label="Save piece"
                 >
                   <i data-lucide="heart"></i>
                 </button>
@@ -560,32 +632,32 @@
             </div>
             <div class="property-info">
               <div class="property-location">
-                <i data-lucide="layout-dashboard"></i>
-                <span>Cloud Platform</span>
+                <i data-lucide="sliders-vertical"></i>
+                <span>Mixing &amp; Mastering Console</span>
               </div>
-              <h3 class="property-title">CorporateShield Dashboard</h3>
-              <p class="property-price">From $299/month per org</p>
+              <h3 class="property-title">Analogue Mixing Console</h3>
+              <p class="property-price">By Appointment</p>
               <div class="property-details">
-                <span><i data-lucide="bar-chart-3"></i> Analytics</span>
-                <span><i data-lucide="map"></i> Live Map</span>
-                <span><i data-lucide="file-text"></i> Compliance</span>
+                <span><i data-lucide="git-commit-horizontal"></i> 48 Ch</span>
+                <span><i data-lucide="disc-3"></i> Discrete</span>
+                <span><i data-lucide="settings-2"></i> Recall</span>
               </div>
             </div>
           </div>
 
-          <!-- Solution 6 -->
-          <div class="property-card" data-category="hardware">
+          <!-- Piece 6 -->
+          <div class="property-card" data-category="studio" data-id="tube-mic">
             <div class="property-image">
               <img
-                src="https://images.unsplash.com/photo-1558002038-1055907df827?w=800&q=80"
-                alt="Fixed Panic Station"
+                src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=800&q=80"
+                alt="Tube studio microphone"
                 loading="lazy"
               />
               <div class="property-overlay">
-                <span class="property-tag">Essential</span>
+                <span class="property-tag">Legendary</span>
                 <button
                   class="property-favorite magnetic-btn"
-                  aria-label="Save solution"
+                  aria-label="Save piece"
                 >
                   <i data-lucide="heart"></i>
                 </button>
@@ -597,15 +669,15 @@
             </div>
             <div class="property-info">
               <div class="property-location">
-                <i data-lucide="bell-ring"></i>
-                <span>Fixed Installation</span>
+                <i data-lucide="mic"></i>
+                <span>Tube Microphone</span>
               </div>
-              <h3 class="property-title">PanicPoint Wall Station</h3>
-              <p class="property-price">From $6/month per unit</p>
+              <h3 class="property-title">Vintage Tube Microphone</h3>
+              <p class="property-price">From <span data-eur="9800">€9,800</span></p>
               <div class="property-details">
-                <span><i data-lucide="plug-zap"></i> PoE</span>
-                <span><i data-lucide="volume-2"></i>Audio</span>
-                <span><i data-lucide="lock"></i> Tamper</span>
+                <span><i data-lucide="circle-dot"></i> Cardioid</span>
+                <span><i data-lucide="flame"></i> Tube</span>
+                <span><i data-lucide="gem"></i> Hand-Made</span>
               </div>
             </div>
           </div>
@@ -613,10 +685,21 @@
 
         <div class="properties-cta">
           <a href="#" class="btn btn-outline-dark magnetic-btn">
-            <span class="btn-text">View Full Product Catalog</span>
+            <span class="btn-text">View the Full Catalogue</span>
             <span class="btn-icon"><i data-lucide="arrow-right"></i></span>
           </a>
         </div>
+      </div>
+    </section>
+
+    <!-- ============ RECENTLY VIEWED ============ -->
+    <section class="recent" id="recent" hidden aria-label="Recently viewed">
+      <div class="container">
+        <div class="recent-head">
+          <span class="recent-label">Recently Viewed</span>
+          <button class="recent-clear" id="recent-clear">Clear</button>
+        </div>
+        <div class="recent-row" id="recent-row"></div>
       </div>
     </section>
 
@@ -626,15 +709,15 @@
         <div class="section-header">
           <div class="section-tag light">
             <span class="tag-line"></span>
-            <span>Industries<span class="mobile-hide"> We Protect</span></span>
+            <span>Spaces<span class="mobile-hide"> We Tune</span></span>
             <span class="tag-line"></span>
           </div>
           <h2 class="section-title light split-text">
-            Trusted Across <em>Industries</em>
+            Heard In The <em>Finest</em> Rooms
           </h2>
           <p class="section-desc light">
-            From healthcare to hospitality, our solutions adapt to the unique
-            safety challenges of every sector.
+            From concert halls to private residences, we craft the instrument
+            and the acoustics to suit every space we touch.
           </p>
         </div>
       </div>
@@ -646,16 +729,16 @@
               <div class="neighborhood-card">
                 <div class="neighborhood-img">
                   <img
-                    src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80"
-                    alt="Healthcare"
+                    src="https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=800&q=80"
+                    alt="Concert Halls"
                     loading="lazy"
                   />
                 </div>
                 <div class="neighborhood-content">
-                  <span class="neighborhood-city">Critical</span>
-                  <h3>Healthcare</h3>
-                  <p>Protecting nurses, doctors, and patients 24/7</p>
-                  <span class="neighborhood-count">1,200+ Facilities</span>
+                  <span class="neighborhood-city">Stage</span>
+                  <h3>Concert Halls</h3>
+                  <p>Concert grands prepared for the world's great stages</p>
+                  <span class="neighborhood-count">120+ Venues</span>
                 </div>
               </div>
             </div>
@@ -663,16 +746,16 @@
               <div class="neighborhood-card">
                 <div class="neighborhood-img">
                   <img
-                    src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80"
-                    alt="Hospitality"
+                    src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800&q=80"
+                    alt="Recording Studios"
                     loading="lazy"
                   />
                 </div>
                 <div class="neighborhood-content">
-                  <span class="neighborhood-city">Premium</span>
-                  <h3>Hospitality</h3>
-                  <p>Staff safety for hotels, resorts, and venues</p>
-                  <span class="neighborhood-count">800+ Properties</span>
+                  <span class="neighborhood-city">Studio</span>
+                  <h3>Recording Studios</h3>
+                  <p>Consoles, monitors and mics for world-class rooms</p>
+                  <span class="neighborhood-count">240+ Studios</span>
                 </div>
               </div>
             </div>
@@ -680,16 +763,16 @@
               <div class="neighborhood-card">
                 <div class="neighborhood-img">
                   <img
-                    src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80"
-                    alt="Construction"
+                    src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=80"
+                    alt="Private Residences"
                     loading="lazy"
                   />
                 </div>
                 <div class="neighborhood-content">
-                  <span class="neighborhood-city">Industrial</span>
-                  <h3>Construction</h3>
-                  <p>Lone worker protection on every job site</p>
-                  <span class="neighborhood-count">650+ Sites</span>
+                  <span class="neighborhood-city">Private</span>
+                  <h3>Private Residences</h3>
+                  <p>Salon grands and listening rooms for collectors</p>
+                  <span class="neighborhood-count">650+ Homes</span>
                 </div>
               </div>
             </div>
@@ -697,16 +780,16 @@
               <div class="neighborhood-card">
                 <div class="neighborhood-img">
                   <img
-                    src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80"
-                    alt="Corporate Offices"
+                    src="https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800&q=80"
+                    alt="Conservatories"
                     loading="lazy"
                   />
                 </div>
                 <div class="neighborhood-content">
-                  <span class="neighborhood-city">Enterprise</span>
-                  <h3>Corporate Offices</h3>
-                  <p>Workplace safety at scale for Fortune 500</p>
-                  <span class="neighborhood-count">2,100+ Offices</span>
+                  <span class="neighborhood-city">Academy</span>
+                  <h3>Conservatories</h3>
+                  <p>Practice and performance pianos for institutions</p>
+                  <span class="neighborhood-count">90+ Academies</span>
                 </div>
               </div>
             </div>
@@ -714,16 +797,16 @@
               <div class="neighborhood-card">
                 <div class="neighborhood-img">
                   <img
-                    src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&q=80"
-                    alt="Education"
+                    src="https://images.unsplash.com/photo-1525362081669-2b476bb628c3?w=800&q=80"
+                    alt="Houses of Worship"
                     loading="lazy"
                   />
                 </div>
                 <div class="neighborhood-content">
-                  <span class="neighborhood-city">Essential</span>
-                  <h3>Education</h3>
-                  <p>Campus-wide protection for staff and students</p>
-                  <span class="neighborhood-count">430+ Campuses</span>
+                  <span class="neighborhood-city">Sacred</span>
+                  <h3>Houses of Worship</h3>
+                  <p>Acoustic instruments and discreet sound systems</p>
+                  <span class="neighborhood-count">300+ Spaces</span>
                 </div>
               </div>
             </div>
@@ -731,16 +814,67 @@
               <div class="neighborhood-card">
                 <div class="neighborhood-img">
                   <img
-                    src="https://images.unsplash.com/photo-1586769852044-692d6e3703f0?w=800&q=80"
-                    alt="Retail"
+                    src="https://images.unsplash.com/photo-1598653222000-6b7b7a552625?w=800&q=80"
+                    alt="Broadcast & Film"
                     loading="lazy"
                   />
                 </div>
                 <div class="neighborhood-content">
-                  <span class="neighborhood-city">Commercial</span>
-                  <h3>Retail</h3>
-                  <p>Discreet panic alarms for store employees</p>
-                  <span class="neighborhood-count">3,500+ Stores</span>
+                  <span class="neighborhood-city">Broadcast</span>
+                  <h3>Broadcast &amp; Film</h3>
+                  <p>Scoring stages and post suites tuned for picture</p>
+                  <span class="neighborhood-count">75+ Stages</span>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="neighborhood-card">
+                <div class="neighborhood-img">
+                  <img
+                    src="https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800&q=80"
+                    alt="Opera & Ballet"
+                    loading="lazy"
+                  />
+                </div>
+                <div class="neighborhood-content">
+                  <span class="neighborhood-city">Grand</span>
+                  <h3>Opera &amp; Ballet</h3>
+                  <p>Pit and stage instruments for the grandest productions</p>
+                  <span class="neighborhood-count">60+ Houses</span>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="neighborhood-card">
+                <div class="neighborhood-img">
+                  <img
+                    src="https://images.unsplash.com/photo-1500336624523-d727130c3328?w=800&q=80"
+                    alt="Jazz & Supper Clubs"
+                    loading="lazy"
+                  />
+                </div>
+                <div class="neighborhood-content">
+                  <span class="neighborhood-city">Intimate</span>
+                  <h3>Jazz &amp; Supper Clubs</h3>
+                  <p>Salon grands and warm rooms for intimate nights</p>
+                  <span class="neighborhood-count">180+ Clubs</span>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="neighborhood-card">
+                <div class="neighborhood-img">
+                  <img
+                    src="https://images.unsplash.com/photo-1471478331149-c72f17e33c73?w=800&q=80"
+                    alt="Mastering Suites"
+                    loading="lazy"
+                  />
+                </div>
+                <div class="neighborhood-content">
+                  <span class="neighborhood-city">Precision</span>
+                  <h3>Mastering Suites</h3>
+                  <p>Reference rooms tuned for the final master</p>
+                  <span class="neighborhood-count">140+ Suites</span>
                 </div>
               </div>
             </div>
@@ -770,11 +904,11 @@
         <div class="section-header">
           <div class="section-tag">
             <span class="tag-line"></span>
-            <span>What We Offer</span>
+            <span>The Craft</span>
             <span class="tag-line"></span>
           </div>
           <h2 class="section-title split-text">
-            Safety <em>Services</em>
+            Atelier <em>Services</em>
           </h2>
         </div>
 
@@ -782,13 +916,13 @@
           <div class="service-card">
             <div class="service-number">01</div>
             <div class="service-icon">
-              <i data-lucide="radio"></i>
+              <i data-lucide="search-check"></i>
             </div>
-            <h3>Device Deployment</h3>
+            <h3>Bespoke Selection</h3>
             <p>
-              We handle the full rollout — from device configuration and
-              testing to on-site installation and employee training. Your
-              team is protected from day one.
+              We listen first. Then we hand-pick the instrument or system that
+              suits your touch, your repertoire and your room — sourced from the
+              world's most revered makers.
             </p>
             <a href="#" class="service-link">
               <span>Learn More</span>
@@ -799,13 +933,13 @@
           <div class="service-card">
             <div class="service-number">02</div>
             <div class="service-icon">
-              <i data-lucide="monitor-check"></i>
+              <i data-lucide="sliders-horizontal"></i>
             </div>
-            <h3>24/7 Alarm Monitoring</h3>
+            <h3>Tuning &amp; Voicing</h3>
             <p>
-              Our command center never sleeps. Trained operators verify every
-              alarm, contact the right responders, and stay on the line until
-              the situation is resolved.
+              Concert-level tuning, regulation and voicing by hand. We shape
+              every hammer and key until the instrument responds exactly the way
+              the artist imagines it.
             </p>
             <a href="#" class="service-link">
               <span>Learn More</span>
@@ -816,13 +950,13 @@
           <div class="service-card">
             <div class="service-number">03</div>
             <div class="service-icon">
-              <i data-lucide="settings"></i>
+              <i data-lucide="drafting-compass"></i>
             </div>
-            <h3>Custom Integration</h3>
+            <h3>Studio &amp; Acoustics</h3>
             <p>
-              Seamless integration with your existing security infrastructure,
-              access control systems, and enterprise software via our open API
-              and dedicated.
+              Turnkey studio design — room acoustics, treatment, monitoring,
+              consoles and wiring. We engineer a space where every decision you
+              make on the mix is the right one.
             </p>
             <a href="#" class="service-link">
               <span>Learn More</span>
@@ -833,13 +967,13 @@
           <div class="service-card">
             <div class="service-number">04</div>
             <div class="service-icon">
-              <i data-lucide="shield-check"></i>
+              <i data-lucide="truck"></i>
             </div>
-            <h3>Reporting</h3>
+            <h3>White-Glove Delivery</h3>
             <p>
-              Stay ahead of OSHA regulations and workplace safety standards.
-              Automated incident reports, audit trails, and compliance
-              dashboards built for enterprise.
+              Climate-controlled transport, expert installation and final
+              on-site voicing — plus lifetime aftercare. Your instrument arrives
+              ready to perform, never merely delivered.
             </p>
             <a href="#" class="service-link">
               <span>Learn More</span>
@@ -863,13 +997,14 @@
       </div>
       <div class="container">
         <div class="luxury-cta-content">
-          <h2 class="split-text">Deserve <em>Better</em></h2>
+          <h2 class="split-text">Hear The <em>Difference</em></h2>
           <p>
-            Whether you're securing a single office or a nationwide workforce,
-            our team deploys a tailored safety ecosystem in weeks, not months.
+            Whether it's a single concert grand or a complete mastering suite,
+            our atelier composes a setup tuned entirely to you — and delivers it
+            ready to play.
           </p>
           <a href="#contact" class="btn btn-gold magnetic-btn">
-            <span class="btn-text">Get Protected Today</span>
+            <span class="btn-text">Book a Private Audition</span>
             <span class="btn-icon"><i data-lucide="arrow-right"></i></span>
           </a>
         </div>
@@ -882,11 +1017,11 @@
         <div class="section-header">
           <div class="section-tag">
             <span class="tag-line"></span>
-            <span>Client Stories</span>
+            <span>In Their Words</span>
             <span class="tag-line"></span>
           </div>
           <h2 class="section-title split-text">
-            Trusted by <em>Leaders</em>
+            Trusted by <em>Artists</em>
           </h2>
         </div>
 
@@ -898,22 +1033,21 @@
                   <i data-lucide="quote"></i>
                 </div>
                 <p class="testimonial-text">
-                  "After deploying Lars Larm Central across our 14 hospitals,
-                  workplace violence incidents dropped by 62%. The response time
-                  is extraordinary — our nurses finally feel safe on night
-                  shifts."
+                  "The grand they voiced for my recital hall is the finest
+                  instrument I have ever played. Every register sings — the
+                  touch is effortless, the tone simply pours out."
                 </p>
                 <div class="testimonial-author">
                   <div class="author-avatar">
                     <img
                       src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80"
-                      alt="Dr. Marcus R."
+                      alt="Marcus R."
                       loading="lazy"
                     />
                   </div>
                   <div class="author-info">
-                    <h4>Dr. Marcus Reynolds</h4>
-                    <span>Chief Safety Officer, Systems</span>
+                    <h4>Marcus Reynolds</h4>
+                    <span>Concert Pianist</span>
                   </div>
                 </div>
               </div>
@@ -924,10 +1058,9 @@
                   <i data-lucide="quote"></i>
                 </div>
                 <p class="testimonial-text">
-                  "We needed a solution that could scale across 200+ retail
-                  locations overnight. LLC delivered — the integration was
-                  seamless and the dashboard gives us real-time visibility into
-                  every store."
+                  "They designed our entire mastering room — acoustics, monitors,
+                  console, the lot. For the first time, what I hear in the studio
+                  is exactly what lands on the record."
                 </p>
                 <div class="testimonial-author">
                   <div class="author-avatar">
@@ -939,7 +1072,7 @@
                   </div>
                   <div class="author-info">
                     <h4>Amanda Kowalski</h4>
-                    <span>VP of Operations</span>
+                    <span>Mastering Engineer</span>
                   </div>
                 </div>
               </div>
@@ -950,9 +1083,9 @@
                   <i data-lucide="quote"></i>
                 </div>
                 <p class="testimonial-text">
-                  "The SentryBand saved one of our construction workers' lives
-                  last month. The fall detection triggered instantly, and
-                  paramedics were on-site in under 6 minutes — that's a lifeline."
+                  "From the first phone call to the final voicing in my home,
+                  the attention to detail was extraordinary. This is a house that
+                  treats sound as an art form."
                 </p>
                 <div class="testimonial-author">
                   <div class="author-avatar">
@@ -964,13 +1097,45 @@
                   </div>
                   <div class="author-info">
                     <h4>David Thornton</h4>
-                    <span>CEO, Apex Construction Partners</span>
+                    <span>Composer &amp; Collector</span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div class="swiper-pagination testimonial-pagination"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PRESS / AWARDS BAND ============ -->
+    <section class="press" aria-label="Press and recognition">
+      <div class="container">
+        <p class="press-label">As Featured In</p>
+        <div class="press-row">
+          <span class="press-name">Gramophone</span>
+          <span class="press-dot"></span>
+          <span class="press-name">Sound on Sound</span>
+          <span class="press-dot"></span>
+          <span class="press-name">The Strad</span>
+          <span class="press-dot"></span>
+          <span class="press-name">Stereophile</span>
+          <span class="press-dot"></span>
+          <span class="press-name">Le Monde de la Musique</span>
+        </div>
+        <div class="press-awards">
+          <div class="press-award">
+            <i data-lucide="award"></i>
+            <span>MusicTech Gold Award 2025</span>
+          </div>
+          <div class="press-award">
+            <i data-lucide="badge-check"></i>
+            <span>Steinway Certified Atelier</span>
+          </div>
+          <div class="press-award">
+            <i data-lucide="star"></i>
+            <span>40 Years of Craftsmanship</span>
+          </div>
         </div>
       </div>
     </section>
@@ -986,12 +1151,12 @@
               <span class="tag-line"></span>
             </div>
             <h2 class="section-title light split-text">
-              Let's Build <em>Safety</em> Plans
+              Book a <em>Private</em> Audition
             </h2>
             <p class="contact-desc">
-              Schedule a free consultation with one of our safety architects.
-              We'll assess your risk profile and design a custom protection
-              plan — no obligation, no pressure.
+              Visit the atelier for a private audition, or invite us to your
+              space. We'll listen to what you need and propose an instrument or
+              studio composed entirely for you — no obligation.
             </p>
 
             <div class="contact-details">
@@ -1000,8 +1165,8 @@
                   <i data-lucide="map-pin"></i>
                 </div>
                 <div>
-                  <h4>Headquarters</h4>
-                  <p>One World Trade Center, Floor 64<br />New York, NY 10007</p>
+                  <h4>Showroom</h4>
+                  <p>Strandvägen 7A<br />114 56 Stockholm</p>
                 </div>
               </div>
               <div class="contact-item">
@@ -1009,8 +1174,8 @@
                   <i data-lucide="map-pin"></i>
                 </div>
                 <div>
-                  <h4>Command Center</h4>
-                  <p>750 Lexington Avenue, Suite 2400<br />New York, NY 10022</p>
+                  <h4>The Atelier</h4>
+                  <p>Nybrogatan 34, Workshop 2<br />114 39 Stockholm</p>
                 </div>
               </div>
               <div class="contact-item">
@@ -1019,7 +1184,7 @@
                 </div>
                 <div>
                   <h4>Call Us</h4>
-                  <p>Sales: +1 (212) 555-0911<br />Support: +1 (212) 555-0912</p>
+                  <p>Sales: +46 (0)8 555 0190<br />Atelier: +46 (0)8 555 0191</p>
                 </div>
               </div>
               <div class="contact-item">
@@ -1028,7 +1193,7 @@
                 </div>
                 <div>
                   <h4>Email</h4>
-                  <p>info@larslarmcentral.com</p>
+                  <p>atelier@larsresonance.com</p>
                 </div>
               </div>
             </div>
@@ -1079,14 +1244,44 @@
               <div class="form-group">
                 <select id="interest" name="interest" required>
                   <option value="" disabled selected></option>
-                  <option value="personal-alarms">Personal Alarm Buttons</option>
-                  <option value="app">SafeLink Mobile App</option>
-                  <option value="monitoring">24/7 Monitoring</option>
-                  <option value="enterprise">Enterprise Solution</option>
-                  <option value="full-ecosystem">Full Ecosystem</option>
+                  <option value="grand-pianos">Grand &amp; Upright Pianos</option>
+                  <option value="synths-keys">Synths &amp; Keyboards</option>
+                  <option value="monitors">Monitors &amp; Power Amps</option>
+                  <option value="console-mics">Consoles &amp; Microphones</option>
+                  <option value="studio-build">Full Studio Build</option>
                 </select>
                 <label for="interest">I'm Interested In</label>
                 <span class="form-line"></span>
+              </div>
+              <div class="booking">
+                <span class="booking-label">Preferred date — private audition</span>
+                <div class="calendar" id="calendar">
+                  <div class="calendar-head">
+                    <button type="button" class="cal-nav" id="cal-prev" aria-label="Previous month">
+                      <i data-lucide="chevron-left"></i>
+                    </button>
+                    <span class="cal-month" id="cal-month"></span>
+                    <button type="button" class="cal-nav" id="cal-next" aria-label="Next month">
+                      <i data-lucide="chevron-right"></i>
+                    </button>
+                  </div>
+                  <div class="cal-weekdays">
+                    <span>Mo</span><span>Tu</span><span>We</span><span>Th</span>
+                    <span>Fr</span><span>Sa</span><span>Su</span>
+                  </div>
+                  <div class="cal-grid" id="cal-grid"></div>
+                </div>
+                <div class="time-slots" id="time-slots" hidden>
+                  <span class="slots-label">Choose a time</span>
+                  <div class="slots-row">
+                    <button type="button" class="slot" data-time="10:00">10:00</button>
+                    <button type="button" class="slot" data-time="12:30">12:30</button>
+                    <button type="button" class="slot" data-time="15:00">15:00</button>
+                    <button type="button" class="slot" data-time="17:30">17:30</button>
+                  </div>
+                </div>
+                <input type="hidden" id="booking-when" name="booking" />
+                <p class="booking-summary" id="booking-summary"></p>
               </div>
               <div class="form-group">
                 <textarea
@@ -1096,11 +1291,11 @@
                   required
                   placeholder=" "
                 ></textarea>
-                <label for="message">Tell Us About Your Safety Needs</label>
+                <label for="message">Tell Us About Your Project</label>
                 <span class="form-line"></span>
               </div>
               <button type="submit" class="btn btn-gold btn-full magnetic-btn">
-                <span class="btn-text">Request Free Consultation</span>
+                <span class="btn-text">Request a Private Audition</span>
                 <span class="btn-icon"><i data-lucide="send"></i></span>
               </button>
             </form>
@@ -1117,12 +1312,12 @@
             <a href="#" class="footer-logo">
               <span class="logo-text">LARS</span>
               <span class="logo-separator">|</span>
-              <span class="logo-text">LARM</span>
-              <span class="logo-sub">CENTRAL</span>
+              <span class="logo-text">RÉSONANCE</span>
+              <span class="logo-sub">ATELIER</span>
             </a>
             <p class="footer-tagline">
-              Redefining personal safety for the modern workforce. One button.
-              One app.
+              A bespoke atelier for concert grands and high-end audio. Sound,
+              perfected by hand.
             </p>
             <div class="footer-socials">
               <a href="#" class="social-link magnetic-btn" aria-label="Instagram">
@@ -1165,37 +1360,37 @@
             </div>
           </div>
           <div class="footer-links-group">
-            <h4>Solutions</h4>
+            <h4>Collection</h4>
             <ul>
-              <li><a href="#">Guardian Pro Button</a></li>
-              <li><a href="#">SafeLink App</a></li>
-              <li><a href="#">SentryBand Watch</a></li>
-              <li><a href="#">PanicPoint Station</a></li>
-              <li><a href="#">CorporateShield</a></li>
+              <li><a href="#">Grand Pianos</a></li>
+              <li><a href="#">Synths &amp; Keyboards</a></li>
+              <li><a href="#">Studio Monitors</a></li>
+              <li><a href="#">Mixing Consoles</a></li>
+              <li><a href="#">Microphones</a></li>
             </ul>
           </div>
           <div class="footer-links-group">
-            <h4>Industries</h4>
+            <h4>Spaces</h4>
             <ul>
-              <li><a href="#">Healthcare</a></li>
-              <li><a href="#">Hospitality</a></li>
-              <li><a href="#">Construction</a></li>
-              <li><a href="#">Education</a></li>
-              <li><a href="#">Retail</a></li>
+              <li><a href="#">Concert Halls</a></li>
+              <li><a href="#">Recording Studios</a></li>
+              <li><a href="#">Private Residences</a></li>
+              <li><a href="#">Conservatories</a></li>
+              <li><a href="#">Broadcast &amp; Film</a></li>
             </ul>
           </div>
           <div class="footer-links-group">
-            <h4>Company</h4>
+            <h4>Atelier</h4>
             <ul>
-              <li><a href="#">About Us</a></li>
-              <li><a href="#">Careers</a></li>
-              <li><a href="#">Press</a></li>
+              <li><a href="#">Our Craft</a></li>
+              <li><a href="#">Tuning &amp; Voicing</a></li>
+              <li><a href="#">Studio Design</a></li>
               <li><a href="#">Contact</a></li>
             </ul>
           </div>
         </div>
         <div class="footer-bottom">
-          <p>&copy; 2026 Lars Larm Central. All rights reserved.</p>
+          <p>&copy; 2026 Lars Résonance Atelier. All rights reserved.</p>
           <div class="footer-legal">
             <a href="#">Policy</a>
             <a href="#">Service</a>
@@ -1204,6 +1399,103 @@
         </div>
       </div>
     </footer>
+
+    <!-- ============ LIGHTBOX (gallery) ============ -->
+    <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Image gallery">
+      <button class="lightbox-close" id="lightbox-close" aria-label="Close">
+        <i data-lucide="x"></i>
+      </button>
+      <button class="lightbox-arrow lightbox-prev" id="lightbox-prev" aria-label="Previous image">
+        <i data-lucide="chevron-left"></i>
+      </button>
+      <figure class="lightbox-figure">
+        <img src="" alt="" id="lightbox-img" />
+        <figcaption id="lightbox-caption"></figcaption>
+      </figure>
+      <button class="lightbox-arrow lightbox-next" id="lightbox-next" aria-label="Next image">
+        <i data-lucide="chevron-right"></i>
+      </button>
+      <span class="lightbox-counter" id="lightbox-counter"></span>
+    </div>
+
+    <!-- ============ DOSSIER MODAL ============ -->
+    <div class="dossier" id="dossier" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="dossier-title">
+      <div class="dossier-panel">
+        <button class="dossier-close" id="dossier-close" aria-label="Close">
+          <i data-lucide="x"></i>
+        </button>
+        <div class="dossier-gallery">
+          <img src="" alt="" id="dossier-hero" />
+          <div class="dossier-thumbs" id="dossier-thumbs"></div>
+        </div>
+        <div class="dossier-body">
+          <span class="dossier-kicker" id="dossier-kicker"></span>
+          <h3 class="dossier-title" id="dossier-title"></h3>
+          <p class="dossier-price" id="dossier-price"></p>
+          <p class="dossier-summary" id="dossier-summary"></p>
+          <dl class="dossier-specs" id="dossier-specs"></dl>
+          <div class="dossier-provenance">
+            <span class="dossier-prov-label">Provenance</span>
+            <p id="dossier-provenance"></p>
+          </div>
+          <div class="dossier-actions">
+            <a href="#contact" class="btn btn-primary magnetic-btn" id="dossier-enquire">
+              <span class="btn-text">Enquire</span>
+              <span class="btn-icon"><i data-lucide="arrow-right"></i></span>
+            </a>
+            <button class="btn btn-outline-dark magnetic-btn dossier-save" id="dossier-save">
+              <span class="btn-text">Save</span>
+              <span class="btn-icon"><i data-lucide="heart"></i></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ SAVED DRAWER ============ -->
+    <div class="drawer" id="saved-drawer" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Saved instruments">
+      <div class="drawer-panel">
+        <div class="drawer-head">
+          <h3>Saved Instruments</h3>
+          <button class="drawer-close" id="saved-close" aria-label="Close">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+        <div class="drawer-body" id="saved-list"></div>
+        <p class="drawer-empty" id="saved-empty">Nothing saved yet. Tap the heart on any piece to keep it here.</p>
+      </div>
+    </div>
+
+    <!-- ============ SEARCH OVERLAY ============ -->
+    <div class="search-overlay" id="search-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Search">
+      <button class="search-close" id="search-close" aria-label="Close search">
+        <i data-lucide="x"></i>
+      </button>
+      <div class="search-inner">
+        <label class="search-label" for="search-input">Search the collection</label>
+        <input type="search" id="search-input" class="search-input" placeholder="Pianos, monitors, microphones…" autocomplete="off" />
+        <div class="search-results" id="search-results"></div>
+      </div>
+    </div>
+
+    <!-- ============ PERFORMANCE BANNER ============ -->
+    <div class="perf-banner" id="perf-banner" hidden>
+      <span>This page feels heavy on your device. Switch to a lighter version for a smoother experience?</span>
+      <div class="perf-banner-actions">
+        <button id="perf-banner-yes" class="perf-banner-btn primary">Switch to Lite</button>
+        <button id="perf-banner-no" class="perf-banner-btn">No thanks</button>
+      </div>
+    </div>
+
+    <!-- ============ PERFORMANCE / EFFECTS TOGGLE ============ -->
+    <div class="perf-toggle" id="perf-toggle">
+      <button class="perf-btn" data-mode="full" aria-label="Full effects">
+        <i data-lucide="sparkles"></i><span>Full</span>
+      </button>
+      <button class="perf-btn" data-mode="lite" aria-label="Lite mode">
+        <i data-lucide="feather"></i><span>Lite</span>
+      </button>
+    </div>
 
     <!-- Back to top -->
     <button
@@ -1214,6 +1506,7 @@
       <i data-lucide="chevron-up"></i>
     </button>
 
+    <script src="js/data.js"></script>
     <script src="js/main.js"></script>
   </body>
 </html>
