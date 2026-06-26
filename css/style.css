@@ -13,10 +13,11 @@
     --navy-500: #243B5C;
 
     /* Gold Palette */
-    --gold-400: #D4AF37;
-    --gold-500: #C9A96E;
-    --gold-600: #B8963E;
-    --gold-700: #9A7D3E;
+    /* Muted ~30%: less saturated, more restrained than the original bright gold */
+    --gold-400: #C2A45A;
+    --gold-500: #BCA67E;
+    --gold-600: #A88E4E;
+    --gold-700: #8C7544;
 
     /* Neutrals */
     --white: #FFFFFF;
@@ -215,12 +216,40 @@ ul { list-style: none; }
 }
 
 /* ---- Custom Cursor ---- */
-.cursor,
-.cursor-follower {
-    display: none !important;
+/* Subtle custom cursor — a faint ring follower only, no hard dot.
+   Hidden on touch / lite / coarse pointers (see overrides below). */
+.cursor {
+    display: none !important; /* drop the hard dot entirely — too gimmicky */
 }
 
-/* Use a custom CSS cursor instead — lightweight crosshair style */
+.cursor-follower {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 26px;
+    height: 26px;
+    margin: -13px 0 0 -13px;
+    border: 1px solid rgba(201, 169, 110, 0.35);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    opacity: 0;
+    transition: opacity 0.4s ease, width 0.3s ease, height 0.3s ease,
+                margin 0.3s ease, border-color 0.3s ease;
+    will-change: transform;
+}
+
+.cursor-follower.active {
+    width: 42px;
+    height: 42px;
+    margin: -21px 0 0 -21px;
+    border-color: rgba(201, 169, 110, 0.5);
+}
+
+@media (pointer: fine) {
+    html:not([data-perf="lite"]) .cursor-follower { opacity: 1; }
+}
+
 body {
     cursor: default;
 }
@@ -2961,6 +2990,11 @@ a, button, .magnetic-btn, .property-card, .service-card, input, textarea, select
     font-size: 12px;
     letter-spacing: 0.08em;
     color: rgba(250, 248, 245, 0.82);
+    /* Always a single line so the fixed 38px offset below it is correct */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
 }
 
 .announce-text .wx-temp { color: var(--gold-400); }
@@ -3562,6 +3596,132 @@ a, button, .magnetic-btn, .property-card, .service-card, input, textarea, select
 }
 
 @media (max-width: 720px) {
-    .currency-select { display: none; }
     .perf-banner { flex-direction: column; text-align: center; }
+}
+
+/* ============================================================
+   PHASE 3 — settings menu (gear), segmented controls,
+   consolidated mobile shortcuts
+   ============================================================ */
+
+/* ---- Gear button + settings dropdown ---- */
+.settings-wrap { position: relative; }
+
+.settings-panel {
+    position: absolute;
+    top: calc(100% + 14px);
+    right: 0;
+    width: 280px;
+    padding: 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--card-border);
+    border-radius: 6px;
+    box-shadow: 0 24px 60px var(--card-shadow);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity 0.35s var(--ease-out-expo), transform 0.35s var(--ease-out-expo), visibility 0.35s;
+    z-index: 1200;
+}
+
+.settings-panel.open { opacity: 1; visibility: visible; transform: translateY(0); }
+
+.settings-panel-title {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+}
+
+/* ---- Settings rows + segmented controls ---- */
+.set-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 16px;
+}
+.set-row:last-child { margin-bottom: 0; }
+
+.set-label {
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--text-secondary);
+}
+
+.seg {
+    display: inline-flex;
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.seg button {
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-family: var(--font-body);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.seg button.active {
+    background: var(--gold-accent);
+    color: var(--navy-900);
+}
+
+/* gear icon spins gently when its panel is open */
+#settings-open.open i { transform: rotate(90deg); }
+#settings-open i { transition: transform 0.4s var(--ease-out-expo); }
+
+/* ---- Mobile menu shortcuts block ---- */
+.mobile-shortcuts {
+    margin-top: 30px;
+    padding-top: 26px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-quick {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.mobile-quick button {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--cream);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+}
+.mobile-quick button i { width: 16px; height: 16px; }
+
+.mobile-menu .settings-controls .set-label { color: rgba(250, 248, 245, 0.7); }
+.mobile-menu .seg { border-color: rgba(255, 255, 255, 0.2); }
+.mobile-menu .seg button { color: rgba(250, 248, 245, 0.6); }
+.mobile-menu .seg button.active { color: var(--navy-900); }
+
+/* The desktop settings panel lives inside the mobile menu on small screens */
+.settings-controls { display: flex; flex-direction: column; gap: 16px; }
+
+/* ---- Desktop vs mobile visibility of nav shortcuts ---- */
+.nav-only-desktop { display: inline-flex; }
+.mobile-shortcuts { display: none; }
+
+@media (max-width: 860px) {
+    /* hide the top-bar shortcuts; everything moves into the hamburger menu */
+    .nav-only-desktop { display: none !important; }
+    .mobile-shortcuts { display: block; }
 }

@@ -22,6 +22,112 @@ window.RESONANCE_DATA = {
     SEK: { rate: 11.3,  symbol: ' kr', position: 'after', locale: 'sv-SE' },
   },
 
+  /* ---- Translations (English is the source; Swedish overrides) ---- */
+  i18n: {
+    sv: {
+      keyed: {
+        'nav.visit': 'Boka besök',
+        'nav.search': 'Sök',
+        'nav.saved': 'Sparat',
+        'settings.title': 'Inställningar',
+        'settings.language': 'Språk',
+        'settings.currency': 'Valuta',
+        'settings.theme': 'Tema',
+        'settings.effects': 'Effekter',
+        'settings.light': 'Ljust',
+        'settings.dark': 'Mörkt',
+        'settings.full': 'Full',
+        'legal.privacy': 'Integritetspolicy',
+        'legal.terms': 'Användarvillkor',
+      },
+      html: {
+        'Sound, <em>Uncompromised</em>': 'Ljud, <em>kompromisslöst</em>',
+        'Instruments, <em>Without</em> Equal': 'Instrument <em>utan</em> motstycke',
+        'Heard In The <em>Finest</em> Rooms': 'Hörs i de <em>finaste</em> rummen',
+        'Atelier <em>Services</em>': 'Ateljéns <em>tjänster</em>',
+        'Hear The <em>Difference</em>': 'Hör <em>skillnaden</em>',
+        'Trusted by <em>Artists</em>': 'Anlitas av <em>artister</em>',
+        'Book a <em>Private</em> Audition': 'Boka en <em>privat</em> visning',
+        'Years of<br>Craftsmanship': 'År av<br>hantverk',
+        'Second Avg<br />Response Time': 'År av<br>hantverk',
+      },
+      text: {
+        // Nav
+        'Home': 'Hem', 'Atelier': 'Ateljén', 'Collection': 'Samlingen',
+        'Services': 'Tjänster', 'Reviews': 'Omdömen', 'Contact': 'Kontakt', 'Spaces': 'Rum',
+        // Hero
+        'Where Sound': 'Där ljudet', 'Becomes': 'blir', 'Soul': 'själ',
+        'Hand-selected concert grands and mastering-grade audio, voiced by master technicians. From the first key to the final mix — every detail tuned to perfection.':
+          'Handplockade konsertflyglar och ljud i masteringklass, intonerat av mästartekniker. Från första tangenten till den sista mixen — varje detalj stämd till perfektion.',
+        'The Collection': 'Samlingen', 'Our Craft': 'Vårt hantverk', 'Play a note': 'Spela en ton',
+        // Makers / press
+        'The Makers We Represent': 'Tillverkarna vi representerar',
+        'As Featured In': 'Omskrivna i',
+        'MusicTech Gold Award 2025': 'MusicTech Gold Award 2025',
+        'Steinway Certified Atelier': 'Steinway-certifierad ateljé',
+        '40 Years of Craftsmanship': '40 år av hantverk',
+        // About
+        'The Atelier': 'Ateljén',
+        'Lars Résonance was founded on a single conviction: that an instrument and the room it lives in deserve the same obsessive care as the music itself. We curate concert grands and reference audio from the world’s finest makers — then make them sing.':
+          'Lars Résonance grundades på en enda övertygelse: att ett instrument och rummet det lever i förtjänar samma omsorg som musiken själv. Vi väljer ut konsertflyglar och referensljud från världens främsta tillverkare — och får dem att sjunga.',
+        'From a Steinway voiced by hand to a mastering suite tuned to the millimetre, our master technicians treat every project as a one-off commission. Nothing leaves the atelier until it sounds effortless.':
+          'Från en handintonerad Steinway till en masteringstudio stämd på millimetern — våra mästartekniker behandlar varje projekt som ett unikt uppdrag. Inget lämnar ateljén förrän det låter självklart.',
+        'Master Technicians': 'Mästartekniker',
+        'Concert-level tuning, voicing and regulation by hand': 'Stämning, intonering och reglering för hand på konsertnivå',
+        'World’s Finest Makers': 'Världens främsta tillverkare',
+        'An exclusive curation of grands, consoles and reference audio': 'Ett exklusivt urval av flyglar, mixerbord och referensljud',
+        'Book a Private Audition': 'Boka en privat visning',
+        // Stats
+        'Instruments Voiced': 'Intonerade instrument', 'Studios Designed': 'Designade studior',
+        'Of Craftsmanship': 'Av hantverk', 'Master Technicians ': 'Mästartekniker',
+        // Collection
+        'A curated house of concert grands, reference monitors, consoles and studio instruments — each selected, voiced and delivered by hand.':
+          'Ett kurerat hus av konsertflyglar, referensmonitorer, mixerbord och studioinstrument — vart och ett utvalt, intonerat och levererat för hand.',
+        'Everything': 'Allt', 'Pianos & Keys': 'Pianon & klaviatur',
+        'Studio & Audio': 'Studio & ljud', 'Atelier Services': 'Ateljétjänster',
+        'View the Full Catalogue': 'Se hela katalogen',
+        'Recently Viewed': 'Nyligen visade', 'Clear': 'Rensa',
+        // Spaces
+        'From concert halls to private residences, we craft the instrument and the acoustics to suit every space we touch.':
+          'Från konserthus till privata hem — vi formar instrumentet och akustiken efter varje rum vi rör vid.',
+        // Services
+        'The Craft': 'Hantverket',
+        'Bespoke Selection': 'Skräddarsytt urval',
+        'Tuning & Voicing': 'Stämning & intonering',
+        'Studio & Acoustics': 'Studio & akustik',
+        'White-Glove Delivery': 'Leverans med silkesvantar',
+        'Learn More': 'Läs mer',
+        'Save': 'Spara', 'Saved': 'Sparat', 'Enquire': 'Förfrågan',
+        // CTA
+        'Whether it’s a single concert grand or a complete mastering suite, our atelier composes a setup tuned entirely to you — and delivers it ready to play.':
+          'Oavsett om det är en enda konsertflygel eller en komplett masteringstudio komponerar ateljén en uppsättning helt anpassad efter dig — och levererar den spelklar.',
+        // Testimonials
+        'In Their Words': 'Med deras ord',
+        'Concert Pianist': 'Konsertpianist', 'Mastering Engineer': 'Masteringtekniker',
+        'Composer & Collector': 'Kompositör & samlare',
+        // Contact
+        'Get In Touch': 'Hör av dig',
+        'Visit the atelier for a private audition, or invite us to your space. We’ll listen to what you need and propose an instrument or studio composed entirely for you — no obligation.':
+          'Besök ateljén för en privat visning, eller bjud in oss till ditt rum. Vi lyssnar på vad du behöver och föreslår ett instrument eller en studio helt komponerad för dig — utan förpliktelse.',
+        'Showroom': 'Showroom', 'Call Us': 'Ring oss', 'Email': 'E-post',
+        'First Name': 'Förnamn', 'Last Name': 'Efternamn', 'Work Email': 'E-post',
+        'Phone Number': 'Telefonnummer', 'I’m Interested In': 'Jag är intresserad av',
+        'Tell Us About Your Project': 'Berätta om ditt projekt',
+        'Request a Private Audition': 'Boka en privat visning',
+        'Preferred date — private audition': 'Önskat datum — privat visning',
+        'Choose a time': 'Välj en tid',
+        // Footer
+        'A bespoke atelier for concert grands and high-end audio. Sound, perfected by hand.':
+          'En skräddarsydd ateljé för konsertflyglar och high-end-ljud. Ljud, fulländat för hand.',
+        'Spaces': 'Rum', 'Company': 'Företag',
+        '© 2026 Lars Résonance Atelier. All rights reserved.': '© 2026 Lars Résonance Atelier. Alla rättigheter förbehållna.',
+        // Announce base
+        'Private auditions by appointment — Strandvägen 7A, Stockholm':
+          'Privata visningar efter överenskommelse — Strandvägen 7A, Stockholm',
+      },
+    },
+  },
+
   /* Per-instrument dossiers, keyed by the card's data-id */
   instruments: {
     'konzert-grand': {

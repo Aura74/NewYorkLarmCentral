@@ -15,60 +15,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const perfMode = localStorage.getItem('lr-perf') || autoMode;
     const isFull = perfMode === 'full';
     document.documentElement.setAttribute('data-perf', perfMode);
+    // (Effects mode is controlled from the settings menu seg, wired in Phase 3.)
 
-    const perfToggle = document.getElementById('perf-toggle');
-    if (perfToggle) {
-        perfToggle.querySelectorAll('.perf-btn').forEach(btn => {
-            if (btn.dataset.mode === perfMode) btn.classList.add('active');
-            btn.addEventListener('click', () => {
-                const mode = btn.dataset.mode;
-                if (mode === perfMode) return;
-                localStorage.setItem('lr-perf', mode);
-                location.reload();
-            });
-        });
-    }
-
-    // ---- Theme Toggle ----
-    const themeToggle = document.getElementById('theme-toggle');
+    // ---- Theme (applied on load; controlled from the settings menu seg) ----
     const savedTheme = localStorage.getItem('nylc-theme');
-
-    // Apply saved theme on load (before any animations)
     if (savedTheme === 'dark') {
         document.documentElement.setAttribute('data-theme', 'dark');
     }
-
-    themeToggle.addEventListener('click', () => {
-        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-        const newTheme = isDark ? 'light' : 'dark';
-
-        document.documentElement.setAttribute('data-theme', newTheme === 'dark' ? 'dark' : '');
-        if (newTheme === 'light') {
-            document.documentElement.removeAttribute('data-theme');
-        }
-
-        localStorage.setItem('nylc-theme', newTheme);
-
-        // Subtle page flash transition
+    function setTheme(theme) {
+        if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+        else document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('nylc-theme', theme);
         const flash = document.createElement('div');
-        flash.style.cssText = `
-            position: fixed; inset: 0; z-index: 99999;
-            background: ${newTheme === 'dark' ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.3)'};
-            pointer-events: none;
-            animation: themeFlash 0.6s ease forwards;
-        `;
+        flash.style.cssText = 'position:fixed;inset:0;z-index:99999;pointer-events:none;' +
+            'background:' + (theme === 'dark' ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.3)') + ';' +
+            'animation:themeFlash 0.6s ease forwards;';
         document.body.appendChild(flash);
         setTimeout(() => flash.remove(), 700);
-    });
-
-    // Add flash animation
+    }
+    function currentTheme() {
+        return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    }
     const flashStyle = document.createElement('style');
-    flashStyle.textContent = `
-        @keyframes themeFlash {
-            0% { opacity: 1; }
-            100% { opacity: 0; }
-        }
-    `;
+    flashStyle.textContent = '@keyframes themeFlash{0%{opacity:1}100%{opacity:0}}';
     document.head.appendChild(flashStyle);
 
     // ---- Preloader ----
@@ -253,9 +222,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setInterval(nextHeroSlide, 6000);
 
-    // ---- Hero Particles ----
+    // ---- Hero Particles (removed for a calmer, more restrained feel) ----
     const particlesContainer = document.getElementById('hero-particles');
-    for (let i = 0; isFull && i < 30; i++) {
+    for (let i = 0; false && i < 30; i++) {
         const particle = document.createElement('div');
         particle.classList.add('hero-particle');
         particle.style.left = Math.random() * 100 + '%';
@@ -415,8 +384,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Property card 3D tilt effect
-    (isFull ? propertyCards : []).forEach(card => {
+    // Property card 3D tilt effect (disabled — calmer motion; cards use CSS hover only)
+    [].forEach(card => {
         card.addEventListener('mousemove', (e) => {
             const rect = card.getBoundingClientRect();
             const x = (e.clientX - rect.left) / rect.width;
@@ -615,17 +584,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---- Footer reveal ----
     revealOnScroll('.footer-top > *', { opacity: 0, y: 30 }, 0.1);
 
-    // ---- Parallax on Stats Background ----
-    gsap.to('.stats-bg', {
-        scrollTrigger: {
-            trigger: '.stats',
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1
-        },
-        y: -80,
-        ease: 'none'
-    });
+    // ---- Parallax on Stats Background (gentle, full mode only) ----
+    if (isFull) {
+        gsap.to('.stats-bg', {
+            scrollTrigger: {
+                trigger: '.stats',
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: 1
+            },
+            y: -35,
+            ease: 'none'
+        });
+    }
 
     // ---- Hero "Play a note" (Web Audio, no audio file) ----
     const listenBtn = document.getElementById('hero-listen');
@@ -688,17 +659,6 @@ document.addEventListener('DOMContentLoaded', () => {
         set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} },
     };
     const refreshIcons = () => { if (window.lucide) lucide.createIcons(); };
-
-    // ---- Intro veil (once per session, full mode only; CSS auto-lifts as a safety net) ----
-    const introVeil = document.getElementById('intro-veil');
-    if (introVeil) {
-        if (!isFull || sessionStorage.getItem('lr-intro')) {
-            introVeil.style.display = 'none';
-        } else {
-            sessionStorage.setItem('lr-intro', '1');
-            setTimeout(() => introVeil.remove(), 3000);
-        }
-    }
 
     // ---- Toasts ----
     const toastsEl = document.getElementById('toasts');
@@ -1122,6 +1082,118 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('scroll', onAnnounceScroll, { passive: true });
         onAnnounceScroll();
     }
+
+    // ---- Settings menu (gear dropdown, desktop) ----
+    const settingsOpen = document.getElementById('settings-open');
+    const settingsPanel = document.getElementById('settings-panel');
+    if (settingsOpen && settingsPanel) {
+        const closeSettings = () => {
+            settingsPanel.classList.remove('open');
+            settingsOpen.classList.remove('open');
+            settingsOpen.setAttribute('aria-expanded', 'false');
+        };
+        settingsOpen.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const open = settingsPanel.classList.toggle('open');
+            settingsOpen.classList.toggle('open', open);
+            settingsOpen.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+        document.addEventListener('click', (e) => {
+            if (settingsPanel.classList.contains('open') &&
+                !settingsPanel.contains(e.target) && !settingsOpen.contains(e.target)) closeSettings();
+        });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSettings(); });
+    }
+
+    // ---- Mobile quick buttons (inside the hamburger menu) ----
+    const mobileMenuEl = document.getElementById('mobile-menu');
+    const navToggleEl = document.getElementById('nav-toggle');
+    function closeMobileMenu() {
+        if (navToggleEl) navToggleEl.classList.remove('active');
+        if (mobileMenuEl) mobileMenuEl.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    const sOpenM = document.getElementById('search-open-m');
+    if (sOpenM && searchOverlay) sOpenM.addEventListener('click', () => {
+        closeMobileMenu();
+        openModal(searchOverlay); runSearch('');
+        setTimeout(() => searchInput && searchInput.focus(), 350);
+    });
+    const savOpenM = document.getElementById('saved-open-m');
+    if (savOpenM && savedDrawer) savOpenM.addEventListener('click', () => {
+        closeMobileMenu();
+        openModal(savedDrawer);
+    });
+
+    // ---- i18n engine ----
+    const I18N = DATA.i18n || {};
+    const norm = (s) => (s || '').replace(/[‘’']/g, "'").replace(/\s+/g, ' ').trim();
+    function applyLang(lang) {
+        const pack = I18N[lang] || {};
+        const keyed = pack.keyed || {};
+        const ntext = {}, nhtml = {};
+        Object.keys(pack.text || {}).forEach(k => { ntext[norm(k)] = pack.text[k]; });
+        Object.keys(pack.html || {}).forEach(k => { nhtml[norm(k)] = pack.html[k]; });
+
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const k = el.getAttribute('data-i18n');
+            if (el.dataset.en == null) el.dataset.en = el.textContent;
+            el.textContent = (lang === 'en') ? el.dataset.en : (keyed[k] || el.dataset.en);
+        });
+
+        const textSel = '.nav-link,.mobile-link,.hero-subtitle,.title-word,.section-desc,' +
+            '.about-text,.about-feature h4,.about-feature p,.stat-label,.filter-btn,' +
+            '.property-location span,.property-title,.neighborhood-city,.neighborhood-content h3,' +
+            '.neighborhood-content p,.service-card h3,.service-card p,.service-link span,' +
+            '.testimonial-text,.author-info span,.makers-label,.press-label,.press-award span,' +
+            '.recent-label,.recent-clear,.contact-desc,.contact-item h4,.btn-text,.booking-label,' +
+            '.slots-label,.footer-tagline,.footer-links-group h4,.footer-links-group a,' +
+            '.footer-bottom p,.settings-panel-title,.listen-text';
+        document.querySelectorAll(textSel).forEach(el => {
+            if (el.querySelector('[data-eur]')) return;
+            if (el.dataset.en == null) el.dataset.en = el.textContent.trim();
+            el.textContent = (lang === 'en') ? el.dataset.en : (ntext[norm(el.dataset.en)] || el.dataset.en);
+        });
+
+        document.querySelectorAll('.section-title,.luxury-cta-content h2,.exp-text,label').forEach(el => {
+            if (el.dataset.enhtml == null) el.dataset.enhtml = norm(el.innerHTML);
+            const key = norm(el.dataset.enhtml);
+            el.innerHTML = (lang === 'en') ? el.dataset.enhtml : (nhtml[key] || ntext[key] || el.dataset.enhtml);
+        });
+
+        document.documentElement.setAttribute('lang', lang);
+        store.set('lr-lang', lang);
+    }
+
+    // ---- Segmented controls (language / currency / theme / effects) ----
+    const initLang = store.get('lr-lang', 'en');
+    function syncSegs(ctl, val) {
+        document.querySelectorAll('.seg[data-ctl="' + ctl + '"] button')
+            .forEach(b => b.classList.toggle('active', b.dataset.val === val));
+    }
+    syncSegs('lang', initLang);
+    syncSegs('currency', activeCurrency);
+    syncSegs('theme', currentTheme());
+    syncSegs('effects', perfMode);
+
+    document.querySelectorAll('.seg').forEach(seg => {
+        const ctl = seg.dataset.ctl;
+        seg.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const val = btn.dataset.val;
+                if (ctl === 'currency') { applyCurrency(val); syncSegs('currency', val); }
+                else if (ctl === 'theme') { setTheme(val); syncSegs('theme', val); }
+                else if (ctl === 'lang') { applyLang(val); syncSegs('lang', val); }
+                else if (ctl === 'effects') {
+                    if (val === perfMode) return;
+                    localStorage.setItem('lr-perf', val);
+                    location.reload();
+                }
+            });
+        });
+    });
+
+    applyLang(initLang);
 
     // ---- Initialise the stateful pieces ----
     syncSavedUI();

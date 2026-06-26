@@ -49,14 +49,6 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <!-- ============ INTRO VEIL ============ -->
-    <div class="intro-veil" id="intro-veil" aria-hidden="true">
-      <div class="intro-veil-inner">
-        <span class="intro-mark">LR</span>
-        <span class="intro-line">LARS RÉSONANCE</span>
-      </div>
-    </div>
-
     <!-- ============ ANNOUNCEMENT / AMBIENT BAR ============ -->
     <div class="announce" id="announce">
       <p class="announce-text" id="announcement-text">
@@ -95,8 +87,8 @@
         <a href="#" class="nav-logo">
           <span class="logo-text">LA<span class="mobile-hide">RS</span></span>
           <span class="logo-separator">|</span>
-          <span class="logo-text">RÉSONANCE</span>
-          <span class="logo-sub">ATELIER</span>
+          <span class="logo-text">RÉSON</span>
+          <span class="logo-sub">ATEL</span>
         </a>
 
         <ul class="nav-links" id="nav-links">
@@ -126,56 +118,40 @@
         </ul>
 
         <div class="nav-actions">
-          <button class="nav-icon-btn magnetic-btn" id="search-open" aria-label="Search the collection">
+          <button class="nav-icon-btn magnetic-btn nav-only-desktop" id="search-open" aria-label="Search the collection">
             <i data-lucide="search"></i>
           </button>
-          <button class="nav-icon-btn magnetic-btn" id="saved-open" aria-label="Saved instruments">
+          <button class="nav-icon-btn magnetic-btn nav-only-desktop" id="saved-open" aria-label="Saved instruments">
             <i data-lucide="heart"></i>
             <span class="saved-count" id="saved-count" hidden>0</span>
           </button>
-          <select class="currency-select" id="currency-select" aria-label="Currency">
-            <option value="EUR">EUR €</option>
-            <option value="USD">USD $</option>
-            <option value="GBP">GBP £</option>
-            <option value="SEK">SEK kr</option>
-          </select>
-          <button class="nav-cta magnetic-btn">Visit</button>
-          <button
-            class="theme-toggle magnetic-btn"
-            id="theme-toggle"
-            aria-label="Toggle dark mode"
-          >
-            <div class="theme-toggle-track">
-              <div class="theme-toggle-thumb">
-                <svg
-                  class="theme-icon sun-icon"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <circle cx="12" cy="12" r="5" />
-                  <line x1="12" y1="1" x2="12" y2="3" />
-                  <line x1="12" y1="21" x2="12" y2="23" />
-                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                  <line x1="1" y1="12" x2="3" y2="12" />
-                  <line x1="21" y1="12" x2="23" y2="12" />
-                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                  <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-                </svg>
-                <svg
-                  class="theme-icon moon-icon"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-                </svg>
+          <div class="settings-wrap nav-only-desktop">
+            <button class="nav-icon-btn magnetic-btn" id="settings-open" aria-label="Settings" aria-expanded="false">
+              <i data-lucide="settings"></i>
+            </button>
+            <div class="settings-panel" id="settings-panel">
+              <p class="settings-panel-title" data-i18n="settings.title">Preferences</p>
+              <div class="settings-controls">
+                <div class="set-row">
+                  <span class="set-label" data-i18n="settings.language">Language</span>
+                  <div class="seg" data-ctl="lang"><button type="button" data-val="en">EN</button><button type="button" data-val="sv">SV</button></div>
+                </div>
+                <div class="set-row">
+                  <span class="set-label" data-i18n="settings.currency">Currency</span>
+                  <div class="seg" data-ctl="currency"><button type="button" data-val="EUR">€</button><button type="button" data-val="USD">$</button><button type="button" data-val="GBP">£</button><button type="button" data-val="SEK">kr</button></div>
+                </div>
+                <div class="set-row">
+                  <span class="set-label" data-i18n="settings.theme">Theme</span>
+                  <div class="seg" data-ctl="theme"><button type="button" data-val="light" data-i18n="settings.light">Light</button><button type="button" data-val="dark" data-i18n="settings.dark">Dark</button></div>
+                </div>
+                <div class="set-row">
+                  <span class="set-label" data-i18n="settings.effects">Effects</span>
+                  <div class="seg" data-ctl="effects"><button type="button" data-val="full" data-i18n="settings.full">Full</button><button type="button" data-val="lite">Lite</button></div>
+                </div>
               </div>
             </div>
-          </button>
+          </div>
+          <button class="nav-cta magnetic-btn nav-only-desktop" data-i18n="nav.visit">Visit</button>
           <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
             <span></span>
             <span></span>
@@ -197,6 +173,32 @@
           <li><a href="#testimonials" class="mobile-link">Reviews</a></li>
           <li><a href="#contact" class="mobile-link">Contact</a></li>
         </ul>
+
+        <div class="mobile-shortcuts">
+          <div class="mobile-quick">
+            <button type="button" id="search-open-m"><i data-lucide="search"></i><span data-i18n="nav.search">Search</span></button>
+            <button type="button" id="saved-open-m"><i data-lucide="heart"></i><span data-i18n="nav.saved">Saved</span></button>
+          </div>
+          <div class="settings-controls">
+            <div class="set-row">
+              <span class="set-label" data-i18n="settings.language">Language</span>
+              <div class="seg" data-ctl="lang"><button type="button" data-val="en">EN</button><button type="button" data-val="sv">SV</button></div>
+            </div>
+            <div class="set-row">
+              <span class="set-label" data-i18n="settings.currency">Currency</span>
+              <div class="seg" data-ctl="currency"><button type="button" data-val="EUR">€</button><button type="button" data-val="USD">$</button><button type="button" data-val="GBP">£</button><button type="button" data-val="SEK">kr</button></div>
+            </div>
+            <div class="set-row">
+              <span class="set-label" data-i18n="settings.theme">Theme</span>
+              <div class="seg" data-ctl="theme"><button type="button" data-val="light" data-i18n="settings.light">Light</button><button type="button" data-val="dark" data-i18n="settings.dark">Dark</button></div>
+            </div>
+            <div class="set-row">
+              <span class="set-label" data-i18n="settings.effects">Effects</span>
+              <div class="seg" data-ctl="effects"><button type="button" data-val="full" data-i18n="settings.full">Full</button><button type="button" data-val="lite">Lite</button></div>
+            </div>
+          </div>
+        </div>
+
         <div class="mobile-menu-footer">
           <p>+46 (0)8 555 0190</p>
           <p>atelier@larsresonance.com</p>
@@ -281,26 +283,6 @@
         <span class="total-slides">03</span>
       </div>
     </section>
-
-    <!-- ============ MARQUEE BANNER ============ -->
-    <div class="marquee-section">
-      <div class="marquee-track">
-        <div class="marquee-content">
-          <span>Concert Grand Pianos</span><span class="marquee-dot"></span>
-          <span>Studio Monitors</span><span class="marquee-dot"></span>
-          <span>Mixing Consoles</span><span class="marquee-dot"></span>
-          <span>Power Amplifiers</span><span class="marquee-dot"></span>
-          <span>Microphones</span><span class="marquee-dot"></span>
-          <span>Synthesizers</span><span class="marquee-dot"></span>
-          <span>Concert Grand Pianos</span><span class="marquee-dot"></span>
-          <span>Studio Monitors</span><span class="marquee-dot"></span>
-          <span>Mixing Consoles</span><span class="marquee-dot"></span>
-          <span>Power Amplifiers</span><span class="marquee-dot"></span>
-          <span>Microphones</span><span class="marquee-dot"></span>
-          <span>Synthesizers</span><span class="marquee-dot"></span>
-        </div>
-      </div>
-    </div>
 
     <!-- ============ MAKERS BAND ============ -->
     <section class="makers" aria-label="The makers we represent">
@@ -1392,9 +1374,8 @@
         <div class="footer-bottom">
           <p>&copy; 2026 Lars Résonance Atelier. All rights reserved.</p>
           <div class="footer-legal">
-            <a href="#">Policy</a>
-            <a href="#">Service</a>
-            <a href="#">Security</a>
+            <a href="privacy.html" data-i18n="legal.privacy">Privacy Policy</a>
+            <a href="terms.html" data-i18n="legal.terms">Terms of Service</a>
           </div>
         </div>
       </div>
@@ -1485,16 +1466,6 @@
         <button id="perf-banner-yes" class="perf-banner-btn primary">Switch to Lite</button>
         <button id="perf-banner-no" class="perf-banner-btn">No thanks</button>
       </div>
-    </div>
-
-    <!-- ============ PERFORMANCE / EFFECTS TOGGLE ============ -->
-    <div class="perf-toggle" id="perf-toggle">
-      <button class="perf-btn" data-mode="full" aria-label="Full effects">
-        <i data-lucide="sparkles"></i><span>Full</span>
-      </button>
-      <button class="perf-btn" data-mode="lite" aria-label="Lite mode">
-        <i data-lucide="feather"></i><span>Lite</span>
-      </button>
     </div>
 
     <!-- Back to top -->
