@@ -3,11 +3,66 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lars | Résonance — Pianos & High-End Audio Atelier</title>
+    <title>Lars Résonance — Pianos & High-End Audio Atelier</title>
     <meta
       name="description"
       content="A bespoke atelier for concert grand pianos and high-end audio — hand-selected instruments, mastering-grade monitors, consoles, microphones and complete studio design, voiced and installed by master technicians."
     />
+
+    <!-- Social sharing -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Lars Résonance — Pianos & High-End Audio Atelier" />
+    <meta property="og:description" content="Hand-selected concert grands and mastering-grade audio, voiced by master technicians in Stockholm." />
+    <meta property="og:image" content="https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=1200&q=80" />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:locale:alternate" content="sv_SE" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Effects tier: decided BEFORE first paint so nothing flashes.
+         Saved choice wins; otherwise a quick device score picks lite / standard / premium.
+         ?perf=lite|standard|premium in the URL overrides and saves (handy for testing). -->
+    <script>
+      (function () {
+        var d = document.documentElement;
+        d.className += ' js';
+        var TIERS = ['lite', 'standard', 'premium'];
+        var saved = null;
+        try {
+          var q = new URLSearchParams(location.search).get('perf');
+          if (TIERS.indexOf(q) > -1) { localStorage.setItem('lr-perf', q); }
+          saved = localStorage.getItem('lr-perf');
+          if (saved === 'full') { saved = 'premium'; localStorage.setItem('lr-perf', saved); }
+        } catch (e) {}
+        function detect() {
+          if (matchMedia('(prefers-reduced-motion: reduce)').matches) return 'lite';
+          var conn = navigator.connection || {};
+          if (conn.saveData || /2g$/.test(conn.effectiveType || '')) return 'lite';
+          var cores = navigator.hardwareConcurrency || 4;
+          var mem = navigator.deviceMemory || 4;
+          var score = 0;
+          score += cores >= 8 ? 2 : cores >= 6 ? 1 : cores >= 4 ? 0 : -1;
+          score += mem >= 8 ? 2 : mem >= 4 ? 1 : mem >= 2 ? 0 : -1;
+          var gpu = '';
+          try {
+            var c = document.createElement('canvas');
+            var gl = c.getContext('webgl') || c.getContext('experimental-webgl');
+            var ext = gl && gl.getExtension('WEBGL_debug_renderer_info');
+            gpu = ext ? String(gl.getParameter(ext.UNMASKED_RENDERER_WEBGL)).toLowerCase() : '';
+          } catch (e) {}
+          if (/apple m\d|rtx|radeon rx|geforce|nvidia/.test(gpu)) score += 2;
+          else if (/adreno 7|adreno 6[5-9]|mali-g[789]|apple a1[3-9]|apple gpu/.test(gpu)) score += 1;
+          else if (/intel|uhd|iris|adreno [1-5]\d|mali-[t4]/.test(gpu)) score -= 1;
+          if (matchMedia('(pointer: coarse)').matches) score -= 1;
+          if ((conn.effectiveType || '') === '3g') score -= 1;
+          return score >= 4 ? 'premium' : score >= 1 ? 'standard' : 'lite';
+        }
+        d.setAttribute('data-perf', TIERS.indexOf(saved) > -1 ? saved : detect());
+        try {
+          var th = localStorage.getItem('lr-theme') || localStorage.getItem('nylc-theme');
+          if (th) { localStorage.setItem('lr-theme', th); if (th === 'dark') d.setAttribute('data-theme', 'dark'); }
+        } catch (e) {}
+      })();
+    </script>
 
     <!-- Favicon & app icons -->
     <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
@@ -19,39 +74,72 @@
     <meta name="apple-mobile-web-app-title" content="Résonance" />
 
     <!-- Preconnect for performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+    <link rel="preconnect" href="https://images.unsplash.com" />
 
-    <!-- Premium Typography -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap"
-      rel="stylesheet"
-    />
+    <!-- LCP: the first hero image gets a head start -->
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=1600&q=80" fetchpriority="high" />
 
-    <!-- GSAP for premium animations -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
-
-    <!-- Swiper for elegant sliders -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-    <!-- Lenis smooth scroll -->
-    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
-
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Typography: self-hosted variable fonts (no Google requests, one file per family) -->
+    <link rel="preload" href="fonts/cormorant-garamond.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="fonts/dm-sans.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="css/fonts.css" />
 
     <link rel="stylesheet" href="css/style.css" />
+
+    <!-- App modules (ES modules, no build step). Preloaded so the import graph loads in one round-trip. -->
+    <link rel="modulepreload" href="js/app.js" />
+    <link rel="modulepreload" href="js/data.js" />
+    <link rel="modulepreload" href="js/modules/env.js" />
+    <link rel="modulepreload" href="js/modules/i18n.js" />
+    <link rel="modulepreload" href="js/modules/theme.js" />
+    <link rel="modulepreload" href="js/modules/ui.js" />
+    <link rel="modulepreload" href="js/modules/scroll.js" />
+    <link rel="modulepreload" href="js/modules/hero.js" />
+    <link rel="modulepreload" href="js/modules/motion.js" />
+    <link rel="modulepreload" href="js/modules/collection.js" />
+    <link rel="modulepreload" href="js/modules/sliders.js" />
+    <link rel="modulepreload" href="js/modules/booking.js" />
+    <link rel="modulepreload" href="js/modules/form.js" />
+    <link rel="modulepreload" href="js/modules/ambient.js" />
+    <link rel="modulepreload" href="js/modules/settings.js" />
+    <link rel="modulepreload" href="js/modules/perf-probe.js" />
+    <link rel="modulepreload" href="js/modules/chat.js" />
+
+    <!-- Libraries: pinned versions, deferred so they never block first paint.
+         main.js feature-detects each one and degrades gracefully if a CDN is unreachable. -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11.1.14/swiper-bundle.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.469.0/dist/umd/lucide.min.js" defer></script>
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "MusicStore",
+        "name": "Lars Résonance Atelier",
+        "description": "Bespoke atelier for concert grand pianos and high-end studio audio.",
+        "telephone": "+46 8 555 0190",
+        "email": "atelier@larsresonance.com",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Strandvägen 7A",
+          "postalCode": "114 56",
+          "addressLocality": "Stockholm",
+          "addressCountry": "SE"
+        },
+        "openingHours": "Mo-Sa 09:00-18:00",
+        "image": "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=1200&q=80"
+      }
+    </script>
   </head>
   <body>
     <!-- ============ ANNOUNCEMENT / AMBIENT BAR ============ -->
     <div class="announce" id="announce">
-      <p class="announce-text" id="announcement-text">
+      <p class="announce-text" id="announcement-text" data-i18n="announce.base">
         Private auditions by appointment — Strandvägen 7A, Stockholm
       </p>
     </div>
@@ -63,8 +151,7 @@
     <div class="toasts" id="toasts" aria-live="polite" aria-atomic="false"></div>
 
     <!-- ============ CUSTOM CURSOR ============ -->
-    <div class="cursor" id="cursor"></div>
-    <div class="cursor-follower" id="cursor-follower"></div>
+    <div class="cursor-follower" id="cursor-follower" aria-hidden="true"></div>
 
     <!-- ============ PRELOADER ============ -->
     <div class="preloader" id="preloader">
@@ -84,7 +171,7 @@
     <!-- ============ NAVIGATION ============ -->
     <header class="header" id="header">
       <nav class="nav">
-        <a href="#" class="nav-logo">
+        <a href="#hero" class="nav-logo">
           <span class="logo-text">LA<span class="mobile-hide">RS</span></span>
           <span class="logo-separator">|</span>
           <span class="logo-text">RÉSON</span>
@@ -93,41 +180,41 @@
 
         <ul class="nav-links" id="nav-links">
           <li>
-            <a href="#hero" class="nav-link active" data-hover="Home">Home</a>
+            <a href="#hero" class="nav-link active" data-hover="Home" data-i18n="nav.home">Home</a>
           </li>
           <li>
-            <a href="#about" class="nav-link" data-hover="Atelier">Atelier</a>
+            <a href="#about" class="nav-link" data-hover="Atelier" data-i18n="nav.atelier">Atelier</a>
           </li>
           <li>
-            <a href="#properties" class="nav-link" data-hover="Collection">Collection</a
+            <a href="#collection" class="nav-link" data-hover="Collection" data-i18n="nav.collection">Collection</a
             >
           </li>
           <li>
-            <a href="#services" class="nav-link" data-hover="Services"
+            <a href="#services" class="nav-link" data-hover="Services" data-i18n="nav.services"
               >Services</a
             >
           </li>
           <li>
-            <a href="#testimonials" class="nav-link" data-hover="Reviews"
+            <a href="#testimonials" class="nav-link" data-hover="Reviews" data-i18n="nav.reviews"
               >Reviews</a
             >
           </li>
           <li>
-            <a href="#contact" class="nav-link" data-hover="Contact">Contact</a>
+            <a href="#contact" class="nav-link" data-hover="Contact" data-i18n="nav.contact">Contact</a>
           </li>
         </ul>
 
         <div class="nav-actions">
-          <button class="nav-icon-btn magnetic-btn nav-only-desktop" id="search-open" aria-label="Search the collection">
-            <i data-lucide="search"></i>
+          <button class="nav-icon-btn magnetic-btn nav-only-desktop" id="search-open" aria-label="Search the collection" data-i18n-aria="nav.search-the-collection">
+            <i data-lucide="search" aria-hidden="true"></i>
           </button>
-          <button class="nav-icon-btn magnetic-btn nav-only-desktop" id="saved-open" aria-label="Saved instruments">
-            <i data-lucide="heart"></i>
+          <button class="nav-icon-btn magnetic-btn nav-only-desktop" id="saved-open" aria-label="Saved instruments" data-i18n-aria="nav.saved-instruments">
+            <i data-lucide="heart" aria-hidden="true"></i>
             <span class="saved-count" id="saved-count" hidden>0</span>
           </button>
           <div class="settings-wrap nav-only-desktop">
-            <button class="nav-icon-btn magnetic-btn" id="settings-open" aria-label="Settings" aria-expanded="false">
-              <i data-lucide="settings"></i>
+            <button class="nav-icon-btn magnetic-btn" id="settings-open" aria-label="Settings" aria-expanded="false" data-i18n-aria="nav.settings">
+              <i data-lucide="settings" aria-hidden="true"></i>
             </button>
             <div class="settings-panel" id="settings-panel">
               <p class="settings-panel-title" data-i18n="settings.title">Preferences</p>
@@ -146,13 +233,13 @@
                 </div>
                 <div class="set-row">
                   <span class="set-label" data-i18n="settings.effects">Effects</span>
-                  <div class="seg" data-ctl="effects"><button type="button" data-val="full" data-i18n="settings.full">Full</button><button type="button" data-val="lite">Lite</button></div>
+                  <div class="seg" data-ctl="effects"><button type="button" data-val="lite" data-i18n="settings.lite">Lite</button><button type="button" data-val="standard" data-i18n="settings.standard">Standard</button><button type="button" data-val="premium" data-i18n="settings.premium">Premium</button></div>
                 </div>
               </div>
             </div>
           </div>
-          <button class="nav-cta magnetic-btn nav-only-desktop" data-i18n="nav.visit">Visit</button>
-          <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+          <a href="#contact" class="nav-cta magnetic-btn nav-only-desktop" data-i18n="nav.visit">Visit</a>
+          <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" data-i18n-aria="nav.toggle-menu">
             <span></span>
             <span></span>
             <span></span>
@@ -165,19 +252,19 @@
     <div class="mobile-menu" id="mobile-menu">
       <div class="mobile-menu-inner">
         <ul class="mobile-menu-links">
-          <li><a href="#hero" class="mobile-link">Home</a></li>
-          <li><a href="#about" class="mobile-link">Atelier</a></li>
-          <li><a href="#properties" class="mobile-link">Collection</a></li>
-          <li><a href="#neighborhoods" class="mobile-link">Spaces</a></li>
-          <li><a href="#services" class="mobile-link">Services</a></li>
-          <li><a href="#testimonials" class="mobile-link">Reviews</a></li>
-          <li><a href="#contact" class="mobile-link">Contact</a></li>
+          <li><a href="#hero" class="mobile-link" data-i18n="nav.home">Home</a></li>
+          <li><a href="#about" class="mobile-link" data-i18n="nav.atelier">Atelier</a></li>
+          <li><a href="#collection" class="mobile-link" data-i18n="nav.collection">Collection</a></li>
+          <li><a href="#spaces" class="mobile-link" data-i18n="nav.spaces">Spaces</a></li>
+          <li><a href="#services" class="mobile-link" data-i18n="nav.services">Services</a></li>
+          <li><a href="#testimonials" class="mobile-link" data-i18n="nav.reviews">Reviews</a></li>
+          <li><a href="#contact" class="mobile-link" data-i18n="nav.contact">Contact</a></li>
         </ul>
 
         <div class="mobile-shortcuts">
           <div class="mobile-quick">
-            <button type="button" id="search-open-m"><i data-lucide="search"></i><span data-i18n="nav.search">Search</span></button>
-            <button type="button" id="saved-open-m"><i data-lucide="heart"></i><span data-i18n="nav.saved">Saved</span></button>
+            <button type="button" id="search-open-m"><i data-lucide="search" aria-hidden="true"></i><span data-i18n="nav.search">Search</span></button>
+            <button type="button" id="saved-open-m"><i data-lucide="heart" aria-hidden="true"></i><span data-i18n="nav.saved">Saved</span></button>
           </div>
           <div class="settings-controls">
             <div class="set-row">
@@ -194,7 +281,7 @@
             </div>
             <div class="set-row">
               <span class="set-label" data-i18n="settings.effects">Effects</span>
-              <div class="seg" data-ctl="effects"><button type="button" data-val="full" data-i18n="settings.full">Full</button><button type="button" data-val="lite">Lite</button></div>
+              <div class="seg" data-ctl="effects"><button type="button" data-val="lite" data-i18n="settings.lite">Lite</button><button type="button" data-val="standard" data-i18n="settings.standard">Standard</button><button type="button" data-val="premium" data-i18n="settings.premium">Premium</button></div>
             </div>
           </div>
         </div>
@@ -211,70 +298,56 @@
       <div class="hero-bg">
         <div
           class="hero-slide active"
-          style="
-            background-image: url(&quot;https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=1920&q=80&quot;);
-          "
+          style="background-image: url(&quot;https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=1600&q=80&quot;)"
         ></div>
-        <div
-          class="hero-slide"
-          style="
-            background-image: url(&quot;https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1920&q=80&quot;);
-          "
-        ></div>
-        <div
-          class="hero-slide"
-          style="
-            background-image: url(&quot;https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=1920&q=80&quot;);
-          "
-        ></div>
+        <div class="hero-slide" data-bg="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1600&q=80"></div>
+        <div class="hero-slide" data-bg="https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=1600&q=80"></div>
         <div class="hero-overlay"></div>
       </div>
-
-      <div class="hero-particles" id="hero-particles"></div>
 
       <div class="hero-content">
         <div class="hero-badge">
           <span class="badge-line"></span>
-          <span class="badge-text">Concert<span class="mobile-hide"> Grade</span></span>
+          <span class="badge-text" data-i18n-html="hero.concert-grade">Concert<span class="mobile-hide"> Grade</span></span>
           <span class="badge-line"></span>
         </div>
         <h1 class="hero-title">
           <span class="title-line"
-            ><span class="title-word">Where Sound</span></span
+            ><span class="title-word" data-i18n="hero.where-sound">Where Sound</span></span
           >
           <span class="title-line"
-            ><span class="title-word">Becomes</span>
-            <span class="title-word accent">Soul</span></span
+            ><span class="title-word" data-i18n="hero.becomes">Becomes</span>
+            <span class="title-word accent" data-i18n="hero.soul">Soul</span></span
           >
         </h1>
-        <p class="hero-subtitle">
+        <p class="hero-subtitle" data-i18n="hero.hand-selected-concert">
           Hand-selected concert grands and mastering-grade audio, voiced by
           master technicians. From the first key to the final mix — every detail
           tuned to perfection.
         </p>
         <div class="hero-actions">
-          <a href="#properties" class="btn btn-primary magnetic-btn">
-            <span class="btn-text">The Collection</span>
-            <span class="btn-icon"><i data-lucide="arrow-right"></i></span>
+          <a href="#collection" class="btn btn-primary magnetic-btn">
+            <span class="btn-text" data-i18n="hero.the-collection">The Collection</span>
+            <span class="btn-icon"><i data-lucide="arrow-right" aria-hidden="true"></i></span>
           </a>
           <a href="#about" class="btn btn-outline magnetic-btn">
-            <span class="btn-text">Our Craft</span>
+            <span class="btn-text" data-i18n="hero.our-craft">Our Craft</span>
           </a>
-          <button class="hero-listen magnetic-btn" id="hero-listen" aria-label="Play a note">
+          <button class="hero-listen magnetic-btn" id="hero-listen" aria-label="Play a note" data-i18n-aria="hero.play-a-note">
             <span class="listen-icon">
-              <i data-lucide="play"></i>
+              <i data-lucide="play" aria-hidden="true"></i>
             </span>
             <span class="listen-bars" aria-hidden="true">
               <span></span><span></span><span></span><span></span>
             </span>
-            <span class="listen-text">Play a note</span>
+            <span class="listen-text" data-i18n="hero.play-a-note">Play a note</span>
           </button>
         </div>
       </div>
 
       <div class="hero-scroll-indicator">
         <div class="scroll-line"></div>
-        <span>Scroll to listen</span>
+        <span data-i18n="hero.scroll-to-listen">Scroll to listen</span>
       </div>
 
       <div class="hero-slide-counter">
@@ -285,9 +358,9 @@
     </section>
 
     <!-- ============ MAKERS BAND ============ -->
-    <section class="makers" aria-label="The makers we represent">
+    <section class="makers" aria-label="The makers we represent" data-i18n-aria="hero.the-makers-we">
       <div class="container">
-        <p class="makers-label">The Makers We Represent</p>
+        <p class="makers-label" data-i18n="makers.the-makers-we">The Makers We Represent</p>
         <div class="makers-row">
           <span class="maker">Steinway &amp; Sons</span>
           <span class="maker">Bösendorfer</span>
@@ -308,6 +381,12 @@
             <div class="about-img-wrapper img-reveal">
               <img
                 src="https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=800&q=80"
+
+                srcset="https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=480&q=75 480w, https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=800&q=80 800w, https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=1200&q=80 1200w"
+
+                sizes="(max-width: 1024px) 100vw, 50vw"
+
+                decoding="async"
                 alt="Grand piano craftsmanship"
                 class="about-img-main"
               />
@@ -321,25 +400,25 @@
             </div>
             <div class="about-experience">
               <span class="exp-number" data-count="40">0</span>
-              <span class="exp-text">Years of<br />Craftsmanship</span>
+              <span class="exp-text" data-i18n-html="about.years-of-craftsmanship">Years of<br />Craftsmanship</span>
             </div>
           </div>
           <div class="about-content">
             <div class="section-tag">
               <span class="tag-line"></span>
-              <span>The Atelier</span>
+              <span data-i18n-html="about.the-atelier">The Atelier</span>
               <span class="tag-line"></span>
             </div>
-            <h2 class="section-title split-text">
+            <h2 class="section-title split-text" data-i18n-html="about.sound-uncompromised">
               Sound, <em>Uncompromised</em>
             </h2>
-            <p class="about-text">
+            <p class="about-text" data-i18n="about.lars-r-sonance">
               Lars Résonance was founded on a single conviction: that an
               instrument and the room it lives in deserve the same obsessive care
               as the music itself. We curate concert grands and reference audio
               from the world's finest makers — then make them sing.
             </p>
-            <p class="about-text">
+            <p class="about-text" data-i18n="about.from-a-steinway">
               From a Steinway voiced by hand to a mastering suite tuned to the
               millimetre, our master technicians treat every project as a
               one-off commission. Nothing leaves the atelier until it sounds
@@ -349,27 +428,27 @@
             <div class="about-features">
               <div class="about-feature">
                 <div class="feature-icon">
-                  <i data-lucide="award"></i>
+                  <i data-lucide="award" aria-hidden="true"></i>
                 </div>
                 <div>
-                  <h4>Master Technicians</h4>
-                  <p>Concert-level tuning, voicing and regulation by hand</p>
+                  <h4 data-i18n="about.master-technicians">Master Technicians</h4>
+                  <p data-i18n="about.concert-level-tuning">Concert-level tuning, voicing and regulation by hand</p>
                 </div>
               </div>
               <div class="about-feature">
                 <div class="feature-icon">
-                  <i data-lucide="globe"></i>
+                  <i data-lucide="globe" aria-hidden="true"></i>
                 </div>
                 <div>
-                  <h4>World's Finest Makers</h4>
-                  <p>An exclusive curation of grands, consoles and reference audio</p>
+                  <h4 data-i18n="about.world-s-finest">World's Finest Makers</h4>
+                  <p data-i18n="about.an-exclusive-curation">An exclusive curation of grands, consoles and reference audio</p>
                 </div>
               </div>
             </div>
 
             <a href="#contact" class="btn btn-primary magnetic-btn">
-              <span class="btn-text">Book a Private Audition</span>
-              <span class="btn-icon"><i data-lucide="arrow-right"></i></span>
+              <span class="btn-text" data-i18n="about.book-a-private">Book a Private Audition</span>
+              <span class="btn-icon"><i data-lucide="arrow-right" aria-hidden="true"></i></span>
             </a>
           </div>
         </div>
@@ -381,7 +460,7 @@
       <div
         class="stats-bg"
         style="
-          background-image: url(&quot;https://images.unsplash.com/photo-1487215078519-e21cc028cb29?w=1920&q=80&quot;);
+          background-image: url(&quot;https://images.unsplash.com/photo-1487215078519-e21cc028cb29?w=1600&q=75&quot;);
         "
       ></div>
       <div class="stats-overlay"></div>
@@ -390,473 +469,563 @@
           <div class="stat-item">
             <span class="stat-number" data-count="1200">0</span>
             <span class="stat-suffix">+</span>
-            <span class="stat-label">Instruments Voiced</span>
+            <span class="stat-label" data-i18n="stats.instruments-voiced">Instruments Voiced</span>
           </div>
           <div class="stat-divider"></div>
           <div class="stat-item">
             <span class="stat-number" data-count="240">0</span>
             <span class="stat-suffix">+</span>
-            <span class="stat-label">Studios Designed</span>
+            <span class="stat-label" data-i18n="stats.studios-designed">Studios Designed</span>
           </div>
           <div class="stat-divider"></div>
           <div class="stat-item">
             <span class="stat-number" data-count="40">0</span>
-            <span class="stat-suffix">yrs</span>
-            <span class="stat-label">Of Craftsmanship</span>
+            <span class="stat-suffix" data-i18n="stats.yrs">yrs</span>
+            <span class="stat-label" data-i18n="stats.of-craftsmanship">Of Craftsmanship</span>
           </div>
           <div class="stat-divider"></div>
           <div class="stat-item">
             <span class="stat-number" data-count="18">0</span>
             <span class="stat-suffix">+</span>
-            <span class="stat-label">Master Technicians</span>
+            <span class="stat-label" data-i18n="stats.master-technicians">Master Technicians</span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ============ SOLUTIONS SECTION ============ -->
-    <section class="properties" id="properties">
+    <!-- ============ COLLECTION SECTION ============ -->
+    <section class="collection" id="collection">
       <div class="container">
         <div class="section-header">
           <div class="section-tag">
             <span class="tag-line"></span>
-            <span>The Collection</span>
+            <span data-i18n-html="collection.the-collection">The Collection</span>
             <span class="tag-line"></span>
           </div>
-          <h2 class="section-title split-text">
+          <h2 class="section-title split-text" data-i18n-html="collection.instruments-without-equal">
             Instruments, <em>Without</em> Equal
           </h2>
-          <p class="section-desc">
+          <p class="section-desc" data-i18n="collection.a-curated-house">
             A curated house of concert grands, reference monitors, consoles and
             studio instruments — each selected, voiced and delivered by hand.
           </p>
         </div>
 
-        <div class="property-filters">
-          <button class="filter-btn active" data-filter="all">
+        <div class="piece-filters">
+          <button class="filter-btn active" data-filter="all" aria-pressed="true" data-i18n="collection.everything">
             Everything
           </button>
-          <button class="filter-btn" data-filter="pianos">Pianos &amp; Keys</button>
-          <button class="filter-btn" data-filter="studio">Studio &amp; Audio</button>
-          <button class="filter-btn" data-filter="service">Atelier Services</button>
+          <button class="filter-btn" data-filter="pianos" aria-pressed="false" data-i18n="collection.pianos-keys">Pianos &amp; Keys</button>
+          <button class="filter-btn" data-filter="studio" aria-pressed="false" data-i18n="collection.studio-audio">Studio &amp; Audio</button>
+          <button class="filter-btn" data-filter="service" aria-pressed="false" data-i18n="collection.atelier-services">Atelier Services</button>
         </div>
 
-        <div class="property-grid">
+        <div class="piece-grid">
           <!-- Piece 1 -->
-          <div class="property-card" data-category="pianos" data-id="konzert-grand">
-            <div class="property-image">
+          <div class="piece-card" data-category="pianos" data-id="konzert-grand">
+            <div class="piece-image">
               <img
                 src="https://images.unsplash.com/photo-1552422535-c45813c61732?w=800&q=80"
+
+                srcset="https://images.unsplash.com/photo-1552422535-c45813c61732?w=480&q=75 480w, https://images.unsplash.com/photo-1552422535-c45813c61732?w=800&q=80 800w, https://images.unsplash.com/photo-1552422535-c45813c61732?w=1200&q=80 1200w"
+
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+
+                decoding="async"
                 alt="Concert grand piano"
                 loading="lazy"
               />
-              <div class="property-overlay">
-                <span class="property-tag">Flagship</span>
+              <div class="piece-overlay">
+                <span class="piece-tag" data-i18n="collection.flagship">Flagship</span>
                 <button
-                  class="property-favorite magnetic-btn"
+                  class="piece-favorite magnetic-btn"
                   aria-label="Save piece"
-                >
-                  <i data-lucide="heart"></i>
+                 data-i18n-aria="collection.save-piece">
+                  <i data-lucide="heart" aria-hidden="true"></i>
                 </button>
               </div>
-              <div class="property-quick-view">
-                <span>View Details</span>
-                <i data-lucide="arrow-up-right"></i>
+              <div class="piece-quick-view">
+                <span data-i18n="collection.view-details">View Details</span>
+                <i data-lucide="arrow-up-right" aria-hidden="true"></i>
               </div>
             </div>
-            <div class="property-info">
-              <div class="property-location">
-                <i data-lucide="piano"></i>
-                <span>Concert Grand</span>
+            <div class="piece-info">
+              <div class="piece-location">
+                <i data-lucide="piano" aria-hidden="true"></i>
+                <span data-i18n="collection.concert-grand">Concert Grand</span>
               </div>
-              <h3 class="property-title">Konzert Grand 280</h3>
-              <p class="property-price">Price on Request</p>
-              <div class="property-details">
-                <span><i data-lucide="ruler"></i> 280 cm</span>
-                <span><i data-lucide="hand"></i> Hand-Voiced</span>
-                <span><i data-lucide="trees"></i> Spruce</span>
+              <h3 class="piece-title" data-i18n="collection.konzert-grand-280">Konzert Grand 280</h3>
+              <p class="piece-price" data-i18n-html="collection.price-on-request">Price on Request</p>
+              <div class="piece-details">
+                <span><i data-lucide="ruler" aria-hidden="true"></i> <span data-i18n="collection.280-cm">280 cm</span></span>
+                <span><i data-lucide="hand" aria-hidden="true"></i> <span data-i18n="collection.hand-voiced">Hand-Voiced</span></span>
+                <span><i data-lucide="trees" aria-hidden="true"></i> <span data-i18n="collection.spruce">Spruce</span></span>
               </div>
             </div>
           </div>
 
           <!-- Piece 2 -->
-          <div class="property-card" data-category="studio" data-id="reference-monitors">
-            <div class="property-image">
+          <div class="piece-card" data-category="studio" data-id="reference-monitors">
+            <div class="piece-image">
               <img
                 src="https://images.unsplash.com/photo-1470019693664-1d202d2c0907?w=800&q=80"
+
+                srcset="https://images.unsplash.com/photo-1470019693664-1d202d2c0907?w=480&q=75 480w, https://images.unsplash.com/photo-1470019693664-1d202d2c0907?w=800&q=80 800w, https://images.unsplash.com/photo-1470019693664-1d202d2c0907?w=1200&q=80 1200w"
+
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+
+                decoding="async"
                 alt="Reference studio monitors"
                 loading="lazy"
               />
-              <div class="property-overlay">
-                <span class="property-tag">Reference</span>
+              <div class="piece-overlay">
+                <span class="piece-tag" data-i18n="collection.reference">Reference</span>
                 <button
-                  class="property-favorite magnetic-btn"
+                  class="piece-favorite magnetic-btn"
                   aria-label="Save piece"
-                >
-                  <i data-lucide="heart"></i>
+                 data-i18n-aria="collection.save-piece">
+                  <i data-lucide="heart" aria-hidden="true"></i>
                 </button>
               </div>
-              <div class="property-quick-view">
-                <span>View Details</span>
-                <i data-lucide="arrow-up-right"></i>
+              <div class="piece-quick-view">
+                <span data-i18n="collection.view-details">View Details</span>
+                <i data-lucide="arrow-up-right" aria-hidden="true"></i>
               </div>
             </div>
-            <div class="property-info">
-              <div class="property-location">
-                <i data-lucide="speaker"></i>
-                <span>Main Monitors + Power Amp</span>
+            <div class="piece-info">
+              <div class="piece-location">
+                <i data-lucide="speaker" aria-hidden="true"></i>
+                <span data-i18n="collection.main-monitors-power">Main Monitors + Power Amp</span>
               </div>
-              <h3 class="property-title">Référence Monitor System</h3>
-              <p class="property-price">From <span data-eur="36500">€36,500</span> / pair</p>
-              <div class="property-details">
-                <span><i data-lucide="activity"></i> 3-Way</span>
-                <span><i data-lucide="zap"></i> Class-A Amp</span>
-                <span><i data-lucide="waves"></i> 20Hz–40kHz</span>
+              <h3 class="piece-title" data-i18n="collection.r-f-rence">Référence Monitor System</h3>
+              <p class="piece-price" data-i18n-html="collection.from-36-500">From <span data-eur="36500">€36,500</span> / pair</p>
+              <div class="piece-details">
+                <span><i data-lucide="activity" aria-hidden="true"></i> <span data-i18n="collection.3-way">3-Way</span></span>
+                <span><i data-lucide="zap" aria-hidden="true"></i> <span data-i18n="collection.class-a-amp">Class-A Amp</span></span>
+                <span><i data-lucide="waves" aria-hidden="true"></i> <span data-i18n="collection.20hz-40khz">20Hz–40kHz</span></span>
               </div>
             </div>
           </div>
 
           <!-- Piece 3 -->
-          <div class="property-card" data-category="service" data-id="studio-design">
-            <div class="property-image">
+          <div class="piece-card" data-category="service" data-id="studio-design">
+            <div class="piece-image">
               <img
                 src="https://images.unsplash.com/photo-1564186763535-ebb21ef5277f?w=800&q=80"
+
+                srcset="https://images.unsplash.com/photo-1564186763535-ebb21ef5277f?w=480&q=75 480w, https://images.unsplash.com/photo-1564186763535-ebb21ef5277f?w=800&q=80 800w, https://images.unsplash.com/photo-1564186763535-ebb21ef5277f?w=1200&q=80 1200w"
+
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+
+                decoding="async"
                 alt="Bespoke studio design"
                 loading="lazy"
               />
-              <div class="property-overlay">
-                <span class="property-tag">Bespoke</span>
+              <div class="piece-overlay">
+                <span class="piece-tag" data-i18n="collection.bespoke">Bespoke</span>
                 <button
-                  class="property-favorite magnetic-btn"
+                  class="piece-favorite magnetic-btn"
                   aria-label="Save piece"
-                >
-                  <i data-lucide="heart"></i>
+                 data-i18n-aria="collection.save-piece">
+                  <i data-lucide="heart" aria-hidden="true"></i>
                 </button>
               </div>
-              <div class="property-quick-view">
-                <span>View Details</span>
-                <i data-lucide="arrow-up-right"></i>
+              <div class="piece-quick-view">
+                <span data-i18n="collection.view-details">View Details</span>
+                <i data-lucide="arrow-up-right" aria-hidden="true"></i>
               </div>
             </div>
-            <div class="property-info">
-              <div class="property-location">
-                <i data-lucide="drafting-compass"></i>
-                <span>Turnkey Studio Build</span>
+            <div class="piece-info">
+              <div class="piece-location">
+                <i data-lucide="drafting-compass" aria-hidden="true"></i>
+                <span data-i18n="collection.turnkey-studio-build">Turnkey Studio Build</span>
               </div>
-              <h3 class="property-title">Bespoke Studio Design</h3>
-              <p class="property-price">Commission Only</p>
-              <div class="property-details">
-                <span><i data-lucide="ear"></i> Acoustics</span>
-                <span><i data-lucide="cable"></i> Wiring</span>
-                <span><i data-lucide="ruler"></i> Treatment</span>
+              <h3 class="piece-title" data-i18n="collection.bespoke-studio-design">Bespoke Studio Design</h3>
+              <p class="piece-price" data-i18n-html="collection.commission-only">Commission Only</p>
+              <div class="piece-details">
+                <span><i data-lucide="ear" aria-hidden="true"></i> <span data-i18n="collection.acoustics">Acoustics</span></span>
+                <span><i data-lucide="cable" aria-hidden="true"></i> <span data-i18n="collection.wiring">Wiring</span></span>
+                <span><i data-lucide="ruler" aria-hidden="true"></i> <span data-i18n="collection.treatment">Treatment</span></span>
               </div>
             </div>
           </div>
 
           <!-- Piece 4 -->
-          <div class="property-card" data-category="pianos studio" data-id="synth-collection">
-            <div class="property-image">
+          <div class="piece-card" data-category="pianos studio" data-id="synth-collection">
+            <div class="piece-image">
               <img
                 src="https://images.unsplash.com/photo-1535992165812-68d1861aa71e?w=800&q=80"
+
+                srcset="https://images.unsplash.com/photo-1535992165812-68d1861aa71e?w=480&q=75 480w, https://images.unsplash.com/photo-1535992165812-68d1861aa71e?w=800&q=80 800w, https://images.unsplash.com/photo-1535992165812-68d1861aa71e?w=1200&q=80 1200w"
+
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+
+                decoding="async"
                 alt="Analogue synthesizers and keyboards"
                 loading="lazy"
               />
-              <div class="property-overlay">
-                <span class="property-tag">Iconic</span>
+              <div class="piece-overlay">
+                <span class="piece-tag" data-i18n="collection.iconic">Iconic</span>
                 <button
-                  class="property-favorite magnetic-btn"
+                  class="piece-favorite magnetic-btn"
                   aria-label="Save piece"
-                >
-                  <i data-lucide="heart"></i>
+                 data-i18n-aria="collection.save-piece">
+                  <i data-lucide="heart" aria-hidden="true"></i>
                 </button>
               </div>
-              <div class="property-quick-view">
-                <span>View Details</span>
-                <i data-lucide="arrow-up-right"></i>
+              <div class="piece-quick-view">
+                <span data-i18n="collection.view-details">View Details</span>
+                <i data-lucide="arrow-up-right" aria-hidden="true"></i>
               </div>
             </div>
-            <div class="property-info">
-              <div class="property-location">
-                <i data-lucide="audio-lines"></i>
-                <span>Synths &amp; Keyboards</span>
+            <div class="piece-info">
+              <div class="piece-location">
+                <i data-lucide="audio-lines" aria-hidden="true"></i>
+                <span data-i18n="collection.synths-keyboards">Synths &amp; Keyboards</span>
               </div>
-              <h3 class="property-title">Analogue Synth Collection</h3>
-              <p class="property-price">From <span data-eur="4200">€4,200</span></p>
-              <div class="property-details">
-                <span><i data-lucide="sliders-horizontal"></i> Analog</span>
-                <span><i data-lucide="piano"></i> 88 Keys</span>
-                <span><i data-lucide="cpu"></i> Polyphonic</span>
+              <h3 class="piece-title" data-i18n="collection.analogue-synth-collection">Analogue Synth Collection</h3>
+              <p class="piece-price" data-i18n-html="collection.from-4-200">From <span data-eur="4200">€4,200</span></p>
+              <div class="piece-details">
+                <span><i data-lucide="sliders-horizontal" aria-hidden="true"></i> <span data-i18n="collection.analog">Analog</span></span>
+                <span><i data-lucide="piano" aria-hidden="true"></i> <span data-i18n="collection.88-keys">88 Keys</span></span>
+                <span><i data-lucide="cpu" aria-hidden="true"></i> <span data-i18n="collection.polyphonic">Polyphonic</span></span>
               </div>
             </div>
           </div>
 
           <!-- Piece 5 -->
-          <div class="property-card" data-category="studio service" data-id="mixing-console">
-            <div class="property-image">
+          <div class="piece-card" data-category="studio service" data-id="mixing-console">
+            <div class="piece-image">
               <img
                 src="https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=800&q=80"
+
+                srcset="https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=480&q=75 480w, https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=800&q=80 800w, https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=1200&q=80 1200w"
+
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+
+                decoding="async"
                 alt="Analogue mixing console"
                 loading="lazy"
               />
-              <div class="property-overlay">
-                <span class="property-tag">Hand-Built</span>
+              <div class="piece-overlay">
+                <span class="piece-tag" data-i18n="collection.hand-built">Hand-Built</span>
                 <button
-                  class="property-favorite magnetic-btn"
+                  class="piece-favorite magnetic-btn"
                   aria-label="Save piece"
-                >
-                  <i data-lucide="heart"></i>
+                 data-i18n-aria="collection.save-piece">
+                  <i data-lucide="heart" aria-hidden="true"></i>
                 </button>
               </div>
-              <div class="property-quick-view">
-                <span>View Details</span>
-                <i data-lucide="arrow-up-right"></i>
+              <div class="piece-quick-view">
+                <span data-i18n="collection.view-details">View Details</span>
+                <i data-lucide="arrow-up-right" aria-hidden="true"></i>
               </div>
             </div>
-            <div class="property-info">
-              <div class="property-location">
-                <i data-lucide="sliders-vertical"></i>
-                <span>Mixing &amp; Mastering Console</span>
+            <div class="piece-info">
+              <div class="piece-location">
+                <i data-lucide="sliders-vertical" aria-hidden="true"></i>
+                <span data-i18n="collection.mixing-mastering-console">Mixing &amp; Mastering Console</span>
               </div>
-              <h3 class="property-title">Analogue Mixing Console</h3>
-              <p class="property-price">By Appointment</p>
-              <div class="property-details">
-                <span><i data-lucide="git-commit-horizontal"></i> 48 Ch</span>
-                <span><i data-lucide="disc-3"></i> Discrete</span>
-                <span><i data-lucide="settings-2"></i> Recall</span>
+              <h3 class="piece-title" data-i18n="collection.analogue-mixing-console">Analogue Mixing Console</h3>
+              <p class="piece-price" data-i18n-html="collection.by-appointment">By Appointment</p>
+              <div class="piece-details">
+                <span><i data-lucide="git-commit-horizontal" aria-hidden="true"></i> <span data-i18n="collection.48-ch">48 Ch</span></span>
+                <span><i data-lucide="disc-3" aria-hidden="true"></i> <span data-i18n="collection.discrete">Discrete</span></span>
+                <span><i data-lucide="settings-2" aria-hidden="true"></i> <span data-i18n="collection.recall">Recall</span></span>
               </div>
             </div>
           </div>
 
           <!-- Piece 6 -->
-          <div class="property-card" data-category="studio" data-id="tube-mic">
-            <div class="property-image">
+          <div class="piece-card" data-category="studio" data-id="tube-mic">
+            <div class="piece-image">
               <img
                 src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=800&q=80"
+
+                srcset="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=480&q=75 480w, https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=800&q=80 800w, https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=1200&q=80 1200w"
+
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+
+                decoding="async"
                 alt="Tube studio microphone"
                 loading="lazy"
               />
-              <div class="property-overlay">
-                <span class="property-tag">Legendary</span>
+              <div class="piece-overlay">
+                <span class="piece-tag" data-i18n="collection.legendary">Legendary</span>
                 <button
-                  class="property-favorite magnetic-btn"
+                  class="piece-favorite magnetic-btn"
                   aria-label="Save piece"
-                >
-                  <i data-lucide="heart"></i>
+                 data-i18n-aria="collection.save-piece">
+                  <i data-lucide="heart" aria-hidden="true"></i>
                 </button>
               </div>
-              <div class="property-quick-view">
-                <span>View Details</span>
-                <i data-lucide="arrow-up-right"></i>
+              <div class="piece-quick-view">
+                <span data-i18n="collection.view-details">View Details</span>
+                <i data-lucide="arrow-up-right" aria-hidden="true"></i>
               </div>
             </div>
-            <div class="property-info">
-              <div class="property-location">
-                <i data-lucide="mic"></i>
-                <span>Tube Microphone</span>
+            <div class="piece-info">
+              <div class="piece-location">
+                <i data-lucide="mic" aria-hidden="true"></i>
+                <span data-i18n="collection.tube-microphone">Tube Microphone</span>
               </div>
-              <h3 class="property-title">Vintage Tube Microphone</h3>
-              <p class="property-price">From <span data-eur="9800">€9,800</span></p>
-              <div class="property-details">
-                <span><i data-lucide="circle-dot"></i> Cardioid</span>
-                <span><i data-lucide="flame"></i> Tube</span>
-                <span><i data-lucide="gem"></i> Hand-Made</span>
+              <h3 class="piece-title" data-i18n="collection.vintage-tube-microphone">Vintage Tube Microphone</h3>
+              <p class="piece-price" data-i18n-html="collection.from-9-800">From <span data-eur="9800">€9,800</span></p>
+              <div class="piece-details">
+                <span><i data-lucide="circle-dot" aria-hidden="true"></i> <span data-i18n="collection.cardioid">Cardioid</span></span>
+                <span><i data-lucide="flame" aria-hidden="true"></i> <span data-i18n="collection.tube">Tube</span></span>
+                <span><i data-lucide="gem" aria-hidden="true"></i> <span data-i18n="collection.hand-made">Hand-Made</span></span>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="properties-cta">
-          <a href="#" class="btn btn-outline-dark magnetic-btn">
-            <span class="btn-text">View the Full Catalogue</span>
-            <span class="btn-icon"><i data-lucide="arrow-right"></i></span>
-          </a>
+        <div class="collection-cta">
+          <button type="button" class="btn btn-outline-dark magnetic-btn" id="catalogue-open">
+            <span class="btn-text" data-i18n="collection.view-the-full">View the Full Catalogue</span>
+            <span class="btn-icon"><i data-lucide="arrow-right" aria-hidden="true"></i></span>
+          </button>
         </div>
       </div>
     </section>
 
     <!-- ============ RECENTLY VIEWED ============ -->
-    <section class="recent" id="recent" hidden aria-label="Recently viewed">
+    <section class="recent" id="recent" hidden aria-label="Recently viewed" data-i18n-aria="collection.recently-viewed">
       <div class="container">
         <div class="recent-head">
-          <span class="recent-label">Recently Viewed</span>
-          <button class="recent-clear" id="recent-clear">Clear</button>
+          <span class="recent-label" data-i18n="recent.recently-viewed">Recently Viewed</span>
+          <button class="recent-clear" id="recent-clear" data-i18n="recent.clear">Clear</button>
         </div>
         <div class="recent-row" id="recent-row"></div>
       </div>
     </section>
 
-    <!-- ============ INDUSTRIES SECTION ============ -->
-    <section class="neighborhoods" id="neighborhoods">
+    <!-- ============ SPACES SECTION ============ -->
+    <section class="spaces" id="spaces">
       <div class="container">
         <div class="section-header">
           <div class="section-tag light">
             <span class="tag-line"></span>
-            <span>Spaces<span class="mobile-hide"> We Tune</span></span>
+            <span data-i18n-html="spaces.spaces-we-tune">Spaces<span class="mobile-hide"> We Tune</span></span>
             <span class="tag-line"></span>
           </div>
-          <h2 class="section-title light split-text">
+          <h2 class="section-title light split-text" data-i18n-html="spaces.heard-in-the-finest-rooms">
             Heard In The <em>Finest</em> Rooms
           </h2>
-          <p class="section-desc light">
+          <p class="section-desc light" data-i18n="spaces.from-concert-halls">
             From concert halls to private residences, we craft the instrument
             and the acoustics to suit every space we touch.
           </p>
         </div>
       </div>
 
-      <div class="neighborhood-slider">
-        <div class="swiper neighborhood-swiper">
+      <div class="space-slider">
+        <div class="swiper space-swiper">
           <div class="swiper-wrapper">
             <div class="swiper-slide">
-              <div class="neighborhood-card">
-                <div class="neighborhood-img">
+              <div class="space-card">
+                <div class="space-img">
                   <img
                     src="https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=800&q=80"
+
+                    srcset="https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=480&q=75 480w, https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=800&q=80 800w, https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=1200&q=80 1200w"
+
+                    sizes="(max-width: 640px) 85vw, (max-width: 1024px) 55vw, 40vw"
+
+                    decoding="async"
                     alt="Concert Halls"
                     loading="lazy"
                   />
                 </div>
-                <div class="neighborhood-content">
-                  <span class="neighborhood-city">Stage</span>
-                  <h3>Concert Halls</h3>
-                  <p>Concert grands prepared for the world's great stages</p>
-                  <span class="neighborhood-count">120+ Venues</span>
+                <div class="space-content">
+                  <span class="space-city" data-i18n="spaces.stage">Stage</span>
+                  <h3 data-i18n="spaces.concert-halls">Concert Halls</h3>
+                  <p data-i18n="spaces.concert-grands-prepared">Concert grands prepared for the world's great stages</p>
+                  <span class="space-count" data-i18n="spaces.120-venues">120+ Venues</span>
                 </div>
               </div>
             </div>
             <div class="swiper-slide">
-              <div class="neighborhood-card">
-                <div class="neighborhood-img">
+              <div class="space-card">
+                <div class="space-img">
                   <img
                     src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800&q=80"
+
+                    srcset="https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=480&q=75 480w, https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800&q=80 800w, https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=1200&q=80 1200w"
+
+                    sizes="(max-width: 640px) 85vw, (max-width: 1024px) 55vw, 40vw"
+
+                    decoding="async"
                     alt="Recording Studios"
                     loading="lazy"
                   />
                 </div>
-                <div class="neighborhood-content">
-                  <span class="neighborhood-city">Studio</span>
-                  <h3>Recording Studios</h3>
-                  <p>Consoles, monitors and mics for world-class rooms</p>
-                  <span class="neighborhood-count">240+ Studios</span>
+                <div class="space-content">
+                  <span class="space-city" data-i18n="spaces.studio">Studio</span>
+                  <h3 data-i18n="spaces.recording-studios">Recording Studios</h3>
+                  <p data-i18n="spaces.consoles-monitors-and">Consoles, monitors and mics for world-class rooms</p>
+                  <span class="space-count" data-i18n="spaces.240-studios">240+ Studios</span>
                 </div>
               </div>
             </div>
             <div class="swiper-slide">
-              <div class="neighborhood-card">
-                <div class="neighborhood-img">
+              <div class="space-card">
+                <div class="space-img">
                   <img
                     src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=80"
+
+                    srcset="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=480&q=75 480w, https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=80 800w, https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1200&q=80 1200w"
+
+                    sizes="(max-width: 640px) 85vw, (max-width: 1024px) 55vw, 40vw"
+
+                    decoding="async"
                     alt="Private Residences"
                     loading="lazy"
                   />
                 </div>
-                <div class="neighborhood-content">
-                  <span class="neighborhood-city">Private</span>
-                  <h3>Private Residences</h3>
-                  <p>Salon grands and listening rooms for collectors</p>
-                  <span class="neighborhood-count">650+ Homes</span>
+                <div class="space-content">
+                  <span class="space-city" data-i18n="spaces.private">Private</span>
+                  <h3 data-i18n="spaces.private-residences">Private Residences</h3>
+                  <p data-i18n="spaces.salon-grands-and">Salon grands and listening rooms for collectors</p>
+                  <span class="space-count" data-i18n="spaces.650-homes">650+ Homes</span>
                 </div>
               </div>
             </div>
             <div class="swiper-slide">
-              <div class="neighborhood-card">
-                <div class="neighborhood-img">
+              <div class="space-card">
+                <div class="space-img">
                   <img
                     src="https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800&q=80"
+
+                    srcset="https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=480&q=75 480w, https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800&q=80 800w, https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=1200&q=80 1200w"
+
+                    sizes="(max-width: 640px) 85vw, (max-width: 1024px) 55vw, 40vw"
+
+                    decoding="async"
                     alt="Conservatories"
                     loading="lazy"
                   />
                 </div>
-                <div class="neighborhood-content">
-                  <span class="neighborhood-city">Academy</span>
-                  <h3>Conservatories</h3>
-                  <p>Practice and performance pianos for institutions</p>
-                  <span class="neighborhood-count">90+ Academies</span>
+                <div class="space-content">
+                  <span class="space-city" data-i18n="spaces.academy">Academy</span>
+                  <h3 data-i18n="spaces.conservatories">Conservatories</h3>
+                  <p data-i18n="spaces.practice-and-performance">Practice and performance pianos for institutions</p>
+                  <span class="space-count" data-i18n="spaces.90-academies">90+ Academies</span>
                 </div>
               </div>
             </div>
             <div class="swiper-slide">
-              <div class="neighborhood-card">
-                <div class="neighborhood-img">
+              <div class="space-card">
+                <div class="space-img">
                   <img
                     src="https://images.unsplash.com/photo-1525362081669-2b476bb628c3?w=800&q=80"
+
+                    srcset="https://images.unsplash.com/photo-1525362081669-2b476bb628c3?w=480&q=75 480w, https://images.unsplash.com/photo-1525362081669-2b476bb628c3?w=800&q=80 800w, https://images.unsplash.com/photo-1525362081669-2b476bb628c3?w=1200&q=80 1200w"
+
+                    sizes="(max-width: 640px) 85vw, (max-width: 1024px) 55vw, 40vw"
+
+                    decoding="async"
                     alt="Houses of Worship"
                     loading="lazy"
                   />
                 </div>
-                <div class="neighborhood-content">
-                  <span class="neighborhood-city">Sacred</span>
-                  <h3>Houses of Worship</h3>
-                  <p>Acoustic instruments and discreet sound systems</p>
-                  <span class="neighborhood-count">300+ Spaces</span>
+                <div class="space-content">
+                  <span class="space-city" data-i18n="spaces.sacred">Sacred</span>
+                  <h3 data-i18n="spaces.houses-of-worship">Houses of Worship</h3>
+                  <p data-i18n="spaces.acoustic-instruments-and">Acoustic instruments and discreet sound systems</p>
+                  <span class="space-count" data-i18n="spaces.300-spaces">300+ Spaces</span>
                 </div>
               </div>
             </div>
             <div class="swiper-slide">
-              <div class="neighborhood-card">
-                <div class="neighborhood-img">
+              <div class="space-card">
+                <div class="space-img">
                   <img
                     src="https://images.unsplash.com/photo-1598653222000-6b7b7a552625?w=800&q=80"
+
+                    srcset="https://images.unsplash.com/photo-1598653222000-6b7b7a552625?w=480&q=75 480w, https://images.unsplash.com/photo-1598653222000-6b7b7a552625?w=800&q=80 800w, https://images.unsplash.com/photo-1598653222000-6b7b7a552625?w=1200&q=80 1200w"
+
+                    sizes="(max-width: 640px) 85vw, (max-width: 1024px) 55vw, 40vw"
+
+                    decoding="async"
                     alt="Broadcast & Film"
                     loading="lazy"
                   />
                 </div>
-                <div class="neighborhood-content">
-                  <span class="neighborhood-city">Broadcast</span>
-                  <h3>Broadcast &amp; Film</h3>
-                  <p>Scoring stages and post suites tuned for picture</p>
-                  <span class="neighborhood-count">75+ Stages</span>
+                <div class="space-content">
+                  <span class="space-city" data-i18n="spaces.broadcast">Broadcast</span>
+                  <h3 data-i18n="spaces.broadcast-film">Broadcast &amp; Film</h3>
+                  <p data-i18n="spaces.scoring-stages-and">Scoring stages and post suites tuned for picture</p>
+                  <span class="space-count" data-i18n="spaces.75-stages">75+ Stages</span>
                 </div>
               </div>
             </div>
             <div class="swiper-slide">
-              <div class="neighborhood-card">
-                <div class="neighborhood-img">
+              <div class="space-card">
+                <div class="space-img">
                   <img
                     src="https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800&q=80"
+
+                    srcset="https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=480&q=75 480w, https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800&q=80 800w, https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=1200&q=80 1200w"
+
+                    sizes="(max-width: 640px) 85vw, (max-width: 1024px) 55vw, 40vw"
+
+                    decoding="async"
                     alt="Opera & Ballet"
                     loading="lazy"
                   />
                 </div>
-                <div class="neighborhood-content">
-                  <span class="neighborhood-city">Grand</span>
-                  <h3>Opera &amp; Ballet</h3>
-                  <p>Pit and stage instruments for the grandest productions</p>
-                  <span class="neighborhood-count">60+ Houses</span>
+                <div class="space-content">
+                  <span class="space-city" data-i18n="spaces.grand">Grand</span>
+                  <h3 data-i18n="spaces.opera-ballet">Opera &amp; Ballet</h3>
+                  <p data-i18n="spaces.pit-and-stage">Pit and stage instruments for the grandest productions</p>
+                  <span class="space-count" data-i18n="spaces.60-houses">60+ Houses</span>
                 </div>
               </div>
             </div>
             <div class="swiper-slide">
-              <div class="neighborhood-card">
-                <div class="neighborhood-img">
+              <div class="space-card">
+                <div class="space-img">
                   <img
                     src="https://images.unsplash.com/photo-1500336624523-d727130c3328?w=800&q=80"
+
+                    srcset="https://images.unsplash.com/photo-1500336624523-d727130c3328?w=480&q=75 480w, https://images.unsplash.com/photo-1500336624523-d727130c3328?w=800&q=80 800w, https://images.unsplash.com/photo-1500336624523-d727130c3328?w=1200&q=80 1200w"
+
+                    sizes="(max-width: 640px) 85vw, (max-width: 1024px) 55vw, 40vw"
+
+                    decoding="async"
                     alt="Jazz & Supper Clubs"
                     loading="lazy"
                   />
                 </div>
-                <div class="neighborhood-content">
-                  <span class="neighborhood-city">Intimate</span>
-                  <h3>Jazz &amp; Supper Clubs</h3>
-                  <p>Salon grands and warm rooms for intimate nights</p>
-                  <span class="neighborhood-count">180+ Clubs</span>
+                <div class="space-content">
+                  <span class="space-city" data-i18n="spaces.intimate">Intimate</span>
+                  <h3 data-i18n="spaces.jazz-supper-clubs">Jazz &amp; Supper Clubs</h3>
+                  <p data-i18n="spaces.salon-grands-and-2">Salon grands and warm rooms for intimate nights</p>
+                  <span class="space-count" data-i18n="spaces.180-clubs">180+ Clubs</span>
                 </div>
               </div>
             </div>
             <div class="swiper-slide">
-              <div class="neighborhood-card">
-                <div class="neighborhood-img">
+              <div class="space-card">
+                <div class="space-img">
                   <img
                     src="https://images.unsplash.com/photo-1471478331149-c72f17e33c73?w=800&q=80"
+
+                    srcset="https://images.unsplash.com/photo-1471478331149-c72f17e33c73?w=480&q=75 480w, https://images.unsplash.com/photo-1471478331149-c72f17e33c73?w=800&q=80 800w, https://images.unsplash.com/photo-1471478331149-c72f17e33c73?w=1200&q=80 1200w"
+
+                    sizes="(max-width: 640px) 85vw, (max-width: 1024px) 55vw, 40vw"
+
+                    decoding="async"
                     alt="Mastering Suites"
                     loading="lazy"
                   />
                 </div>
-                <div class="neighborhood-content">
-                  <span class="neighborhood-city">Precision</span>
-                  <h3>Mastering Suites</h3>
-                  <p>Reference rooms tuned for the final master</p>
-                  <span class="neighborhood-count">140+ Suites</span>
+                <div class="space-content">
+                  <span class="space-city" data-i18n="spaces.precision">Precision</span>
+                  <h3 data-i18n="spaces.mastering-suites">Mastering Suites</h3>
+                  <p data-i18n="spaces.reference-rooms-tuned">Reference rooms tuned for the final master</p>
+                  <span class="space-count" data-i18n="spaces.140-suites">140+ Suites</span>
                 </div>
               </div>
             </div>
@@ -866,15 +1035,15 @@
           <button
             class="swiper-btn swiper-btn-prev magnetic-btn"
             aria-label="Previous slide"
-          >
-            <i data-lucide="arrow-left"></i>
+           data-i18n-aria="spaces.previous-slide">
+            <i data-lucide="arrow-left" aria-hidden="true"></i>
           </button>
           <div class="swiper-pagination-custom"></div>
           <button
             class="swiper-btn swiper-btn-next magnetic-btn"
             aria-label="Next slide"
-          >
-            <i data-lucide="arrow-right"></i>
+           data-i18n-aria="spaces.next-slide">
+            <i data-lucide="arrow-right" aria-hidden="true"></i>
           </button>
         </div>
       </div>
@@ -886,10 +1055,10 @@
         <div class="section-header">
           <div class="section-tag">
             <span class="tag-line"></span>
-            <span>The Craft</span>
+            <span data-i18n-html="services.the-craft">The Craft</span>
             <span class="tag-line"></span>
           </div>
-          <h2 class="section-title split-text">
+          <h2 class="section-title split-text" data-i18n-html="services.atelier-services">
             Atelier <em>Services</em>
           </h2>
         </div>
@@ -898,68 +1067,68 @@
           <div class="service-card">
             <div class="service-number">01</div>
             <div class="service-icon">
-              <i data-lucide="search-check"></i>
+              <i data-lucide="search-check" aria-hidden="true"></i>
             </div>
-            <h3>Bespoke Selection</h3>
-            <p>
+            <h3 data-i18n="services.bespoke-selection">Bespoke Selection</h3>
+            <p data-i18n="services.we-listen-first">
               We listen first. Then we hand-pick the instrument or system that
               suits your touch, your repertoire and your room — sourced from the
               world's most revered makers.
             </p>
-            <a href="#" class="service-link">
-              <span>Learn More</span>
-              <i data-lucide="arrow-right"></i>
+            <a href="#contact" class="service-link" data-interest="grand-pianos">
+              <span data-i18n="services.learn-more">Learn More</span>
+              <i data-lucide="arrow-right" aria-hidden="true"></i>
             </a>
           </div>
 
           <div class="service-card">
             <div class="service-number">02</div>
             <div class="service-icon">
-              <i data-lucide="sliders-horizontal"></i>
+              <i data-lucide="sliders-horizontal" aria-hidden="true"></i>
             </div>
-            <h3>Tuning &amp; Voicing</h3>
-            <p>
+            <h3 data-i18n="services.tuning-voicing">Tuning &amp; Voicing</h3>
+            <p data-i18n="services.concert-level-tuning">
               Concert-level tuning, regulation and voicing by hand. We shape
               every hammer and key until the instrument responds exactly the way
               the artist imagines it.
             </p>
-            <a href="#" class="service-link">
-              <span>Learn More</span>
-              <i data-lucide="arrow-right"></i>
+            <a href="#contact" class="service-link" data-interest="grand-pianos">
+              <span data-i18n="services.learn-more">Learn More</span>
+              <i data-lucide="arrow-right" aria-hidden="true"></i>
             </a>
           </div>
 
           <div class="service-card">
             <div class="service-number">03</div>
             <div class="service-icon">
-              <i data-lucide="drafting-compass"></i>
+              <i data-lucide="drafting-compass" aria-hidden="true"></i>
             </div>
-            <h3>Studio &amp; Acoustics</h3>
-            <p>
+            <h3 data-i18n="services.studio-acoustics">Studio &amp; Acoustics</h3>
+            <p data-i18n="services.turnkey-studio-design">
               Turnkey studio design — room acoustics, treatment, monitoring,
               consoles and wiring. We engineer a space where every decision you
               make on the mix is the right one.
             </p>
-            <a href="#" class="service-link">
-              <span>Learn More</span>
-              <i data-lucide="arrow-right"></i>
+            <a href="#contact" class="service-link" data-interest="studio-build">
+              <span data-i18n="services.learn-more">Learn More</span>
+              <i data-lucide="arrow-right" aria-hidden="true"></i>
             </a>
           </div>
 
           <div class="service-card">
             <div class="service-number">04</div>
             <div class="service-icon">
-              <i data-lucide="truck"></i>
+              <i data-lucide="truck" aria-hidden="true"></i>
             </div>
-            <h3>White-Glove Delivery</h3>
-            <p>
+            <h3 data-i18n="services.white-glove-delivery">White-Glove Delivery</h3>
+            <p data-i18n="services.climate-controlled-transport">
               Climate-controlled transport, expert installation and final
               on-site voicing — plus lifetime aftercare. Your instrument arrives
               ready to perform, never merely delivered.
             </p>
-            <a href="#" class="service-link">
-              <span>Learn More</span>
-              <i data-lucide="arrow-right"></i>
+            <a href="#contact" class="service-link">
+              <span data-i18n="services.learn-more">Learn More</span>
+              <i data-lucide="arrow-right" aria-hidden="true"></i>
             </a>
           </div>
         </div>
@@ -969,25 +1138,26 @@
     <!-- ============ LUXURY CTA SECTION ============ -->
     <section class="luxury-cta">
       <div class="luxury-cta-bg">
-        <video autoplay muted loop playsinline class="luxury-video">
-          <source
-            src="https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-city-traffic-at-night-11-large.mp4"
-            type="video/mp4"
-          />
-        </video>
+        <img
+          class="luxury-cta-img"
+          src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=1600&q=75"
+          alt=""
+          loading="lazy"
+          decoding="async"
+        />
         <div class="luxury-cta-overlay"></div>
       </div>
       <div class="container">
         <div class="luxury-cta-content">
-          <h2 class="split-text">Hear The <em>Difference</em></h2>
-          <p>
+          <h2 class="split-text" data-i18n-html="luxury-cta.hear-the-difference">Hear The <em>Difference</em></h2>
+          <p data-i18n="luxury-cta.whether-it-s">
             Whether it's a single concert grand or a complete mastering suite,
             our atelier composes a setup tuned entirely to you — and delivers it
             ready to play.
           </p>
           <a href="#contact" class="btn btn-gold magnetic-btn">
-            <span class="btn-text">Book a Private Audition</span>
-            <span class="btn-icon"><i data-lucide="arrow-right"></i></span>
+            <span class="btn-text" data-i18n="luxury-cta.book-a-private">Book a Private Audition</span>
+            <span class="btn-icon"><i data-lucide="arrow-right" aria-hidden="true"></i></span>
           </a>
         </div>
       </div>
@@ -999,10 +1169,10 @@
         <div class="section-header">
           <div class="section-tag">
             <span class="tag-line"></span>
-            <span>In Their Words</span>
+            <span data-i18n-html="testimonials.in-their-words">In Their Words</span>
             <span class="tag-line"></span>
           </div>
-          <h2 class="section-title split-text">
+          <h2 class="section-title split-text" data-i18n-html="testimonials.trusted-by-artists">
             Trusted by <em>Artists</em>
           </h2>
         </div>
@@ -1012,9 +1182,9 @@
             <div class="swiper-slide">
               <div class="testimonial-card">
                 <div class="testimonial-quote">
-                  <i data-lucide="quote"></i>
+                  <i data-lucide="quote" aria-hidden="true"></i>
                 </div>
-                <p class="testimonial-text">
+                <p class="testimonial-text" data-i18n="testimonials.the-grand-they">
                   "The grand they voiced for my recital hall is the finest
                   instrument I have ever played. Every register sings — the
                   touch is effortless, the tone simply pours out."
@@ -1029,7 +1199,7 @@
                   </div>
                   <div class="author-info">
                     <h4>Marcus Reynolds</h4>
-                    <span>Concert Pianist</span>
+                    <span data-i18n="testimonials.concert-pianist">Concert Pianist</span>
                   </div>
                 </div>
               </div>
@@ -1037,9 +1207,9 @@
             <div class="swiper-slide">
               <div class="testimonial-card">
                 <div class="testimonial-quote">
-                  <i data-lucide="quote"></i>
+                  <i data-lucide="quote" aria-hidden="true"></i>
                 </div>
-                <p class="testimonial-text">
+                <p class="testimonial-text" data-i18n="testimonials.they-designed-our">
                   "They designed our entire mastering room — acoustics, monitors,
                   console, the lot. For the first time, what I hear in the studio
                   is exactly what lands on the record."
@@ -1054,7 +1224,7 @@
                   </div>
                   <div class="author-info">
                     <h4>Amanda Kowalski</h4>
-                    <span>Mastering Engineer</span>
+                    <span data-i18n="testimonials.mastering-engineer">Mastering Engineer</span>
                   </div>
                 </div>
               </div>
@@ -1062,9 +1232,9 @@
             <div class="swiper-slide">
               <div class="testimonial-card">
                 <div class="testimonial-quote">
-                  <i data-lucide="quote"></i>
+                  <i data-lucide="quote" aria-hidden="true"></i>
                 </div>
-                <p class="testimonial-text">
+                <p class="testimonial-text" data-i18n="testimonials.from-the-first">
                   "From the first phone call to the final voicing in my home,
                   the attention to detail was extraordinary. This is a house that
                   treats sound as an art form."
@@ -1079,7 +1249,7 @@
                   </div>
                   <div class="author-info">
                     <h4>David Thornton</h4>
-                    <span>Composer &amp; Collector</span>
+                    <span data-i18n="testimonials.composer-collector">Composer &amp; Collector</span>
                   </div>
                 </div>
               </div>
@@ -1091,9 +1261,9 @@
     </section>
 
     <!-- ============ PRESS / AWARDS BAND ============ -->
-    <section class="press" aria-label="Press and recognition">
+    <section class="press" aria-label="Press and recognition" data-i18n-aria="testimonials.press-and-recognition">
       <div class="container">
-        <p class="press-label">As Featured In</p>
+        <p class="press-label" data-i18n="press.as-featured-in">As Featured In</p>
         <div class="press-row">
           <span class="press-name">Gramophone</span>
           <span class="press-dot"></span>
@@ -1107,16 +1277,16 @@
         </div>
         <div class="press-awards">
           <div class="press-award">
-            <i data-lucide="award"></i>
-            <span>MusicTech Gold Award 2025</span>
+            <i data-lucide="award" aria-hidden="true"></i>
+            <span data-i18n="press.musictech-gold-award">MusicTech Gold Award 2025</span>
           </div>
           <div class="press-award">
-            <i data-lucide="badge-check"></i>
-            <span>Steinway Certified Atelier</span>
+            <i data-lucide="badge-check" aria-hidden="true"></i>
+            <span data-i18n="press.steinway-certified-atelier">Steinway Certified Atelier</span>
           </div>
           <div class="press-award">
-            <i data-lucide="star"></i>
-            <span>40 Years of Craftsmanship</span>
+            <i data-lucide="star" aria-hidden="true"></i>
+            <span data-i18n="press.40-years-of">40 Years of Craftsmanship</span>
           </div>
         </div>
       </div>
@@ -1129,13 +1299,13 @@
           <div class="contact-info">
             <div class="section-tag light">
               <span class="tag-line"></span>
-              <span>Get In Touch</span>
+              <span data-i18n-html="contact.get-in-touch">Get In Touch</span>
               <span class="tag-line"></span>
             </div>
-            <h2 class="section-title light split-text">
+            <h2 class="section-title light split-text" data-i18n-html="contact.book-a-private-audition">
               Book a <em>Private</em> Audition
             </h2>
-            <p class="contact-desc">
+            <p class="contact-desc" data-i18n="contact.visit-the-atelier">
               Visit the atelier for a private audition, or invite us to your
               space. We'll listen to what you need and propose an instrument or
               studio composed entirely for you — no obligation.
@@ -1144,37 +1314,37 @@
             <div class="contact-details">
               <div class="contact-item">
                 <div class="contact-icon">
-                  <i data-lucide="map-pin"></i>
+                  <i data-lucide="map-pin" aria-hidden="true"></i>
                 </div>
                 <div>
-                  <h4>Showroom</h4>
+                  <h4 data-i18n="contact.showroom">Showroom</h4>
                   <p>Strandvägen 7A<br />114 56 Stockholm</p>
                 </div>
               </div>
               <div class="contact-item">
                 <div class="contact-icon">
-                  <i data-lucide="map-pin"></i>
+                  <i data-lucide="map-pin" aria-hidden="true"></i>
                 </div>
                 <div>
-                  <h4>The Atelier</h4>
+                  <h4 data-i18n="contact.the-atelier">The Atelier</h4>
                   <p>Nybrogatan 34, Workshop 2<br />114 39 Stockholm</p>
                 </div>
               </div>
               <div class="contact-item">
                 <div class="contact-icon">
-                  <i data-lucide="phone"></i>
+                  <i data-lucide="phone" aria-hidden="true"></i>
                 </div>
                 <div>
-                  <h4>Call Us</h4>
+                  <h4 data-i18n="contact.call-us">Call Us</h4>
                   <p>Sales: +46 (0)8 555 0190<br />Atelier: +46 (0)8 555 0191</p>
                 </div>
               </div>
               <div class="contact-item">
                 <div class="contact-icon">
-                  <i data-lucide="mail"></i>
+                  <i data-lucide="mail" aria-hidden="true"></i>
                 </div>
                 <div>
-                  <h4>Email</h4>
+                  <h4 data-i18n="contact.email">Email</h4>
                   <p>atelier@larsresonance.com</p>
                 </div>
               </div>
@@ -1182,7 +1352,11 @@
           </div>
 
           <div class="contact-form-wrapper">
-            <form class="contact-form" id="contact-form">
+            <form class="contact-form" id="contact-form" novalidate>
+              <div class="field-hp" aria-hidden="true">
+                <label for="website">Website</label>
+                <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+              </div>
               <div class="form-row">
                 <div class="form-group">
                   <input
@@ -1192,8 +1366,9 @@
                     required
                     placeholder=" "
                   />
-                  <label for="firstName">First Name</label>
+                  <label for="firstName" data-i18n="contact.first-name">First Name</label>
                   <span class="form-line"></span>
+                <span class="field-error" data-error-for="firstName" aria-live="polite"></span>
                 </div>
                 <div class="form-group">
                   <input
@@ -1203,8 +1378,9 @@
                     required
                     placeholder=" "
                   />
-                  <label for="lastName">Last Name</label>
+                  <label for="lastName" data-i18n="contact.last-name">Last Name</label>
                   <span class="form-line"></span>
+                <span class="field-error" data-error-for="lastName" aria-live="polite"></span>
                 </div>
               </div>
               <div class="form-group">
@@ -1215,46 +1391,48 @@
                   required
                   placeholder=" "
                 />
-                <label for="email">Work Email</label>
+                <label for="email" data-i18n="contact.email-address">Email Address</label>
                 <span class="form-line"></span>
+                <span class="field-error" data-error-for="email" aria-live="polite"></span>
               </div>
               <div class="form-group">
                 <input type="tel" id="phone" name="phone" placeholder=" " />
-                <label for="phone">Phone Number</label>
+                <label for="phone" data-i18n="contact.phone-number">Phone Number</label>
                 <span class="form-line"></span>
               </div>
               <div class="form-group">
                 <select id="interest" name="interest" required>
                   <option value="" disabled selected></option>
-                  <option value="grand-pianos">Grand &amp; Upright Pianos</option>
-                  <option value="synths-keys">Synths &amp; Keyboards</option>
-                  <option value="monitors">Monitors &amp; Power Amps</option>
-                  <option value="console-mics">Consoles &amp; Microphones</option>
-                  <option value="studio-build">Full Studio Build</option>
+                  <option value="grand-pianos" data-i18n="contact.grand-upright-pianos">Grand &amp; Upright Pianos</option>
+                  <option value="synths-keys" data-i18n="contact.synths-keyboards">Synths &amp; Keyboards</option>
+                  <option value="monitors" data-i18n="contact.monitors-power-amps">Monitors &amp; Power Amps</option>
+                  <option value="console-mics" data-i18n="contact.consoles-microphones">Consoles &amp; Microphones</option>
+                  <option value="studio-build" data-i18n="contact.full-studio-build">Full Studio Build</option>
                 </select>
-                <label for="interest">I'm Interested In</label>
+                <label for="interest" data-i18n="contact.i-m-interested">I'm Interested In</label>
                 <span class="form-line"></span>
+                <span class="field-error" data-error-for="interest" aria-live="polite"></span>
               </div>
               <div class="booking">
-                <span class="booking-label">Preferred date — private audition</span>
+                <span class="booking-label" data-i18n="contact.preferred-date-private">Preferred date — private audition</span>
                 <div class="calendar" id="calendar">
                   <div class="calendar-head">
-                    <button type="button" class="cal-nav" id="cal-prev" aria-label="Previous month">
-                      <i data-lucide="chevron-left"></i>
+                    <button type="button" class="cal-nav" id="cal-prev" aria-label="Previous month" data-i18n-aria="contact.previous-month">
+                      <i data-lucide="chevron-left" aria-hidden="true"></i>
                     </button>
                     <span class="cal-month" id="cal-month"></span>
-                    <button type="button" class="cal-nav" id="cal-next" aria-label="Next month">
-                      <i data-lucide="chevron-right"></i>
+                    <button type="button" class="cal-nav" id="cal-next" aria-label="Next month" data-i18n-aria="contact.next-month">
+                      <i data-lucide="chevron-right" aria-hidden="true"></i>
                     </button>
                   </div>
                   <div class="cal-weekdays">
-                    <span>Mo</span><span>Tu</span><span>We</span><span>Th</span>
-                    <span>Fr</span><span>Sa</span><span>Su</span>
+                    <span data-i18n="contact.mo">Mo</span><span data-i18n="contact.tu">Tu</span><span data-i18n="contact.we">We</span><span data-i18n="contact.th">Th</span>
+                    <span data-i18n="contact.fr">Fr</span><span data-i18n="contact.sa">Sa</span><span data-i18n="contact.su">Su</span>
                   </div>
                   <div class="cal-grid" id="cal-grid"></div>
                 </div>
                 <div class="time-slots" id="time-slots" hidden>
-                  <span class="slots-label">Choose a time</span>
+                  <span class="slots-label" data-i18n="contact.choose-a-time">Choose a time</span>
                   <div class="slots-row">
                     <button type="button" class="slot" data-time="10:00">10:00</button>
                     <button type="button" class="slot" data-time="12:30">12:30</button>
@@ -1273,12 +1451,14 @@
                   required
                   placeholder=" "
                 ></textarea>
-                <label for="message">Tell Us About Your Project</label>
+                <label for="message" data-i18n="contact.tell-us-about">Tell Us About Your Project</label>
                 <span class="form-line"></span>
+                <span class="field-error" data-error-for="message" aria-live="polite"></span>
               </div>
+              <p class="form-status" id="form-status" role="status" aria-live="polite" tabindex="-1"></p>
               <button type="submit" class="btn btn-gold btn-full magnetic-btn">
-                <span class="btn-text">Request a Private Audition</span>
-                <span class="btn-icon"><i data-lucide="send"></i></span>
+                <span class="btn-text" data-i18n="contact.request-a-private">Request a Private Audition</span>
+                <span class="btn-icon"><i data-lucide="send" aria-hidden="true"></i></span>
               </button>
             </form>
           </div>
@@ -1291,18 +1471,18 @@
       <div class="container">
         <div class="footer-top">
           <div class="footer-brand">
-            <a href="#" class="footer-logo">
+            <a href="#hero" class="footer-logo">
               <span class="logo-text">LARS</span>
               <span class="logo-separator">|</span>
               <span class="logo-text">RÉSONANCE</span>
               <span class="logo-sub">ATELIER</span>
             </a>
-            <p class="footer-tagline">
+            <p class="footer-tagline" data-i18n="footer.a-bespoke-atelier">
               A bespoke atelier for concert grands and high-end audio. Sound,
               perfected by hand.
             </p>
             <div class="footer-socials">
-              <a href="#" class="social-link magnetic-btn" aria-label="Instagram">
+              <a href="https://www.instagram.com/larsresonance" target="_blank" rel="noopener" class="social-link magnetic-btn" aria-label="Instagram">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                   stroke-linecap="round" stroke-linejoin="round">
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
@@ -1310,13 +1490,13 @@
                   <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
                 </svg>
               </a>
-              <a href="#" class="social-link magnetic-btn" aria-label="Facebook">
+              <a href="https://www.facebook.com/larsresonance" target="_blank" rel="noopener" class="social-link magnetic-btn" aria-label="Facebook">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                   stroke-linecap="round" stroke-linejoin="round">
                   <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
                 </svg>
               </a>
-              <a href="#" class="social-link magnetic-btn" aria-label="LinkedIn">
+              <a href="https://www.linkedin.com/company/larsresonance" target="_blank" rel="noopener" class="social-link magnetic-btn" aria-label="LinkedIn">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                   stroke-linecap="round" stroke-linejoin="round">
                   <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
@@ -1324,14 +1504,14 @@
                   <circle cx="4" cy="4" r="2" />
                 </svg>
               </a>
-              <a href="#" class="social-link magnetic-btn" aria-label="X / Twitter">
+              <a href="https://x.com/larsresonance" target="_blank" rel="noopener" class="social-link magnetic-btn" aria-label="X / Twitter">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                   stroke-linecap="round" stroke-linejoin="round">
                   <path d="M4 4l11.733 16h4.267l-11.733 -16z" />
                   <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" />
                 </svg>
               </a>
-              <a href="#" class="social-link magnetic-btn" aria-label="YouTube">
+              <a href="https://www.youtube.com/@larsresonance" target="_blank" rel="noopener" class="social-link magnetic-btn" aria-label="YouTube">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                   stroke-linecap="round" stroke-linejoin="round">
                   <path
@@ -1342,37 +1522,41 @@
             </div>
           </div>
           <div class="footer-links-group">
-            <h4>Collection</h4>
+            <h4 data-i18n="footer.collection">Collection</h4>
             <ul>
-              <li><a href="#">Grand Pianos</a></li>
-              <li><a href="#">Synths &amp; Keyboards</a></li>
-              <li><a href="#">Studio Monitors</a></li>
-              <li><a href="#">Mixing Consoles</a></li>
-              <li><a href="#">Microphones</a></li>
+              <li><a href="#collection" data-filter="pianos" data-i18n="footer.grand-pianos">Grand Pianos</a></li>
+              <li><a href="#collection" data-filter="pianos" data-i18n="footer.synths-keyboards">Synths &amp; Keyboards</a></li>
+              <li><a href="#collection" data-filter="studio" data-i18n="footer.studio-monitors">Studio Monitors</a></li>
+              <li><a href="#collection" data-filter="studio" data-i18n="footer.mixing-consoles">Mixing Consoles</a></li>
+              <li><a href="#collection" data-filter="studio" data-i18n="footer.microphones">Microphones</a></li>
             </ul>
           </div>
           <div class="footer-links-group">
-            <h4>Spaces</h4>
+            <h4 data-i18n="footer.spaces">Spaces</h4>
             <ul>
-              <li><a href="#">Concert Halls</a></li>
-              <li><a href="#">Recording Studios</a></li>
-              <li><a href="#">Private Residences</a></li>
-              <li><a href="#">Conservatories</a></li>
-              <li><a href="#">Broadcast &amp; Film</a></li>
+              <li><a href="#spaces" data-slide="0" data-i18n="footer.concert-halls">Concert Halls</a></li>
+              <li><a href="#spaces" data-slide="1" data-i18n="footer.recording-studios">Recording Studios</a></li>
+              <li><a href="#spaces" data-slide="2" data-i18n="footer.private-residences">Private Residences</a></li>
+              <li><a href="#spaces" data-slide="3" data-i18n="footer.conservatories">Conservatories</a></li>
+              <li><a href="#spaces" data-slide="5" data-i18n="footer.broadcast-film">Broadcast &amp; Film</a></li>
             </ul>
           </div>
           <div class="footer-links-group">
-            <h4>Atelier</h4>
+            <h4 data-i18n="footer.atelier">Atelier</h4>
             <ul>
-              <li><a href="#">Our Craft</a></li>
-              <li><a href="#">Tuning &amp; Voicing</a></li>
-              <li><a href="#">Studio Design</a></li>
-              <li><a href="#">Contact</a></li>
+              <li><a href="#about" data-i18n="footer.our-craft">Our Craft</a></li>
+              <li><a href="#services" data-i18n="footer.tuning-voicing">Tuning &amp; Voicing</a></li>
+              <li><a href="#services" data-i18n="footer.studio-design">Studio Design</a></li>
+              <li><a href="#contact" data-i18n="footer.contact">Contact</a></li>
             </ul>
           </div>
         </div>
         <div class="footer-bottom">
-          <p>&copy; 2026 Lars Résonance Atelier. All rights reserved.</p>
+          <p data-i18n="footer.2026-lars-r">&copy; 2026 Lars Résonance Atelier. All rights reserved.</p>
+          <div class="footer-effects" role="group" aria-label="Effects level" data-i18n-aria="footer.effects-level">
+            <span class="set-label" data-i18n="settings.effects">Effects</span>
+            <div class="seg" data-ctl="effects"><button type="button" data-val="lite" data-i18n="settings.lite">Lite</button><button type="button" data-val="standard" data-i18n="settings.standard">Standard</button><button type="button" data-val="premium" data-i18n="settings.premium">Premium</button></div>
+          </div>
           <div class="footer-legal">
             <a href="privacy.html" data-i18n="legal.privacy">Privacy Policy</a>
             <a href="terms.html" data-i18n="legal.terms">Terms of Service</a>
@@ -1382,19 +1566,19 @@
     </footer>
 
     <!-- ============ LIGHTBOX (gallery) ============ -->
-    <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Image gallery">
-      <button class="lightbox-close" id="lightbox-close" aria-label="Close">
-        <i data-lucide="x"></i>
+    <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Image gallery" data-i18n-aria="footer.image-gallery">
+      <button class="lightbox-close" id="lightbox-close" aria-label="Close" data-i18n-aria="lightbox.close">
+        <i data-lucide="x" aria-hidden="true"></i>
       </button>
-      <button class="lightbox-arrow lightbox-prev" id="lightbox-prev" aria-label="Previous image">
-        <i data-lucide="chevron-left"></i>
+      <button class="lightbox-arrow lightbox-prev" id="lightbox-prev" aria-label="Previous image" data-i18n-aria="lightbox.previous-image">
+        <i data-lucide="chevron-left" aria-hidden="true"></i>
       </button>
       <figure class="lightbox-figure">
         <img src="" alt="" id="lightbox-img" />
         <figcaption id="lightbox-caption"></figcaption>
       </figure>
-      <button class="lightbox-arrow lightbox-next" id="lightbox-next" aria-label="Next image">
-        <i data-lucide="chevron-right"></i>
+      <button class="lightbox-arrow lightbox-next" id="lightbox-next" aria-label="Next image" data-i18n-aria="lightbox.next-image">
+        <i data-lucide="chevron-right" aria-hidden="true"></i>
       </button>
       <span class="lightbox-counter" id="lightbox-counter"></span>
     </div>
@@ -1402,8 +1586,8 @@
     <!-- ============ DOSSIER MODAL ============ -->
     <div class="dossier" id="dossier" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="dossier-title">
       <div class="dossier-panel">
-        <button class="dossier-close" id="dossier-close" aria-label="Close">
-          <i data-lucide="x"></i>
+        <button class="dossier-close" id="dossier-close" aria-label="Close" data-i18n-aria="dossier.close">
+          <i data-lucide="x" aria-hidden="true"></i>
         </button>
         <div class="dossier-gallery">
           <img src="" alt="" id="dossier-hero" />
@@ -1416,17 +1600,17 @@
           <p class="dossier-summary" id="dossier-summary"></p>
           <dl class="dossier-specs" id="dossier-specs"></dl>
           <div class="dossier-provenance">
-            <span class="dossier-prov-label">Provenance</span>
+            <span class="dossier-prov-label" data-i18n="dossier.provenance">Provenance</span>
             <p id="dossier-provenance"></p>
           </div>
           <div class="dossier-actions">
             <a href="#contact" class="btn btn-primary magnetic-btn" id="dossier-enquire">
-              <span class="btn-text">Enquire</span>
-              <span class="btn-icon"><i data-lucide="arrow-right"></i></span>
+              <span class="btn-text" data-i18n="dossier.enquire">Enquire</span>
+              <span class="btn-icon"><i data-lucide="arrow-right" aria-hidden="true"></i></span>
             </a>
             <button class="btn btn-outline-dark magnetic-btn dossier-save" id="dossier-save">
-              <span class="btn-text">Save</span>
-              <span class="btn-icon"><i data-lucide="heart"></i></span>
+              <span class="btn-text" data-i18n="dossier.save">Save</span>
+              <span class="btn-icon"><i data-lucide="heart" aria-hidden="true"></i></span>
             </button>
           </div>
         </div>
@@ -1434,36 +1618,36 @@
     </div>
 
     <!-- ============ SAVED DRAWER ============ -->
-    <div class="drawer" id="saved-drawer" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Saved instruments">
+    <div class="drawer" id="saved-drawer" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Saved instruments" data-i18n-aria="dossier.saved-instruments">
       <div class="drawer-panel">
         <div class="drawer-head">
-          <h3>Saved Instruments</h3>
-          <button class="drawer-close" id="saved-close" aria-label="Close">
-            <i data-lucide="x"></i>
+          <h3 data-i18n="drawer.saved-instruments">Saved Instruments</h3>
+          <button class="drawer-close" id="saved-close" aria-label="Close" data-i18n-aria="drawer.close">
+            <i data-lucide="x" aria-hidden="true"></i>
           </button>
         </div>
         <div class="drawer-body" id="saved-list"></div>
-        <p class="drawer-empty" id="saved-empty">Nothing saved yet. Tap the heart on any piece to keep it here.</p>
+        <p class="drawer-empty" id="saved-empty" data-i18n="drawer.nothing-saved-yet">Nothing saved yet. Tap the heart on any piece to keep it here.</p>
       </div>
     </div>
 
     <!-- ============ SEARCH OVERLAY ============ -->
-    <div class="search-overlay" id="search-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Search">
-      <button class="search-close" id="search-close" aria-label="Close search">
-        <i data-lucide="x"></i>
+    <div class="search-overlay" id="search-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Search" data-i18n-aria="drawer.search">
+      <button class="search-close" id="search-close" aria-label="Close search" data-i18n-aria="search-overlay.close-search">
+        <i data-lucide="x" aria-hidden="true"></i>
       </button>
       <div class="search-inner">
-        <label class="search-label" for="search-input">Search the collection</label>
-        <input type="search" id="search-input" class="search-input" placeholder="Pianos, monitors, microphones…" autocomplete="off" />
+        <label class="search-label" for="search-input" data-i18n="search-overlay.search-the-collection">Search the collection</label>
+        <input type="search" id="search-input" class="search-input" placeholder="Pianos, monitors, microphones…" autocomplete="off" / data-i18n-placeholder="search-overlay.pianos-monitors-microphones">
         <div class="search-results" id="search-results"></div>
       </div>
     </div>
 
     <!-- ============ PERFORMANCE BANNER ============ -->
-    <div class="perf-banner" id="perf-banner" hidden>
-      <span>This page feels heavy on your device. Switch to a lighter version for a smoother experience?</span>
+    <div class="perf-banner" id="perf-banner" role="status" hidden>
+      <span id="perf-banner-text">This page feels heavy on your device. Switch to a lighter version for a smoother experience?</span>
       <div class="perf-banner-actions">
-        <button id="perf-banner-yes" class="perf-banner-btn primary">Switch to Lite</button>
+        <button id="perf-banner-yes" class="perf-banner-btn primary">Switch to Standard</button>
         <button id="perf-banner-no" class="perf-banner-btn">No thanks</button>
       </div>
     </div>
@@ -1473,11 +1657,78 @@
       class="back-to-top magnetic-btn"
       id="back-to-top"
       aria-label="Back to top"
-    >
-      <i data-lucide="chevron-up"></i>
+     data-i18n-aria="perf-banner.back-to-top">
+      <i data-lucide="chevron-up" aria-hidden="true"></i>
     </button>
 
-    <script src="js/data.js"></script>
-    <script src="js/main.js"></script>
+    <!-- ============ CONCIERGE CHAT ============ -->
+    <button
+      class="chat-fab"
+      id="chat-fab"
+      type="button"
+      aria-label="Open the concierge chat"
+      aria-expanded="false"
+      aria-controls="chat-widget"
+    >
+      <i data-lucide="message-circle" class="chat-fab-open" aria-hidden="true"></i>
+      <i data-lucide="x" class="chat-fab-close" aria-hidden="true"></i>
+    </button>
+
+    <aside class="chat-widget" id="chat-widget" role="dialog" aria-label="Résonance Concierge" aria-hidden="true">
+      <header class="chat-head">
+        <span class="chat-head-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="26" height="26" fill="none">
+            <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="1.2" opacity="0.5" />
+            <path d="M8 20c2-6 5-9 8-9s6 3 8 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+            <path d="M11 20v-4M16 20v-7M21 20v-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+          </svg>
+        </span>
+        <div class="chat-head-text">
+          <span class="chat-title" data-i18n="chat.title">Résonance Concierge</span>
+          <span class="chat-status"><span class="chat-status-dot" aria-hidden="true"></span><span id="chat-status-text">Online — replies instantly</span></span>
+        </div>
+        <button class="chat-close" id="chat-close" type="button" aria-label="Close the chat">
+          <i data-lucide="x" aria-hidden="true"></i>
+        </button>
+      </header>
+
+      <div class="chat-body" id="chat-body" role="log" aria-live="polite">
+        <div class="chat-msg chat-msg-bot" data-welcome="1">
+          Welcome to Lars Résonance. Ask me about our grands, studio monitors, consoles — or book a private audition.
+        </div>
+      </div>
+
+      <div class="chat-chips" id="chat-chips">
+        <button type="button" class="chat-chip" data-i18n="chat.chip.pianos">Grand pianos</button>
+        <button type="button" class="chat-chip" data-i18n="chat.chip.studio">Monitors &amp; consoles</button>
+        <button type="button" class="chat-chip" data-i18n="chat.chip.book">Book an audition</button>
+        <button type="button" class="chat-chip" data-i18n="chat.chip.contact">Contact</button>
+      </div>
+
+      <form class="chat-form" id="chat-form">
+        <label for="chat-input" class="sr-only">Write a message</label>
+        <input type="text" id="chat-input" placeholder="Write a message…" autocomplete="off" maxlength="500" />
+        <button type="submit" class="chat-send" aria-label="Send message">
+          <i data-lucide="send" aria-hidden="true"></i>
+        </button>
+      </form>
+    </aside>
+
+    <!-- Shown only if the module graph never ran (e.g. the page was opened via file://) -->
+    <div class="module-notice" id="module-notice" hidden>
+      <strong>Interactive features are off.</strong> This page must be served over http(s) — for example
+      <code>python3 -m http.server 4321</code> — because it is built with ES modules. /
+      Sidan måste öppnas via en lokal server, inte som fil.
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+    <script>
+      window.addEventListener('load', function () {
+        if (window.__lrApp) return;
+        document.documentElement.classList.add('no-motion');
+        var n = document.getElementById('module-notice');
+        if (n && location.protocol === 'file:') n.hidden = false;
+      });
+    </script>
   </body>
 </html>

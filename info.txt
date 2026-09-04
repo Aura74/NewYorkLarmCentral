@@ -1,5 +1,6 @@
-ska heta NewYorkLarmCentral
+touch info.txt
 
+Pianohemsidan.
+file:///Users/lars.asplund/HEMSIDOR/SIDAN1/index.html
 
-NewYorkLarmCentral
 
