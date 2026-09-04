@@ -2,7 +2,7 @@
    Bump CACHE_VERSION on every css/js/html change or visitors keep old files.
    Strategy: navigations network-first (cache fallback), same-origin assets
    stale-while-revalidate, external images (Unsplash) cache-first with a size cap. */
-const CACHE_VERSION = 'lr-v1';
+const CACHE_VERSION = 'lr-v2';
 const IMG_CACHE = 'lr-img-v1';
 const IMG_CACHE_MAX = 60;
 
@@ -30,6 +30,11 @@ const PRECACHE_URLS = [
   './js/modules/settings.js',
   './js/modules/perf-probe.js',
   './js/modules/chat.js',
+  './js/modules/content.js',
+  './js/modules/audio.js',
+  './js/certificate.js',
+  './certificate.html',
+  './404.html',
   './fonts/cormorant-garamond.woff2',
   './fonts/cormorant-garamond-italic.woff2',
   './fonts/dm-sans.woff2',

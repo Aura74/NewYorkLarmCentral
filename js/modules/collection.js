@@ -2,8 +2,9 @@
    recently viewed, dossier (with View Transitions), gallery lightbox, search. */
 import { DATA } from '../data.js';
 import { isLite, hasGsap, reducedMotion, store, refreshIcons, $, $$ } from './env.js';
-import { t, currentLang, pickField } from './i18n.js';
+import { t, currentLang, locale, pickField } from './i18n.js';
 import { toast, openModal, closeModal, isModalOpen } from './ui.js';
+import * as audio from './audio.js';
 
 const instruments = DATA.instruments || {};
 const currencies = DATA.currencies || {};
@@ -37,7 +38,7 @@ function el(tag, cls, text) {
 }
 function thumb(it, w, q) {
     const img = el('img');
-    img.src = ((it.gallery || [])[0] || '') + `?w=${w}&q=${q}`;
+    img.src = ((it.gallery || [])[0] || '') + `?w=${w}&q=${q}&auto=format`;
     img.alt = '';
     img.loading = 'lazy';
     return img;
@@ -154,7 +155,7 @@ let lbList = [], lbIndex = 0, lbTitle = '';
 function lbRender() {
     const src = lbList[lbIndex];
     if (!src) return;
-    lbImg.src = src.indexOf('?') > -1 ? src : src + '?w=1600&q=85';
+    lbImg.src = src.indexOf('?') > -1 ? src : src + '?w=1600&q=85&auto=format';
     lbImg.alt = lbTitle;
     if (lbCap) lbCap.textContent = lbTitle;
     if (lbCounter) lbCounter.textContent = (lbIndex + 1) + ' / ' + lbList.length;
@@ -196,6 +197,53 @@ function fillDossier(id) {
         d.append(el('dt', null, s.label), el('dd', null, s.value));
         specs.append(d);
     });
+    fillRecord(id);
+    fillListen(id);
+}
+
+/* The instrument's record: serial, origin, last tuning, certificate */
+function fillRecord(id) {
+    const box = document.getElementById('dossier-record');
+    if (!box) return;
+    const rec = (instruments[id] || {}).record;
+    box.replaceChildren();
+    box.hidden = !rec;
+    if (!rec) return;
+    const row = (label, value, href) => {
+        const dt = el('dt', null, t(label));
+        const dd = el('dd');
+        if (href) { const a = el('a', null, value); a.href = href; a.target = '_blank'; a.rel = 'noopener'; dd.append(a); }
+        else dd.textContent = value;
+        box.append(dt, dd);
+    };
+    row('dossier.serial', rec.serial);
+    row('dossier.origin', rec.origin);
+    row('dossier.last-tuning', new Date(rec.lastTuning + 'T12:00:00').toLocaleDateString(locale(), { day: 'numeric', month: 'long', year: 'numeric' }));
+    row('dossier.certificate', rec.certificate, 'certificate.html?id=' + encodeURIComponent(id));
+}
+
+/* "Hear it" + A/B against another piece */
+let listenBusy = false;
+function fillListen(id) {
+    const wrap = document.getElementById('dossier-listen');
+    const sel = document.getElementById('dossier-ab');
+    if (!wrap || !sel) return;
+    const it = instruments[id];
+    wrap.hidden = !(it && (it.voice || it.audio));
+    sel.replaceChildren();
+    Object.keys(instruments).filter((k) => k !== id && (instruments[k].voice || instruments[k].audio)).forEach((k) => {
+        const o = el('option', null, pickField(instruments[k], 'title'));
+        o.value = k;
+        sel.append(o);
+    });
+    setPlaying(false);
+}
+function setPlaying(on) {
+    const btn = document.getElementById('dossier-play');
+    const ab = document.getElementById('dossier-ab-play');
+    if (btn) { btn.classList.toggle('playing', on); const txt = btn.querySelector('.listen-text'); if (txt) txt.textContent = on ? t('dossier.stop') : t('dossier.listen'); }
+    if (ab) ab.disabled = on;
+    listenBusy = on;
 }
 function openDossier(id, instant) {
     const it = instruments[id];
@@ -205,14 +253,14 @@ function openDossier(id, instant) {
     const thumbs = document.getElementById('dossier-thumbs');
     const gal = it.gallery || [];
     const setHero = (i) => {
-        dossierHero.src = gal[i] + '?w=1100&q=85';
+        dossierHero.src = gal[i] + '?w=1100&q=85&auto=format';
         dossierHero.alt = pickField(it, 'title');
         thumbs.querySelectorAll('img').forEach((th, j) => th.classList.toggle('active', j === i));
     };
     thumbs.replaceChildren();
     gal.forEach((g, i) => {
         const im = el('img');
-        im.src = g + '?w=200&q=70'; im.alt = ''; im.dataset.i = i;
+        im.src = g + '?w=200&q=70&auto=format'; im.alt = ''; im.dataset.i = i;
         im.addEventListener('click', () => setHero(i));
         thumbs.append(im);
     });
@@ -276,6 +324,7 @@ export function openSearch() {
     setTimeout(() => searchInput && searchInput.focus(), 350);
 }
 export function openSavedDrawer() { openModal(savedDrawer); }
+export { openDossier };
 
 export function init() {
     applyCurrency(activeCurrency);
@@ -317,6 +366,23 @@ export function init() {
     on('dossier-close', 'click', () => closeModal(dossier));
     on('dossier-enquire', 'click', () => closeModal(dossier));
     on('dossier-save', 'click', () => { if (currentDossierId) toggleSave(currentDossierId); });
+    on('dossier-play', 'click', async () => {
+        if (listenBusy) { audio.stop(); setPlaying(false); return; }
+        const it = instruments[currentDossierId];
+        if (!it) return;
+        setPlaying(true);
+        await audio.play(it);
+        setPlaying(false);
+    });
+    on('dossier-ab-play', 'click', async () => {
+        const a = instruments[currentDossierId];
+        const b = instruments[(document.getElementById('dossier-ab') || {}).value];
+        if (!a || !b || listenBusy) return;
+        setPlaying(true);
+        await audio.playAB(a, b);
+        setPlaying(false);
+    });
+    on('dossier-close', 'click', () => { audio.stop(); setPlaying(false); });
     on('search-open', 'click', openSearch);
     on('search-close', 'click', () => closeModal(searchOverlay));
     if (searchInput) searchInput.addEventListener('input', () => runSearch(searchInput.value));

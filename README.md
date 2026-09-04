@@ -35,6 +35,11 @@ js/modules/ambient.js Weather / opening-hours bar, tab-away title
 js/modules/settings.js Gear menu, mobile menu, segmented controls
 js/modules/perf-probe.js Frame-rate probe → suggests one tier down
 js/modules/chat.js    Concierge chat (scripted intents EN/SV; ready for an LLM backend)
+js/modules/content.js Data-driven sections: "in the atelier this week", stories, team, journal + reader modal
+js/modules/audio.js   "Hear it" / A-B: rendered voicings via Web Audio (swap for real recordings via instruments[id].audio)
+js/certificate.js     Renders certificate.html?id=<instrument> (print → PDF)
+certificate.html      Certificate of provenance, printable
+404.html              Not-found page (GitHub Pages picks it up automatically)
 sw.js                 Service worker (precache shell, stale-while-revalidate, Unsplash image cache)
 fonts/                woff2 files (latin subset)
 img/                  Icons, favicons, manifest images
@@ -60,6 +65,17 @@ overrides and saves — handy for testing.
 Visitors change tier in the gear menu (desktop), the hamburger menu (mobile) or the footer.
 If the page measures a low frame rate on first visit it politely suggests stepping one tier down.
 
+## Content
+
+`js/data.js` holds everything editorial: `instruments` (with `record` = serial / origin / last tuning / certificate,
+`voice` = synth parameters and `audio` = optional real recording URL), `stories` (case studies), `technicians`,
+`journal` (articles, EN + `sv`), `inAtelier` (pieces ready for audition this week). Sections render from it.
+
+## Theme
+
+`Auto` (default) follows the atelier's hours: dark before 09.00 and after 18.00 Stockholm time. Light / Dark
+override and are remembered in `localStorage['lr-theme']`.
+
 ## Translations
 
 English is the source and lives in the markup. Every translatable element carries a key:
@@ -83,6 +99,11 @@ cache-first (capped at 60). **Bump `CACHE_VERSION` on every release** or visitor
 `js/chat.js` answers from an intent table in both languages. To connect a real model,
 set `chatEndpoint` in `js/data.js` to a backend URL; the widget POSTs
 `{ lang, messages: [{role, content}] }` and expects `{ reply }`. Keep API keys on that server.
+
+## Quality gate
+
+`.github/workflows/lighthouse.yml` runs Lighthouse CI on every push (config in `lighthouserc.json`):
+accessibility ≥ 0.95 fails the build, performance / best-practices / SEO ≥ 0.9 warn.
 
 ## Libraries (CDN, pinned, deferred)
 

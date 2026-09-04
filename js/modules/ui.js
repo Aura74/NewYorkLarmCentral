@@ -68,8 +68,9 @@ export function init() {
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && activeModal) closeModal(activeModal);
     });
+    document.addEventListener('lr:close', (e) => { const m = e.target.closest && e.target.closest('.dossier, .drawer, .search-overlay, .lightbox, .reader'); if (m) closeModal(m); });
     // Clicking the dimmed backdrop closes
-    document.querySelectorAll('.dossier, .drawer, .search-overlay, .lightbox').forEach((m) => {
+    document.querySelectorAll('.dossier, .drawer, .search-overlay, .lightbox, .reader').forEach((m) => {
         m.addEventListener('click', (e) => { if (e.target === m) closeModal(m); });
     });
 }

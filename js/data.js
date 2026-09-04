@@ -253,6 +253,38 @@ export const DATA = {
         "services.atelier-services": "Ateljéns <em>tjänster</em>",
         "testimonials.trusted-by-artists": "Anlitas av <em>artister</em>",
         "contact.book-a-private-audition": "Boka en <em>privat</em> visning",
+        "settings.auto": "Auto",
+        "ui.close": "Stäng",
+        "now.label": "I ateljén den här veckan",
+        "now.until": "klar till",
+        "stories.tag": "Berättelser",
+        "stories.title": "Tre <em>rum</em>, tre berättelser",
+        "stories.desc": "Inte statistik — arbetet självt. En sal, en studio och ett hem, vart och ett med sitt uppdrag och sitt resultat.",
+        "stories.read": "Läs berättelsen",
+        "story.brief": "Uppdraget",
+        "story.work": "Arbetet",
+        "story.result": "Resultatet",
+        "team.tag": "Människorna",
+        "team.title": "Mästar<em>tekniker</em>",
+        "team.desc": "Varje instrument som lämnar ateljén har passerat dessa händer.",
+        "team.years": "år vid bänken",
+        "journal.tag": "Journal",
+        "journal.title": "Anteckningar från <em>bänken</em>",
+        "journal.desc": "Fyra essäer om året om hantverket — skrivna av teknikerna, inte marknadsavdelningen.",
+        "journal.min": "min läsning",
+        "footer.stories": "Berättelser",
+        "footer.team": "Människorna",
+        "footer.journal": "Journal",
+        "dossier.record": "Instrumentets journal",
+        "dossier.serial": "Serienummer",
+        "dossier.origin": "Ursprung",
+        "dossier.last-tuning": "Senast stämd",
+        "dossier.certificate": "Certifikat (PDF)",
+        "dossier.listen": "Lyssna",
+        "dossier.ab": "Jämför med",
+        "dossier.demo-note": "Syntetiserad klangbild — ersätts av studioinspelningar på begäran.",
+        "dossier.stop": "Stoppa",
+        "mobile.book": "Boka en privat visning",
         "announce.base": "Privata visningar efter överenskommelse — Strandvägen 7A, Stockholm",
         "nav.search-the-collection": "Sök i samlingen",
         "nav.saved-instruments": "Sparade instrument",
@@ -482,9 +514,163 @@ export const DATA = {
     },
   },
 
+
+  /* ---- Instruments ready for audition this week (shown in the strip under the makers band) ---- */
+  inAtelier: [
+    { id: 'konzert-grand', until: '2026-09-12' },
+    { id: 'tube-mic', until: '2026-09-09' },
+    { id: 'synth-collection', until: '2026-09-19' },
+  ],
+
+  /* ---- The people ---- */
+  technicians: [
+    {
+      id: 'henrik', name: 'Henrik Åkerlund', years: 27,
+      photo: 'https://images.unsplash.com/photo-1560250097-0b93528c311a',
+      role: 'Head Concert Technician',
+      bio: 'Trained at Steinway in Hamburg, Henrik has prepared instruments for Berwaldhallen, the Concertgebouw and three Nobel banquets. He voices every Konzert Grand personally, hammer by hammer.',
+      quote: 'A great piano does not impress. It disappears, and leaves only the music.',
+      sv: { role: 'Chefstekniker, konsertflyglar',
+        bio: 'Utbildad hos Steinway i Hamburg har Henrik förberett instrument för Berwaldhallen, Concertgebouw och tre Nobelbanketter. Han intonerar varje Konzert Grand personligen, hammare för hammare.',
+        quote: 'En stor flygel imponerar inte. Den försvinner och lämnar bara musiken kvar.' },
+    },
+    {
+      id: 'maria', name: 'Maria Lindqvist', years: 16,
+      photo: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2',
+      role: 'Acoustician & Studio Designer',
+      bio: 'An engineer by training and a cellist by temperament, Maria has designed forty mastering rooms across Scandinavia. She measures before she believes — and then listens for a week.',
+      quote: 'The room is the first instrument. Everything else is played through it.',
+      sv: { role: 'Akustiker & studiodesigner',
+        bio: 'Ingenjör till utbildningen och cellist till temperamentet har Maria ritat fyrtio masteringrum i Skandinavien. Hon mäter innan hon tror — och lyssnar sedan en vecka.',
+        quote: 'Rummet är det första instrumentet. Allt annat spelas genom det.' },
+    },
+    {
+      id: 'tomas', name: 'Tomas Berg', years: 21,
+      photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e',
+      role: 'Electronics & Vintage Restoration',
+      bio: 'Tomas restores tube microphones, consoles and analogue synthesizers to their original specification — and often past it. Every capsule is measured against a reference before it leaves.',
+      quote: 'Old circuits are honest. You just have to listen to what they need.',
+      sv: { role: 'Elektronik & vintage-restaurering',
+        bio: 'Tomas återställer rörmikrofoner, mixerbord och analoga synthar till originalspecifikation — och ofta bortom den. Varje kapsel mäts mot en referens innan den lämnar huset.',
+        quote: 'Gamla kretsar är ärliga. Man behöver bara lyssna på vad de behöver.' },
+    },
+  ],
+
+  /* ---- Case studies ---- */
+  stories: [
+    {
+      id: 'hall', image: 'https://images.unsplash.com/photo-1465847899084-d164df4dedc6',
+      place: 'Concert hall — Gothenburg', title: 'A Grand for a Difficult Hall',
+      brief: 'A 1,300-seat hall with a long, uneven decay. The resident grand sounded brilliant in the front rows and muddy under the balcony.',
+      work: 'We auditioned three instruments in the hall itself over two evenings, then spent five weeks voicing the chosen Konzert Grand 280 for the room — softer hammers in the tenor, a slightly brighter treble to carry to the back.',
+      result: 'Every seat hears the same piano. The hall’s recording engineer now records without a spot microphone.',
+      sv: { place: 'Konserthus — Göteborg', title: 'En flygel för en svår sal',
+        brief: 'En sal med 1 300 platser och lång, ojämn efterklang. Husets flygel lät briljant på de främre raderna och grumlig under balkongen.',
+        work: 'Vi provspelade tre instrument i själva salen under två kvällar och intonerade sedan den valda Konzert Grand 280 för rummet i fem veckor — mjukare hammare i tenoren, en aning ljusare diskant som bär längst bak.',
+        result: 'Varje plats hör samma piano. Salens inspelningstekniker spelar numera in utan närmikrofon.' },
+    },
+    {
+      id: 'studio', image: 'https://images.unsplash.com/photo-1519892300165-cb5542fb47c7',
+      place: 'Mastering suite — Stockholm', title: 'The Room Before the Monitors',
+      brief: 'A respected mastering engineer had bought reference monitors twice and still could not trust the low end. Every mix translated differently in the car.',
+      work: 'We measured the room for a day and rebuilt it in twelve weeks: a new front wall, tuned bass traps, diffusion at the rear — and only then calibrated the monitors to the room.',
+      result: 'Frequency response within ±2 dB from 30 Hz. The engineer has not revisited a master since.',
+      sv: { place: 'Masteringstudio — Stockholm', title: 'Rummet före monitorerna',
+        brief: 'En respekterad masteringtekniker hade köpt referensmonitorer två gånger och kunde ändå inte lita på basen. Varje mix lät olika i bilen.',
+        work: 'Vi mätte rummet en dag och byggde om det på tolv veckor: ny frontvägg, stämda basfällor, diffusion bakåt — och först därefter kalibrerade vi monitorerna till rummet.',
+        result: 'Frekvensgång inom ±2 dB från 30 Hz. Teknikern har inte gjort om en master sedan dess.' },
+    },
+    {
+      id: 'home', image: 'https://images.unsplash.com/photo-1507838153414-b4b713384a76',
+      place: 'Private residence — Djursholm', title: 'A Salon Grand for a Family',
+      brief: 'Two children learning, a parent who plays Chopin at night, and a living room with glass on three sides.',
+      work: 'We selected a 190 cm salon grand with a gentle, even action, added discreet acoustic panels behind the artwork, and fitted a silent-practice system for late evenings.',
+      result: 'The children practise; the neighbours sleep. The family calls the piano the fourth member of the household.',
+      sv: { place: 'Privat hem — Djursholm', title: 'En salongsflygel för en familj',
+        brief: 'Två barn som lär sig, en förälder som spelar Chopin om nätterna och ett vardagsrum med glas på tre sidor.',
+        work: 'Vi valde en 190 cm salongsflygel med mjuk, jämn mekanik, monterade diskreta akustikpaneler bakom konsten och installerade ett system för tyst övning sena kvällar.',
+        result: 'Barnen övar, grannarna sover. Familjen kallar flygeln hushållets fjärde medlem.' },
+    },
+  ],
+
+  /* ---- Journal ---- */
+  journal: [
+    {
+      id: 'voicing', date: '2026-08-18', minutes: 6, image: 'https://images.unsplash.com/photo-1552422535-c45813c61732',
+      title: 'How a Concert Grand Is Voiced',
+      excerpt: 'Voicing is not tuning. It is the slow work of deciding what a hammer should sound like — and then making eighty-eight of them agree.',
+      body: [
+        'Tuning sets the pitch. Voicing sets the character. When a Konzert Grand arrives from the maker it is already in tune; what it is not yet is even. Some hammers are a shade too hard and ring; others are too soft and swallow the attack. The technician’s job is to make the instrument sound like one voice from the lowest A to the highest C.',
+        'The tools are almost medieval: a needle, a file, a little lacquer, and patience. Needling the felt in the right place loosens the fibres and softens the tone; filing reshapes the strike point; a drop of hardener brings back brilliance. Each hammer is played, listened to, adjusted, and played again — often twenty times.',
+        'It takes us six weeks per instrument, and most of that time is spent listening rather than working. A concert grand voiced in a hurry sounds impressive for a month. One voiced slowly sounds right for thirty years.',
+      ],
+      sv: { title: 'Så intoneras en konsertflygel',
+        excerpt: 'Intonering är inte stämning. Det är det långsamma arbetet med att bestämma hur en hammare ska låta — och sedan få åttioåtta att hålla med.',
+        body: [
+          'Stämningen ger tonhöjden. Intoneringen ger karaktären. När en Konzert Grand kommer från tillverkaren är den redan stämd; vad den ännu inte är, är jämn. Några hammare är ett uns för hårda och klingar; andra för mjuka och sväljer anslaget. Teknikerns uppgift är att få instrumentet att låta som en enda röst från lägsta A till högsta C.',
+          'Verktygen är nästan medeltida: en nål, en fil, lite lack och tålamod. Nålning av filten på rätt ställe lösgör fibrerna och mjukar tonen; filning formar anslagspunkten; en droppe härdare ger tillbaka briljansen. Varje hammare spelas, avlyssnas, justeras och spelas igen — ofta tjugo gånger.',
+          'Det tar oss sex veckor per instrument, och större delen av tiden går åt till att lyssna snarare än att arbeta. En konsertflygel som intonerats i brådska låter imponerande i en månad. En som intonerats långsamt låter rätt i trettio år.',
+        ] },
+    },
+    {
+      id: 'room-first', date: '2026-05-12', minutes: 5, image: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04',
+      title: 'Why We Measure Before We Listen',
+      excerpt: 'The most expensive monitors in the world cannot fix a room. Here is what a day of measurement tells us — and why we insist on it.',
+      body: [
+        'Every studio we are asked to improve begins the same way: someone has bought better monitors and heard less. It is not the monitors. Below about 300 Hz the room dominates everything; standing waves add or subtract ten decibels depending on where you sit, and no equaliser can remove a null.',
+        'So we measure first. A day with a calibrated microphone, a sine sweep and a great deal of walking around gives us a map of the room’s behaviour: where the modes stack, how long the decay is at each frequency, where early reflections arrive. Only then do we decide what to build.',
+        'Treatment comes before equipment, always. When the room is right, modest monitors sound honest. When it is wrong, the finest monitors simply describe the problem in higher resolution.',
+      ],
+      sv: { title: 'Varför vi mäter innan vi lyssnar',
+        excerpt: 'Världens dyraste monitorer kan inte laga ett rum. Så här ser en dags mätning ut — och därför insisterar vi på den.',
+        body: [
+          'Varje studio vi ombeds förbättra börjar på samma sätt: någon har köpt bättre monitorer och hört mindre. Det är inte monitorerna. Under ungefär 300 Hz dominerar rummet allt; stående vågor lägger till eller drar ifrån tio decibel beroende på var man sitter, och ingen equalizer kan ta bort en nolla.',
+          'Därför mäter vi först. En dag med kalibrerad mikrofon, sinussvep och mycket gående ger oss en karta över rummets beteende: var moderna staplas, hur lång efterklangen är vid varje frekvens, var de tidiga reflexerna kommer. Först då bestämmer vi vad som ska byggas.',
+          'Behandling före utrustning, alltid. När rummet är rätt låter blygsamma monitorer ärliga. När det är fel beskriver de finaste monitorerna bara problemet i högre upplösning.',
+        ] },
+    },
+    {
+      id: 'tube', date: '2026-02-03', minutes: 4, image: 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc',
+      title: 'What a Tube Microphone Actually Does',
+      excerpt: 'Warmth is a word people use when they cannot hear what is happening. Here is what is happening.',
+      body: [
+        'A tube microphone is not warmer because it is old. It is different because its amplifier stage compresses gently as the signal grows, adding low-order harmonics that the ear reads as body rather than distortion. A voice recorded through one sits slightly forward, slightly larger than life.',
+        'The capsule matters as much as the valve. A large diaphragm moves more slowly, rounding transients and softening sibilance; combined with a hand-selected tube and a well-designed transformer, the result is the sound of seventy years of records.',
+        'We test every microphone against a reference before it leaves the atelier — not to make them identical, but to be sure each one is being itself on purpose.',
+      ],
+      sv: { title: 'Vad en rörmikrofon egentligen gör',
+        excerpt: 'Värme är ett ord man använder när man inte hör vad som händer. Så här är det som händer.',
+        body: [
+          'En rörmikrofon är inte varmare för att den är gammal. Den är annorlunda för att dess förstärkarsteg komprimerar mjukt när signalen växer och lägger till lågordningsövertoner som örat uppfattar som kropp snarare än distorsion. En röst inspelad genom en sådan sitter en aning framför, en aning större än livet.',
+          'Kapseln betyder lika mycket som röret. Ett stort membran rör sig långsammare, rundar transienter och mjukar väsljud; tillsammans med ett handselekterat rör och en välkonstruerad transformator blir resultatet ljudet av sjuttio års skivor.',
+          'Vi testar varje mikrofon mot en referens innan den lämnar ateljén — inte för att göra dem identiska, utan för att vara säkra på att var och en är sig själv med avsikt.',
+        ] },
+    },
+    {
+      id: 'humidity', date: '2025-11-20', minutes: 5, image: 'https://images.unsplash.com/photo-1520523839897-bd0b52f945a0',
+      title: 'Humidity, Wood and the Swedish Winter',
+      excerpt: 'A grand piano is a living thing made of wood under twenty tonnes of tension. In January, Swedish air tries to take it apart.',
+      body: [
+        'Spruce soundboards are built at around 45 percent relative humidity. A heated Stockholm apartment in January sits at 20. The wood shrinks, the crown of the soundboard flattens, the pitch drops and — in the worst case — the board cracks along the grain. Most winter tuning calls are really humidity calls.',
+        'The cure is unglamorous: a room humidifier set to 42–48 percent, kept away from the instrument itself, and a hygrometer you actually read. For concert instruments we fit a climate system inside the case that does the job silently.',
+        'Keep the humidity steady and a grand needs two tunings a year. Let it swing and it needs four, and it will still never quite settle. The instrument does not mind the cold. It minds the change.',
+      ],
+      sv: { title: 'Luftfuktighet, trä och den svenska vintern',
+        excerpt: 'En flygel är en levande sak av trä under tjugo tons spänning. I januari försöker den svenska luften ta den isär.',
+        body: [
+          'Resonansbottnar av gran byggs vid ungefär 45 procents relativ luftfuktighet. En uppvärmd Stockholmslägenhet i januari ligger på 20. Träet krymper, bottnens välvning plattas ut, tonhöjden sjunker och — i värsta fall — spricker bottnen längs ådringen. De flesta stämningar vi kallas till på vintern handlar egentligen om luftfuktighet.',
+          'Boten är oglamorös: en luftfuktare inställd på 42–48 procent, placerad en bit från instrumentet, och en hygrometer man faktiskt läser av. För konsertinstrument monterar vi ett klimatsystem inuti flygeln som gör jobbet ljudlöst.',
+          'Håll luftfuktigheten jämn och en flygel behöver två stämningar om året. Låt den pendla och den behöver fyra, och sätter sig ändå aldrig riktigt. Instrumentet har inget emot kylan. Det har något emot förändringen.',
+        ] },
+    },
+  ],
+
   /* Per-instrument dossiers, keyed by the card's data-id */
   instruments: {
     'konzert-grand': {
+      record: { serial: 'KG-280-0417', origin: 'Hamburg, 2024', lastTuning: '2026-08-29', certificate: 'LR-2026-0417' },
+      audio: null, /* set to a real recording URL to replace the rendered voicing */
+      voice: { type: 'piano', harmonics: [1, 0.55, 0.28, 0.12, 0.05], decay: 2.4, notes: [261.63, 329.63, 392.0, 523.25, 659.25, 783.99], step: 0.3, cutoff: 9000 },
       sv: {
         kicker: 'Konsertflygel',
         price: 'Pris på begäran',
@@ -511,6 +697,9 @@ export const DATA = {
       ],
     },
     'reference-monitors': {
+      record: { serial: 'RM-3W-2291', origin: 'Copenhagen, 2025', lastTuning: '2026-08-15', certificate: 'LR-2026-2291' },
+      audio: null, /* set to a real recording URL to replace the rendered voicing */
+      voice: { type: 'pad', harmonics: [1, 0.35, 0.12], decay: 3.2, notes: [130.81, 196.0, 261.63, 329.63], step: 0.05, cutoff: 12000 },
       sv: {
         kicker: 'Huvudmonitorer + slutsteg',
         price: 'Från <span data-eur="36500">€36,500</span> / par',
@@ -537,6 +726,9 @@ export const DATA = {
       ],
     },
     'studio-design': {
+      record: null,
+      audio: null, /* set to a real recording URL to replace the rendered voicing */
+      voice: { type: 'pad', harmonics: [1, 0.25, 0.08], decay: 3.8, notes: [110.0, 164.81, 220.0, 277.18], step: 0.05, cutoff: 5000, echo: 0.32 },
       sv: {
         kicker: 'Nyckelfärdig studio',
         price: 'Endast på uppdrag',
@@ -563,6 +755,9 @@ export const DATA = {
       ],
     },
     'synth-collection': {
+      record: { serial: 'SC-88-1180', origin: 'Restored in-house, 2026', lastTuning: '2026-08-20', certificate: 'LR-2026-1180' },
+      audio: null, /* set to a real recording URL to replace the rendered voicing */
+      voice: { type: 'saw', harmonics: [1], decay: 1.4, notes: [110.0, 220.0, 277.18, 329.63, 440.0], step: 0.22, cutoff: 2600 },
       sv: {
         kicker: 'Synthar & klaviatur',
         price: 'Från <span data-eur="4200">€4,200</span>',
@@ -588,6 +783,9 @@ export const DATA = {
       ],
     },
     'mixing-console': {
+      record: { serial: 'MC-48-0093', origin: 'Built to order, Stockholm', lastTuning: '2026-07-30', certificate: 'LR-2026-0093' },
+      audio: null, /* set to a real recording URL to replace the rendered voicing */
+      voice: { type: 'pad', harmonics: [1, 0.5, 0.2, 0.08], decay: 3.0, notes: [146.83, 220.0, 293.66, 369.99], step: 0.06, cutoff: 7000 },
       sv: {
         kicker: 'Mix- & masteringbord',
         price: 'Efter överenskommelse',
@@ -614,6 +812,9 @@ export const DATA = {
       ],
     },
     'tube-mic': {
+      record: { serial: 'TM-U-0562', origin: 'Berlin capsule, Stockholm assembly, 2025', lastTuning: '2026-08-27', certificate: 'LR-2026-0562' },
+      audio: null, /* set to a real recording URL to replace the rendered voicing */
+      voice: { type: 'piano', harmonics: [1, 0.7, 0.35, 0.15, 0.06], decay: 2.0, notes: [220.0, 277.18, 329.63, 440.0, 554.37], step: 0.3, cutoff: 6000 },
       sv: {
         kicker: 'Rörmikrofon',
         price: 'Från <span data-eur="9800">€9,800</span>',

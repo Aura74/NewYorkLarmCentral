@@ -18,6 +18,7 @@ import * as ambient from './modules/ambient.js';
 import * as settings from './modules/settings.js';
 import * as perfProbe from './modules/perf-probe.js';
 import * as chat from './modules/chat.js';
+import * as content from './modules/content.js';
 
 refreshIcons();
 
@@ -25,6 +26,7 @@ refreshIcons();
     .forEach((mod) => {
         try { mod.init(); } catch (err) { console.error('[Résonance] module failed:', err); }
     });
+try { content.init({ openDossier: collection.openDossier }); } catch (err) { console.error('[Résonance] content failed:', err); }
 
 window.__lrApp = true;
 

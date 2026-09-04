@@ -17,11 +17,13 @@ function run() {
 /** Register a scroll task; called once immediately. */
 export function onScroll(fn) { tasks.push(fn); fn(window.scrollY); }
 
-export const metrics = { maxScroll: 1, sectionTops: [] };
+export const metrics = { maxScroll: 1, sectionTops: [], heroBottom: 600 };
 const sections = document.querySelectorAll('section[id]');
 
 export function measure() {
     metrics.maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    const hero = document.getElementById('hero');
+    if (hero) metrics.heroBottom = hero.offsetHeight;
     metrics.sectionTops = Array.from(sections).map((sec) => ({
         id: sec.id, top: sec.getBoundingClientRect().top + window.scrollY - 200,
     }));
@@ -89,6 +91,9 @@ export function init() {
     if (progressBar && !isLite && !cssScrollTimeline) {
         onScroll((y) => { progressBar.style.transform = 'scaleX(' + Math.min(1, y / metrics.maxScroll) + ')'; });
     }
+
+    const bookBar = document.getElementById('mobile-book-bar');
+    if (bookBar) onScroll((y) => bookBar.classList.toggle('visible', y > metrics.heroBottom - 120));
 
     const announceBar = document.getElementById('announce');
     if (announceBar) onScroll((y) => announceBar.classList.toggle('hidden', y > 80));

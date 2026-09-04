@@ -1,5 +1,4 @@
-/* ambient.js — announcement bar with live weather + opening hours (Open-Meteo, no key)
-   and the tab-away document title. */
+/* ambient.js — announcement bar with live weather + opening hours (Open-Meteo, no key). */
 import { DATA } from '../data.js';
 import { t, currentLang } from './i18n.js';
 
@@ -60,9 +59,4 @@ export function init() {
                 .catch(() => {});
         }
     }
-
-    const baseTitle = document.title;
-    document.addEventListener('visibilitychange', () => {
-        document.title = document.hidden ? t('tabAway') : baseTitle;
-    });
 }

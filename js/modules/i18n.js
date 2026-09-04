@@ -33,6 +33,11 @@ const UI_EN = {
     perfHeavy: 'This page feels heavy on your device. Switch to a lighter version for a smoother experience?',
     perfSwitch: 'Switch to', perfNo: 'No thanks',
     'tier.lite': 'Lite', 'tier.standard': 'Standard', 'tier.premium': 'Premium',
+    // English for strings that are rendered by JS only (no element in the markup to capture from)
+    'story.brief': 'The brief', 'story.work': 'The work', 'story.result': 'The result', 'stories.read': 'Read the story',
+    'journal.min': 'min read', 'now.until': 'ready until', 'team.years': 'years at the bench',
+    'dossier.serial': 'Serial number', 'dossier.origin': 'Origin', 'dossier.last-tuning': 'Last tuning',
+    'dossier.certificate': 'Certificate (PDF)', 'dossier.stop': 'Stop',
 };
 
 export const currentLang = () => (document.documentElement.getAttribute('lang') === 'sv' ? 'sv' : 'en');

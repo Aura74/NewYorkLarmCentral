@@ -1,7 +1,7 @@
 /* settings.js — gear dropdown, mobile menu, segmented controls (language / currency / theme / effects). */
 import { perfMode, setPerf, store, $$ } from './env.js';
 import { applyLang } from './i18n.js';
-import { setTheme, currentTheme } from './theme.js';
+import { setTheme, themeChoice } from './theme.js';
 import { applyCurrency, getCurrency, openSearch, openSavedDrawer } from './collection.js';
 
 function syncSegs(ctl, val) {
@@ -54,7 +54,7 @@ export function init() {
     // Segmented controls
     syncSegs('lang', store.get('lr-lang', 'en'));
     syncSegs('currency', getCurrency());
-    syncSegs('theme', currentTheme());
+    syncSegs('theme', themeChoice());
     syncSegs('effects', perfMode);
     $$('.seg').forEach((seg) => {
         const ctl = seg.dataset.ctl;

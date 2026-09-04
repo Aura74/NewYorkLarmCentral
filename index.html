@@ -13,7 +13,7 @@
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Lars Résonance — Pianos & High-End Audio Atelier" />
     <meta property="og:description" content="Hand-selected concert grands and mastering-grade audio, voiced by master technicians in Stockholm." />
-    <meta property="og:image" content="https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=1200&q=80" />
+    <meta property="og:image" content="https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=1200&q=80&auto=format" />
     <meta property="og:locale" content="en_GB" />
     <meta property="og:locale:alternate" content="sv_SE" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -57,9 +57,16 @@
           return score >= 4 ? 'premium' : score >= 1 ? 'standard' : 'lite';
         }
         d.setAttribute('data-perf', TIERS.indexOf(saved) > -1 ? saved : detect());
+        // Theme: explicit choice wins; 'auto' (default) is dark outside the atelier's hours (09–18 Stockholm)
         try {
-          var th = localStorage.getItem('lr-theme') || localStorage.getItem('nylc-theme');
-          if (th) { localStorage.setItem('lr-theme', th); if (th === 'dark') d.setAttribute('data-theme', 'dark'); }
+          var th = localStorage.getItem('lr-theme') || localStorage.getItem('nylc-theme') || 'auto';
+          localStorage.setItem('lr-theme', th);
+          var dark = th === 'dark';
+          if (th === 'auto') {
+            var hr = Number(new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Stockholm', hour: 'numeric', hour12: false }).format(new Date()));
+            dark = hr < 9 || hr >= 18;
+          }
+          if (dark) d.setAttribute('data-theme', 'dark');
         } catch (e) {}
       })();
     </script>
@@ -79,7 +86,7 @@
     <link rel="preconnect" href="https://images.unsplash.com" />
 
     <!-- LCP: the first hero image gets a head start -->
-    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=1600&q=80" fetchpriority="high" />
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=1600&q=80&auto=format" fetchpriority="high" />
 
     <!-- Typography: self-hosted variable fonts (no Google requests, one file per family) -->
     <link rel="preload" href="fonts/cormorant-garamond.woff2" as="font" type="font/woff2" crossorigin />
@@ -106,6 +113,8 @@
     <link rel="modulepreload" href="js/modules/settings.js" />
     <link rel="modulepreload" href="js/modules/perf-probe.js" />
     <link rel="modulepreload" href="js/modules/chat.js" />
+    <link rel="modulepreload" href="js/modules/content.js" />
+    <link rel="modulepreload" href="js/modules/audio.js" />
 
     <!-- Libraries: pinned versions, deferred so they never block first paint.
          main.js feature-detects each one and degrades gracefully if a CDN is unreachable. -->
@@ -114,6 +123,11 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11.1.14/swiper-bundle.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/lucide@0.469.0/dist/umd/lucide.min.js" defer></script>
+
+    <!-- Prerender the secondary pages so the switch is instant -->
+    <script type="speculationrules">
+      { "prerender": [{ "urls": ["privacy.html", "terms.html"], "eagerness": "moderate" }] }
+    </script>
 
     <!-- Structured data -->
     <script type="application/ld+json">
@@ -132,7 +146,7 @@
           "addressCountry": "SE"
         },
         "openingHours": "Mo-Sa 09:00-18:00",
-        "image": "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=1200&q=80"
+        "image": "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=1200&q=80&auto=format"
       }
     </script>
   </head>
@@ -229,7 +243,7 @@
                 </div>
                 <div class="set-row">
                   <span class="set-label" data-i18n="settings.theme">Theme</span>
-                  <div class="seg" data-ctl="theme"><button type="button" data-val="light" data-i18n="settings.light">Light</button><button type="button" data-val="dark" data-i18n="settings.dark">Dark</button></div>
+                  <div class="seg" data-ctl="theme"><button type="button" data-val="auto" data-i18n="settings.auto">Auto</button><button type="button" data-val="light" data-i18n="settings.light">Light</button><button type="button" data-val="dark" data-i18n="settings.dark">Dark</button></div>
                 </div>
                 <div class="set-row">
                   <span class="set-label" data-i18n="settings.effects">Effects</span>
@@ -277,7 +291,7 @@
             </div>
             <div class="set-row">
               <span class="set-label" data-i18n="settings.theme">Theme</span>
-              <div class="seg" data-ctl="theme"><button type="button" data-val="light" data-i18n="settings.light">Light</button><button type="button" data-val="dark" data-i18n="settings.dark">Dark</button></div>
+              <div class="seg" data-ctl="theme"><button type="button" data-val="auto" data-i18n="settings.auto">Auto</button><button type="button" data-val="light" data-i18n="settings.light">Light</button><button type="button" data-val="dark" data-i18n="settings.dark">Dark</button></div>
             </div>
             <div class="set-row">
               <span class="set-label" data-i18n="settings.effects">Effects</span>
@@ -298,10 +312,10 @@
       <div class="hero-bg">
         <div
           class="hero-slide active"
-          style="background-image: url(&quot;https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=1600&q=80&quot;)"
+          style="background-image: url(&quot;https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=1600&q=80&auto=format&quot;)"
         ></div>
-        <div class="hero-slide" data-bg="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1600&q=80"></div>
-        <div class="hero-slide" data-bg="https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=1600&q=80"></div>
+        <div class="hero-slide" data-bg="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1600&q=80&auto=format"></div>
+        <div class="hero-slide" data-bg="https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=1600&q=80&auto=format"></div>
         <div class="hero-overlay"></div>
       </div>
 
@@ -326,7 +340,7 @@
           tuned to perfection.
         </p>
         <div class="hero-actions">
-          <a href="#collection" class="btn btn-primary magnetic-btn">
+          <a href="#collection" class="btn btn-outline magnetic-btn">
             <span class="btn-text" data-i18n="hero.the-collection">The Collection</span>
             <span class="btn-icon"><i data-lucide="arrow-right" aria-hidden="true"></i></span>
           </a>
@@ -344,16 +358,7 @@
           </button>
         </div>
       </div>
-
-      <div class="hero-scroll-indicator">
-        <div class="scroll-line"></div>
         <span data-i18n="hero.scroll-to-listen">Scroll to listen</span>
-      </div>
-
-      <div class="hero-slide-counter">
-        <span class="current-slide">01</span>
-        <span class="slide-divider">/</span>
-        <span class="total-slides">03</span>
       </div>
     </section>
 
@@ -373,6 +378,14 @@
       </div>
     </section>
 
+    <!-- ============ IN THE ATELIER THIS WEEK ============ -->
+    <section class="atelier-now" aria-label="In the atelier this week">
+      <div class="container now-inner">
+        <span class="now-label"><span class="now-dot" aria-hidden="true"></span><span data-i18n="now.label">In the atelier this week</span></span>
+        <div class="now-row" id="now-row"></div>
+      </div>
+    </section>
+
     <!-- ============ ABOUT SECTION ============ -->
     <section class="about" id="about">
       <div class="container">
@@ -380,9 +393,9 @@
           <div class="about-images">
             <div class="about-img-wrapper img-reveal">
               <img
-                src="https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=800&q=80"
+                src="https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=800&q=80&auto=format"
 
-                srcset="https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=480&q=75 480w, https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=800&q=80 800w, https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=1200&q=80 1200w"
+                srcset="https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=480&q=75&auto=format 480w, https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=800&q=80&auto=format 800w, https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=1200&q=80&auto=format 1200w"
 
                 sizes="(max-width: 1024px) 100vw, 50vw"
 
@@ -393,7 +406,7 @@
             </div>
             <div class="about-img-wrapper about-img-float img-reveal">
               <img
-                src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=600&q=80"
+                src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=600&q=80&auto=format"
                 alt="High-end recording studio"
                 class="about-img-secondary"
               />
@@ -455,41 +468,21 @@
       </div>
     </section>
 
-    <!-- ============ STATS SECTION ============ -->
-    <section class="stats">
-      <div
-        class="stats-bg"
-        style="
-          background-image: url(&quot;https://images.unsplash.com/photo-1487215078519-e21cc028cb29?w=1600&q=75&quot;);
-        "
-      ></div>
-      <div class="stats-overlay"></div>
+    <!-- ============ STORIES (case studies) ============ -->
+    <section class="stories" id="stories">
       <div class="container">
-        <div class="stats-grid">
-          <div class="stat-item">
-            <span class="stat-number" data-count="1200">0</span>
-            <span class="stat-suffix">+</span>
-            <span class="stat-label" data-i18n="stats.instruments-voiced">Instruments Voiced</span>
+        <div class="section-header">
+          <div class="section-tag light">
+            <span class="tag-line"></span>
+            <span data-i18n="stories.tag">Stories</span>
+            <span class="tag-line"></span>
           </div>
-          <div class="stat-divider"></div>
-          <div class="stat-item">
-            <span class="stat-number" data-count="240">0</span>
-            <span class="stat-suffix">+</span>
-            <span class="stat-label" data-i18n="stats.studios-designed">Studios Designed</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat-item">
-            <span class="stat-number" data-count="40">0</span>
-            <span class="stat-suffix" data-i18n="stats.yrs">yrs</span>
-            <span class="stat-label" data-i18n="stats.of-craftsmanship">Of Craftsmanship</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat-item">
-            <span class="stat-number" data-count="18">0</span>
-            <span class="stat-suffix">+</span>
-            <span class="stat-label" data-i18n="stats.master-technicians">Master Technicians</span>
-          </div>
+          <h2 class="section-title light" data-i18n-html="stories.title">Three <em>Rooms</em>, Three Stories</h2>
+          <p class="section-desc light" data-i18n="stories.desc">
+            Not statistics — the work itself. A hall, a studio and a home, each with its brief and its result.
+          </p>
         </div>
+        <div class="stories-grid" id="stories-grid"></div>
       </div>
     </section>
 
@@ -525,9 +518,9 @@
           <div class="piece-card" data-category="pianos" data-id="konzert-grand">
             <div class="piece-image">
               <img
-                src="https://images.unsplash.com/photo-1552422535-c45813c61732?w=800&q=80"
+                src="https://images.unsplash.com/photo-1552422535-c45813c61732?w=800&q=80&auto=format"
 
-                srcset="https://images.unsplash.com/photo-1552422535-c45813c61732?w=480&q=75 480w, https://images.unsplash.com/photo-1552422535-c45813c61732?w=800&q=80 800w, https://images.unsplash.com/photo-1552422535-c45813c61732?w=1200&q=80 1200w"
+                srcset="https://images.unsplash.com/photo-1552422535-c45813c61732?w=480&q=75&auto=format 480w, https://images.unsplash.com/photo-1552422535-c45813c61732?w=800&q=80&auto=format 800w, https://images.unsplash.com/photo-1552422535-c45813c61732?w=1200&q=80&auto=format 1200w"
 
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 
@@ -568,9 +561,9 @@
           <div class="piece-card" data-category="studio" data-id="reference-monitors">
             <div class="piece-image">
               <img
-                src="https://images.unsplash.com/photo-1470019693664-1d202d2c0907?w=800&q=80"
+                src="https://images.unsplash.com/photo-1470019693664-1d202d2c0907?w=800&q=80&auto=format"
 
-                srcset="https://images.unsplash.com/photo-1470019693664-1d202d2c0907?w=480&q=75 480w, https://images.unsplash.com/photo-1470019693664-1d202d2c0907?w=800&q=80 800w, https://images.unsplash.com/photo-1470019693664-1d202d2c0907?w=1200&q=80 1200w"
+                srcset="https://images.unsplash.com/photo-1470019693664-1d202d2c0907?w=480&q=75&auto=format 480w, https://images.unsplash.com/photo-1470019693664-1d202d2c0907?w=800&q=80&auto=format 800w, https://images.unsplash.com/photo-1470019693664-1d202d2c0907?w=1200&q=80&auto=format 1200w"
 
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 
@@ -611,9 +604,9 @@
           <div class="piece-card" data-category="service" data-id="studio-design">
             <div class="piece-image">
               <img
-                src="https://images.unsplash.com/photo-1564186763535-ebb21ef5277f?w=800&q=80"
+                src="https://images.unsplash.com/photo-1564186763535-ebb21ef5277f?w=800&q=80&auto=format"
 
-                srcset="https://images.unsplash.com/photo-1564186763535-ebb21ef5277f?w=480&q=75 480w, https://images.unsplash.com/photo-1564186763535-ebb21ef5277f?w=800&q=80 800w, https://images.unsplash.com/photo-1564186763535-ebb21ef5277f?w=1200&q=80 1200w"
+                srcset="https://images.unsplash.com/photo-1564186763535-ebb21ef5277f?w=480&q=75&auto=format 480w, https://images.unsplash.com/photo-1564186763535-ebb21ef5277f?w=800&q=80&auto=format 800w, https://images.unsplash.com/photo-1564186763535-ebb21ef5277f?w=1200&q=80&auto=format 1200w"
 
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 
@@ -654,9 +647,9 @@
           <div class="piece-card" data-category="pianos studio" data-id="synth-collection">
             <div class="piece-image">
               <img
-                src="https://images.unsplash.com/photo-1535992165812-68d1861aa71e?w=800&q=80"
+                src="https://images.unsplash.com/photo-1535992165812-68d1861aa71e?w=800&q=80&auto=format"
 
-                srcset="https://images.unsplash.com/photo-1535992165812-68d1861aa71e?w=480&q=75 480w, https://images.unsplash.com/photo-1535992165812-68d1861aa71e?w=800&q=80 800w, https://images.unsplash.com/photo-1535992165812-68d1861aa71e?w=1200&q=80 1200w"
+                srcset="https://images.unsplash.com/photo-1535992165812-68d1861aa71e?w=480&q=75&auto=format 480w, https://images.unsplash.com/photo-1535992165812-68d1861aa71e?w=800&q=80&auto=format 800w, https://images.unsplash.com/photo-1535992165812-68d1861aa71e?w=1200&q=80&auto=format 1200w"
 
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 
@@ -697,9 +690,9 @@
           <div class="piece-card" data-category="studio service" data-id="mixing-console">
             <div class="piece-image">
               <img
-                src="https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=800&q=80"
+                src="https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=800&q=80&auto=format"
 
-                srcset="https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=480&q=75 480w, https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=800&q=80 800w, https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=1200&q=80 1200w"
+                srcset="https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=480&q=75&auto=format 480w, https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=800&q=80&auto=format 800w, https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=1200&q=80&auto=format 1200w"
 
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 
@@ -740,9 +733,9 @@
           <div class="piece-card" data-category="studio" data-id="tube-mic">
             <div class="piece-image">
               <img
-                src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=800&q=80"
+                src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=800&q=80&auto=format"
 
-                srcset="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=480&q=75 480w, https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=800&q=80 800w, https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=1200&q=80 1200w"
+                srcset="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=480&q=75&auto=format 480w, https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=800&q=80&auto=format 800w, https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=1200&q=80&auto=format 1200w"
 
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 
@@ -826,9 +819,9 @@
               <div class="space-card">
                 <div class="space-img">
                   <img
-                    src="https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=800&q=80"
+                    src="https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=800&q=80&auto=format"
 
-                    srcset="https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=480&q=75 480w, https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=800&q=80 800w, https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=1200&q=80 1200w"
+                    srcset="https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=480&q=75&auto=format 480w, https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=800&q=80&auto=format 800w, https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=1200&q=80&auto=format 1200w"
 
                     sizes="(max-width: 640px) 85vw, (max-width: 1024px) 55vw, 40vw"
 
@@ -849,9 +842,9 @@
               <div class="space-card">
                 <div class="space-img">
                   <img
-                    src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800&q=80"
+                    src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800&q=80&auto=format"
 
-                    srcset="https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=480&q=75 480w, https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800&q=80 800w, https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=1200&q=80 1200w"
+                    srcset="https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=480&q=75&auto=format 480w, https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800&q=80&auto=format 800w, https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=1200&q=80&auto=format 1200w"
 
                     sizes="(max-width: 640px) 85vw, (max-width: 1024px) 55vw, 40vw"
 
@@ -872,9 +865,9 @@
               <div class="space-card">
                 <div class="space-img">
                   <img
-                    src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=80"
+                    src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=80&auto=format"
 
-                    srcset="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=480&q=75 480w, https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=80 800w, https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1200&q=80 1200w"
+                    srcset="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=480&q=75&auto=format 480w, https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=80&auto=format 800w, https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1200&q=80&auto=format 1200w"
 
                     sizes="(max-width: 640px) 85vw, (max-width: 1024px) 55vw, 40vw"
 
@@ -895,9 +888,9 @@
               <div class="space-card">
                 <div class="space-img">
                   <img
-                    src="https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800&q=80"
+                    src="https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800&q=80&auto=format"
 
-                    srcset="https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=480&q=75 480w, https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800&q=80 800w, https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=1200&q=80 1200w"
+                    srcset="https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=480&q=75&auto=format 480w, https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800&q=80&auto=format 800w, https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=1200&q=80&auto=format 1200w"
 
                     sizes="(max-width: 640px) 85vw, (max-width: 1024px) 55vw, 40vw"
 
@@ -918,9 +911,9 @@
               <div class="space-card">
                 <div class="space-img">
                   <img
-                    src="https://images.unsplash.com/photo-1525362081669-2b476bb628c3?w=800&q=80"
+                    src="https://images.unsplash.com/photo-1525362081669-2b476bb628c3?w=800&q=80&auto=format"
 
-                    srcset="https://images.unsplash.com/photo-1525362081669-2b476bb628c3?w=480&q=75 480w, https://images.unsplash.com/photo-1525362081669-2b476bb628c3?w=800&q=80 800w, https://images.unsplash.com/photo-1525362081669-2b476bb628c3?w=1200&q=80 1200w"
+                    srcset="https://images.unsplash.com/photo-1525362081669-2b476bb628c3?w=480&q=75&auto=format 480w, https://images.unsplash.com/photo-1525362081669-2b476bb628c3?w=800&q=80&auto=format 800w, https://images.unsplash.com/photo-1525362081669-2b476bb628c3?w=1200&q=80&auto=format 1200w"
 
                     sizes="(max-width: 640px) 85vw, (max-width: 1024px) 55vw, 40vw"
 
@@ -941,9 +934,9 @@
               <div class="space-card">
                 <div class="space-img">
                   <img
-                    src="https://images.unsplash.com/photo-1598653222000-6b7b7a552625?w=800&q=80"
+                    src="https://images.unsplash.com/photo-1598653222000-6b7b7a552625?w=800&q=80&auto=format"
 
-                    srcset="https://images.unsplash.com/photo-1598653222000-6b7b7a552625?w=480&q=75 480w, https://images.unsplash.com/photo-1598653222000-6b7b7a552625?w=800&q=80 800w, https://images.unsplash.com/photo-1598653222000-6b7b7a552625?w=1200&q=80 1200w"
+                    srcset="https://images.unsplash.com/photo-1598653222000-6b7b7a552625?w=480&q=75&auto=format 480w, https://images.unsplash.com/photo-1598653222000-6b7b7a552625?w=800&q=80&auto=format 800w, https://images.unsplash.com/photo-1598653222000-6b7b7a552625?w=1200&q=80&auto=format 1200w"
 
                     sizes="(max-width: 640px) 85vw, (max-width: 1024px) 55vw, 40vw"
 
@@ -964,9 +957,9 @@
               <div class="space-card">
                 <div class="space-img">
                   <img
-                    src="https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800&q=80"
+                    src="https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800&q=80&auto=format"
 
-                    srcset="https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=480&q=75 480w, https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800&q=80 800w, https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=1200&q=80 1200w"
+                    srcset="https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=480&q=75&auto=format 480w, https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=800&q=80&auto=format 800w, https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=1200&q=80&auto=format 1200w"
 
                     sizes="(max-width: 640px) 85vw, (max-width: 1024px) 55vw, 40vw"
 
@@ -987,9 +980,9 @@
               <div class="space-card">
                 <div class="space-img">
                   <img
-                    src="https://images.unsplash.com/photo-1500336624523-d727130c3328?w=800&q=80"
+                    src="https://images.unsplash.com/photo-1500336624523-d727130c3328?w=800&q=80&auto=format"
 
-                    srcset="https://images.unsplash.com/photo-1500336624523-d727130c3328?w=480&q=75 480w, https://images.unsplash.com/photo-1500336624523-d727130c3328?w=800&q=80 800w, https://images.unsplash.com/photo-1500336624523-d727130c3328?w=1200&q=80 1200w"
+                    srcset="https://images.unsplash.com/photo-1500336624523-d727130c3328?w=480&q=75&auto=format 480w, https://images.unsplash.com/photo-1500336624523-d727130c3328?w=800&q=80&auto=format 800w, https://images.unsplash.com/photo-1500336624523-d727130c3328?w=1200&q=80&auto=format 1200w"
 
                     sizes="(max-width: 640px) 85vw, (max-width: 1024px) 55vw, 40vw"
 
@@ -1010,9 +1003,9 @@
               <div class="space-card">
                 <div class="space-img">
                   <img
-                    src="https://images.unsplash.com/photo-1471478331149-c72f17e33c73?w=800&q=80"
+                    src="https://images.unsplash.com/photo-1471478331149-c72f17e33c73?w=800&q=80&auto=format"
 
-                    srcset="https://images.unsplash.com/photo-1471478331149-c72f17e33c73?w=480&q=75 480w, https://images.unsplash.com/photo-1471478331149-c72f17e33c73?w=800&q=80 800w, https://images.unsplash.com/photo-1471478331149-c72f17e33c73?w=1200&q=80 1200w"
+                    srcset="https://images.unsplash.com/photo-1471478331149-c72f17e33c73?w=480&q=75&auto=format 480w, https://images.unsplash.com/photo-1471478331149-c72f17e33c73?w=800&q=80&auto=format 800w, https://images.unsplash.com/photo-1471478331149-c72f17e33c73?w=1200&q=80&auto=format 1200w"
 
                     sizes="(max-width: 640px) 85vw, (max-width: 1024px) 55vw, 40vw"
 
@@ -1135,12 +1128,28 @@
       </div>
     </section>
 
+    <!-- ============ TEAM ============ -->
+    <section class="team" id="team">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">
+            <span class="tag-line"></span>
+            <span data-i18n="team.tag">The People</span>
+            <span class="tag-line"></span>
+          </div>
+          <h2 class="section-title" data-i18n-html="team.title">Master <em>Technicians</em></h2>
+          <p class="section-desc" data-i18n="team.desc">Every instrument that leaves the atelier has passed through these hands.</p>
+        </div>
+        <div class="team-grid" id="team-grid"></div>
+      </div>
+    </section>
+
     <!-- ============ LUXURY CTA SECTION ============ -->
     <section class="luxury-cta">
       <div class="luxury-cta-bg">
         <img
           class="luxury-cta-img"
-          src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=1600&q=75"
+          src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=1600&q=75&auto=format"
           alt=""
           loading="lazy"
           decoding="async"
@@ -1192,7 +1201,7 @@
                 <div class="testimonial-author">
                   <div class="author-avatar">
                     <img
-                      src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80"
+                      src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80&auto=format"
                       alt="Marcus R."
                       loading="lazy"
                     />
@@ -1217,7 +1226,7 @@
                 <div class="testimonial-author">
                   <div class="author-avatar">
                     <img
-                      src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80"
+                      src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80&auto=format"
                       alt="Amanda K."
                       loading="lazy"
                     />
@@ -1242,7 +1251,7 @@
                 <div class="testimonial-author">
                   <div class="author-avatar">
                     <img
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&q=80"
+                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&q=80&auto=format"
                       alt="David T."
                       loading="lazy"
                     />
@@ -1257,6 +1266,22 @@
           </div>
           <div class="swiper-pagination testimonial-pagination"></div>
         </div>
+      </div>
+    </section>
+
+    <!-- ============ JOURNAL ============ -->
+    <section class="journal" id="journal">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">
+            <span class="tag-line"></span>
+            <span data-i18n="journal.tag">Journal</span>
+            <span class="tag-line"></span>
+          </div>
+          <h2 class="section-title" data-i18n-html="journal.title">Notes From <em>The Bench</em></h2>
+          <p class="section-desc" data-i18n="journal.desc">Four essays a year on the craft — written by the technicians, not the marketing department.</p>
+        </div>
+        <div class="journal-grid" id="journal-grid"></div>
       </div>
     </section>
 
@@ -1544,6 +1569,9 @@
           <div class="footer-links-group">
             <h4 data-i18n="footer.atelier">Atelier</h4>
             <ul>
+              <li><a href="#stories" data-i18n="footer.stories">Stories</a></li>
+              <li><a href="#team" data-i18n="footer.team">The People</a></li>
+              <li><a href="#journal" data-i18n="footer.journal">Journal</a></li>
               <li><a href="#about" data-i18n="footer.our-craft">Our Craft</a></li>
               <li><a href="#services" data-i18n="footer.tuning-voicing">Tuning &amp; Voicing</a></li>
               <li><a href="#services" data-i18n="footer.studio-design">Studio Design</a></li>
@@ -1603,6 +1631,20 @@
             <span class="dossier-prov-label" data-i18n="dossier.provenance">Provenance</span>
             <p id="dossier-provenance"></p>
           </div>
+          <dl class="dossier-record" id="dossier-record" hidden></dl>
+          <div class="dossier-listen" id="dossier-listen">
+            <button type="button" class="hero-listen" id="dossier-play">
+              <span class="listen-icon"><i data-lucide="play" aria-hidden="true"></i></span>
+              <span class="listen-bars" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+              <span class="listen-text" data-i18n="dossier.listen">Hear it</span>
+            </button>
+            <label class="ab-wrap">
+              <span data-i18n="dossier.ab">Compare with</span>
+              <select class="ab-select" id="dossier-ab"></select>
+            </label>
+            <button type="button" class="ab-btn" id="dossier-ab-play">A / B</button>
+            <p class="dossier-listen-note" data-i18n="dossier.demo-note">Rendered voicing — replaced by studio recordings on request.</p>
+          </div>
           <div class="dossier-actions">
             <a href="#contact" class="btn btn-primary magnetic-btn" id="dossier-enquire">
               <span class="btn-text" data-i18n="dossier.enquire">Enquire</span>
@@ -1660,6 +1702,25 @@
      data-i18n-aria="perf-banner.back-to-top">
       <i data-lucide="chevron-up" aria-hidden="true"></i>
     </button>
+
+    <!-- ============ READER (stories + journal) ============ -->
+    <div class="reader" id="reader" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="reader-title">
+      <article class="reader-panel">
+        <button class="dossier-close reader-close" id="reader-close" aria-label="Close" data-i18n-aria="ui.close">
+          <i data-lucide="x" aria-hidden="true"></i>
+        </button>
+        <div class="reader-hero"><img src="" alt="" id="reader-img" /></div>
+        <div class="reader-body">
+          <span class="reader-kicker" id="reader-kicker"></span>
+          <h3 class="reader-title" id="reader-title"></h3>
+          <p class="reader-meta" id="reader-meta"></p>
+          <div id="reader-content"></div>
+        </div>
+      </article>
+    </div>
+
+    <!-- Mobile: booking bar once the hero has scrolled away -->
+    <a href="#contact" class="mobile-book-bar" id="mobile-book-bar" data-i18n="mobile.book">Book a private audition</a>
 
     <!-- ============ CONCIERGE CHAT ============ -->
     <button

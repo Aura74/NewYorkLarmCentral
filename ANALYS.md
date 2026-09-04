@@ -82,9 +82,29 @@ Dessutom: **31 st `transition: all`** (animerar även padding, box-shadow, layou
 - **Service worker** (`sw.js`): precache av skalet, stale-while-revalidate, Unsplash-bilder cache-first med tak.
 - **`@layer`:** `vendor < base < components < tiers < utilities`, Swiper importeras i vendor-lagret, **noll `!important`** kvar.
 
+### Åtgärdat i tredje passet (premium-listan, allt utan backend)
+- **Ljudprov + A/B** i dossiern: en renderad klangbild per instrument via Web Audio (inga filer) och en A/B-knapp som spelar samma fras genom två instrument. Sätt `instruments[id].audio` till en riktig inspelning så används den i stället — gränssnittet är detsamma.
+- **Case studies i stället för siffror:** statistiksektionen är borttagen; "Three Rooms, Three Stories" (konserthus, masteringstudio, privat hem) med uppdrag/arbete/resultat i en läsmodal.
+- **Namngivna tekniker:** sektionen "Master Technicians" med porträtt, roll, bakgrund, citat, år vid bänken.
+- **Proveniens:** dossiern visar serienummer, ursprung, senaste stämning och certifikatnummer; `certificate.html?id=…` renderar ett tryckbart intyg (Spara som PDF).
+- **Journal:** fyra essäer (EN + SV) i en läsmodal med anfang.
+- **Typografi:** `text-wrap: balance/pretty`, gammalstilssiffror, diskretionära ligaturer på display-typsnittet, hängande interpunktion på citat, större sektionsluft, mindre spärrning på badge.
+- **En bildbehandling** (`filter: saturate/sepia/contrast`) på alla foton så blandade källor läses som en serie.
+- **En primär handling:** hero-knappen "The Collection" är nu outline; guld är reserverat för bokning.
+- **Borttaget:** slide-räknaren, "Scroll to listen", tab-away-titeln.
+- **Sticky bokningsrad på mobil** när hero har scrollat förbi (chatt-knappen flyttar upp).
+- **Autotema:** `Auto` (default) är mörkt utanför ateljéns öppettider, med Ljust/Mörkt som val.
+- **"I ateljén den här veckan":** en rad under tillverkarbandet, driven av `DATA.inAtelier`, klick öppnar dossiern.
+- **Print-stylesheet** och **404-sida**.
+- **Guldfokusring** på allt fokuserbart.
+- **AVIF/WebP:** `auto=format` på alla Unsplash-URL:er (imgix väljer bästa format).
+- **`content-visibility: auto`** på sektioner under folden i Lite/no-motion (där det inte stör GSAP:s mätningar).
+- **Speculation Rules** förrenderar privacy/terms.
+- **Lighthouse i GitHub Actions** (`.github/workflows/lighthouse.yml` + `lighthouserc.json`).
+
 ### Mindre bra (kvar att göra)
 1. **Repo-namnet** är fortfarande `NewYorkLarmCentral` på GitHub. Byt namn på repot (GitHub gör redirect).
-2. **Innehållet är placeholder** (Unsplash-bilder, påhittade recensenter, "40 år", sociala länkar till profiler som inte finns). Riktiga foton av riktiga instrument är det enskilt största lyftet för trovärdighet.
+2. **Innehållet är placeholder** (Unsplash-bilder, påhittade recensenter/tekniker/berättelser, syntetiserade ljudprov, sociala länkar till profiler som inte finns). Riktiga foton, riktiga inspelningar (`instruments[id].audio`) och riktiga namn är det enskilt största lyftet.
 3. **`style.css` är fortfarande en fil på ~3 800 rader.** Lagren är på plats; nästa steg är att dela per komponent (`css/components/*.css`) och `@import … layer(components)`.
 4. **Formuläret behöver en riktig mottagare** — sätt `formEndpoint`. Chatten behöver en backend om den ska vara mer än skriptad.
 5. Ingen `sitemap.xml`/`robots.txt`, ingen `hreflang`, ingen Lighthouse i CI.
